@@ -1,6 +1,55 @@
 # Release audit — September 26, 2026
 
-## Current release candidate (supersedes historical attempts below)
+## Production result
+
+**Deployed September 26, 2026 (America/Los_Angeles).** Production source commit:
+`361bd400caed99f9085f6ba15990666195fb5b4d`. Public scanner tag `v0.1.2` points to
+`00595bc3db8283f4eb519bdc773cbfea306a44a4`; the later commit updates publishing
+and final site claims, not the installed scanner implementations.
+
+Cloudflare Worker `sa20-pack` version:
+`b1b8f436-e306-4fe6-8ad7-4ecee9a409c7`, serving existing `zippertools.org` and
+`www.zippertools.org` targets. Wrangler uploaded 92 changed assets (195 scanned).
+No DNS, account, binding, or secret changes were made.
+
+After publishing, fresh **public GitHub archive** installs and scans passed on
+Python 3.10, 3.11, 3.12, 3.13, and 3.14 for SQLAlchemy, Pydantic, and Action Guard.
+The root archive URL is in the quickstart; subprojects use pip's `#subdirectory=`
+fragment. Each was installed non-editably and run outside the source checkout.
+No-supported-pattern fixtures produced `No supported findings detected.`
+An empty Pydantic directory correctly reported `no-pydantic-targets`, so the
+zero-finding check used a valid modern Pydantic source file instead.
+
+GitHub Windows CI passed for production source; Linux release build/tests passed.
+Initial release publishing collided with the pre-created release page after all
+checks/builds succeeded. Publishing now uploads assets when the release exists;
+workflow_dispatch rerun **36283462342 passed** and attached the public wheel,
+sdist, and demo reports. Public paid source/ZIPs were not uploaded.
+
+Post-deploy `python scripts/verify_live_funnel.py --skip-paid-routes` passed:
+public page/slash/cache variants, homepage, pricing, product catalog, SQLAlchemy,
+Pydantic, Action Guard product/proof, scanner guidance, policies, runtime assets,
+13 tracked free routes, GitHub raw/API/rendered quickstarts, and retired paths.
+`python scripts/audit_site_urls.py --live` also passed. Live browser pricing
+showed $99/$299.99/$149.99/$249.99 and no expired sale. Success/cancel returned
+200, delivery without session returned 400, direct paid asset access returned
+404, and webhook status reports configured. Published catalog module, Action
+Guard JSON, and patch-note bytes match the candidate.
+
+The four live Stripe price objects were read again immediately before deployment:
+active USD product identities and amounts match the catalog. No live checkout
+session or payment was created. End-to-end fulfillment proof remains the four
+real **test-mode** payments through the candidate Worker, signed forwarded
+webhooks, remote KV, exact ZIP hashes, repeat download, and clean installation.
+The production payment form and a live-mode paid download were deliberately not
+tested. This distinction is not replaced by the public smoke checks.
+
+Rollback remains Cloudflare version `895a399d-6943-4857-92d2-737b8182fb4f` and
+Git tag `pre-release-2026-09-26`; the original artifact KV values are preserved.
+The unrelated untracked DOCX remains untouched.
+
+
+## Predeployment evidence (supersedes historical attempts below)
 
 Owner approved commercial/proprietary licensing for new SQLAlchemy and Pydantic
 paid packages. The inconsistency is corrected in v0.1.2; third-party texts and
