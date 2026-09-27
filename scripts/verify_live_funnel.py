@@ -93,7 +93,7 @@ REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
         "GitHub Actions Upgrade Guard",
         "Run free Action Guard scanner",
         "Read proof and artifacts",
-        "Paid SKU paused",
+        "Free scanner available",
         "Support: support@zippertools.org",
     ),
     "/wells/": (
@@ -107,7 +107,7 @@ REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
         "Paid checkout is paused",
     ),
     "/products/actions-upgrade-guard/": (
-        "Run the free scanner before any paid Action Guard SKU exists.",
+        "Run the free scanner and review its findings.",
         "No checkout is listed for this proof page yet.",
         "Support: support@zippertools.org",
     ),
@@ -128,15 +128,14 @@ REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
         "Support: support@zippertools.org",
     ),
     "/pricing": (
-        "Migration Sprint Sale",
-        "Sale price: $9.90 during Migration Sprint Sale; normally $99 per team",
-        "Sale price: $30 during Migration Sprint Sale; normally $299.99 per team",
-        "Sale price: $15 during Migration Sprint Sale; normally $149.99 per team",
-        "Sale price: $25 during Migration Sprint Sale; normally $249.99 per team",
-        "Buy automated fit report - $9.90 sale",
-        "Buy cleanup pack - $30 sale",
-        "Buy preset bundle - $15 sale",
-        "Buy Pydantic cleanup pack - $25 sale",
+        "Price: $99 per team",
+        "Price: $299.99 per team",
+        "Price: $149.99 per team",
+        "Price: $249.99 per team",
+        "Buy automated fit report - $99",
+        "Buy cleanup pack - $299.99",
+        "Buy preset bundle - $149.99",
+        "Buy Pydantic cleanup pack - $249.99",
         "Secure checkout is handled by Stripe.",
         "Support: support@zippertools.org",
     ),
@@ -384,6 +383,11 @@ def canonical_required_path(path: str) -> str:
 def assert_forbidden_absent(result: FetchResult) -> list[str]:
     failures: list[str] = []
     haystack = result.searchable.lower()
+    if (
+        "text/html" in result.headers.get("content-type", "")
+        and "Migration Sprint Sale" in result.visible_text
+    ):
+        failures.append("Expired sale is visible")
     for forbidden in FORBIDDEN_STRINGS:
         if forbidden.lower() in haystack:
             failures.append(f'forbidden string present: "{forbidden}"')

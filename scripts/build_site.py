@@ -657,7 +657,7 @@ def product_page_template(product: ProductPage) -> ProductPageTemplate:
             ),
             what_you_get=(
                 "Local scanner with JSON and HTML report output.",
-                "Patch preview for deterministic artifact/cache action upgrades.",
+                "Source-linked manual guidance; no rule is currently eligible for automatic edits.",
                 "Rule-pack version, source-backed findings, deadlines, fixability classification, and confidence scoring.",
                 "Fail-closed findings for workflow shapes the scanner cannot patch safely.",
             ),
@@ -666,7 +666,7 @@ def product_page_template(product: ProductPage) -> ProductPageTemplate:
             delivery_steps=(
                 "Open the public README and run the scanner against a local checkout.",
                 "Review actions-upgrade-report.json and actions-upgrade-report.html.",
-                "Apply only deterministic action-version patches when the diff matches your branch policy.",
+                "Review findings against the upstream documentation, make changes on a branch, and run your CI.",
                 "No paid Action Guard package is currently offered.",
             ),
             support_note=(
