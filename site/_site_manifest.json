@@ -20,7 +20,7 @@
     },
     {
       "source": "/go/pydantic-free-scan",
-      "target": "https://github.com/zippertools/pydantic-v1-to-v2-codemod/blob/main/README.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=pydantic-v2-porter",
+      "target": "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/README.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=pydantic-v2-porter",
       "status": 302
     },
     {
@@ -30,7 +30,7 @@
     },
     {
       "source": "/go/github-release",
-      "target": "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/releases/tag/v0.1.1?utm_source=zippertools&utm_medium=site&utm_campaign=trust&utm_content=v0.1.1",
+      "target": "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/releases/tag/v0.1.2?utm_source=zippertools&utm_medium=site&utm_campaign=trust&utm_content=v0.1.2",
       "status": 302
     },
     {
@@ -709,7 +709,7 @@
       "status": 301
     }
   ],
-  "generated_on": "2026-05-15",
+  "generated_on": "2026-09-26",
   "urls": {
     "static": [
       "https://zippertools.org/",
@@ -806,17 +806,17 @@
       "slug": "actions-upgrade-guard",
       "name": "GitHub Actions Upgrade Guard",
       "family": "GitHub Actions deadline-readiness",
-      "description": "Local scanner for GitHub Actions workflow deprecations, runner drift, permissions risk, and safe patch previews.",
-      "summary": "Use Action Guard when workflow deadlines or platform changes are likely to break CI and you need a local report, patch preview, and fail-closed findings before checkout exists.",
+      "description": "Local scanner for GitHub Actions workflow deprecations, runner drift, permissions risk, and manual migration guidance.",
+      "summary": "Use Action Guard when workflow deadlines or platform changes are likely to break CI and you need a local report, source-linked manual alternatives, and fail-closed findings.",
       "who_it_is_for": [
         "Platform engineers responsible for keeping many GitHub Actions workflows current.",
         "DevOps leads cleaning up artifact, cache, runner, Node runtime, and permission risks before they block releases.",
         "Repo owners who need a manager-readable Actions risk report without giving a hosted service repository access."
       ],
       "proof_points": [
-        "Public proof shows deprecated artifact and cache actions detected with a patch preview.",
+        "Public proof shows legacy artifact and cache references with explicit manual review and no automatic edits.",
         "Runner, Node runtime, permission, local-action, and invalid-YAML cases stay visible as findings instead of guessed fixes.",
-        "The scanner runs locally with no GitHub token, source upload, or repo mutation unless apply mode is explicitly used."
+        "The scanner runs locally with no GitHub token, source upload, or automatic workflow edits."
       ],
       "not_for": [
         "Teams looking for hosted monitoring or automatic GitHub account access.",
@@ -828,14 +828,6 @@
         [
           "README",
           "products/actions-upgrade-guard/README.md"
-        ],
-        [
-          "Product Wells doctrine",
-          "docs/autonomous-product-wells.md"
-        ],
-        [
-          "Overhaul checklist",
-          "docs/product-wells-overhaul-todo.md"
         ]
       ],
       "price": "",

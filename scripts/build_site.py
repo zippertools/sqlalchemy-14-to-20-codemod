@@ -35,17 +35,12 @@ from scripts.site_catalog import (
     PROOF_ONLY_CHECKOUT_NOTE,
     PUBLIC_RELEASE_TAG,
     PYDANTIC_INSTALL_URL,
-    PYDANTIC_REPO_URL,
     REFUND_LANGUAGE,
     REPO_URL,
     SA20_INSTALL_URL,
     SA20_PRESET_CHECKOUT_PATH,
     SA20_PRESET_NAME,
     SA20_PRESET_PRICE,
-    SALE_BADGE,
-    SALE_COPY,
-    SALE_END_LABEL,
-    SALE_NAME,
     SECURE_CHECKOUT_NOTE,
     SITE_NAME,
     SITE_URL,
@@ -55,9 +50,8 @@ from scripts.site_catalog import (
     SUPPORT_EMAIL,
     GuidePage,
     ProductPage,
-    sale_cta_price,
-    sale_price_detail,
-    sale_price_display,
+    price_detail,
+    price_display,
 )
 
 # ruff: noqa: E501
@@ -86,7 +80,7 @@ FREE_SCAN_URL = (
     "?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=quickstart"
 )
 PYDANTIC_FREE_SCAN_URL = (
-    f"{PYDANTIC_REPO_URL}/blob/main/README.md"
+    f"{REPO_URL}/blob/main/products/pydantic-v2-porter/README.md"
     "?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=pydantic-v2-porter"
 )
 FLATCONFIG_FREE_SCAN_URL = (
@@ -354,11 +348,9 @@ def nav_html(path: str) -> str:
         '<header class="site-header"><div class="wrap nav">'
         f'<a class="brand" href="{relative_href(path, "index.html")}">Zipper Tools</a>'
         '<nav class="nav-links" aria-label="Primary">'
-        f'<a href="{relative_href(path, "wells/index.html")}">Wells</a>'
         f'<a href="{relative_href(path, "scan.html")}">Scan</a>'
         f'<a href="{relative_href(path, "products/index.html")}">Library</a>'
         f'<a href="{relative_href(path, "guides/index.html")}">Guides</a>'
-        f'<a href="{relative_href(path, "framework/index.html")}">Framework</a>'
         f'<a href="{relative_href(path, "pricing.html")}">Pricing</a>'
         f'<a href="{relative_href(path, "policies.html")}">Policies</a>'
         f"{repo_link}</nav></div></header>"
@@ -373,11 +365,9 @@ def footer_html(path: str) -> str:
         '<p class="caption">Autonomous deadline-readiness tools for software teams.</p>'
         "</div>"
         '<div class="footer-links">'
-        f'<a href="{relative_href(path, "wells/index.html")}">Wells</a>'
         f'<a href="{relative_href(path, "scan.html")}">Scan</a>'
         f'<a href="{relative_href(path, "products/index.html")}">Library</a>'
         f'<a href="{relative_href(path, "guides/index.html")}">Guides</a>'
-        f'<a href="{relative_href(path, "framework/index.html")}">Framework</a>'
         f'<a href="{relative_href(path, "pricing.html")}">Pricing</a>'
         f'<a href="{relative_href(path, "demo.html")}">Demo</a>'
         f'<a href="{relative_href(path, "policies.html")}">Policies</a>'
@@ -386,22 +376,8 @@ def footer_html(path: str) -> str:
         "</div>"
         f'<p class="caption footer-note">Support: '
         f'<a href="{contact_href}">'
-        f'<span data-contact-email>{SUPPORT_EMAIL}</span></a></p>'
+        f"<span data-contact-email>{SUPPORT_EMAIL}</span></a></p>"
         "</div></footer>"
-    )
-
-
-def sale_banner_html(path: str) -> str:
-    pricing_href = relative_href(path, "pricing.html")
-    return (
-        f'<section class="sale-banner" data-sale-banner data-sale-ends="{SALE_END_LABEL}">'
-        '<div>'
-        f'<p class="kicker">{escape(SALE_BADGE)} for three weeks</p>'
-        f'<strong>{escape(SALE_NAME)}</strong>'
-        f'<span>{escape(SALE_COPY)}</span>'
-        "</div>"
-        f'<a class="button secondary" href="{pricing_href}">See sale pricing</a>'
-        "</section>"
     )
 
 
@@ -459,12 +435,11 @@ def product_schema(product: ProductPage, path: str) -> dict[str, object]:
     if product.price:
         schema["offers"] = {
             "@type": "Offer",
-            "price": sale_price_display(product.price).removeprefix("$"),
+            "price": price_display(product.price).removeprefix("$"),
             "priceCurrency": product.currency,
             "availability": f"https://schema.org/{product.availability}",
             "url": canonical_url(path),
             "seller": {"@type": "Organization", "name": SITE_NAME},
-            "priceValidUntil": "2026-05-27",
         }
     return schema
 
@@ -482,11 +457,10 @@ def software_application_schema(product: ProductPage, path: str) -> dict[str, ob
     if product.price:
         schema["offers"] = {
             "@type": "Offer",
-            "price": sale_price_display(product.price).removeprefix("$"),
+            "price": price_display(product.price).removeprefix("$"),
             "priceCurrency": product.currency,
             "availability": f"https://schema.org/{product.availability}",
             "url": canonical_url(path),
-            "priceValidUntil": "2026-05-27",
         }
     return schema
 
@@ -538,7 +512,9 @@ def action_list_html(actions: Iterable[str]) -> str:
         return ""
     return (
         '<ul class="action-list">'
-        + "".join(f'<li>{action}<span class="sr-only">.</span></li>' for action in filtered)
+        + "".join(
+            f'<li>{action}<span class="sr-only">.</span></li>' for action in filtered
+        )
         + "</ul>"
     )
 
@@ -613,11 +589,11 @@ def checkout_cta_label(product: ProductPage) -> str:
 
 
 def product_price_line(product: ProductPage) -> str:
-    return sale_price_detail(product.price) if product.price else STATUS_NOT_PURCHASABLE
+    return price_detail(product.price) if product.price else STATUS_NOT_PURCHASABLE
 
 
 def product_buy_cta(product: ProductPage) -> str:
-    return f"{checkout_cta_label(product)} - {sale_cta_price(product.price)}"
+    return f"{checkout_cta_label(product)} - {price_display(product.price)}"
 
 
 def product_page_path(product: ProductPage) -> str:
@@ -665,11 +641,11 @@ def product_page_template(product: ProductPage) -> ProductPageTemplate:
         return ProductPageTemplate(
             headline="Find GitHub Actions breakage before it turns into a release blocker",
             subheadline=(
-                "A local Product Well scanner for deprecated artifact/cache actions, runner drift, Node runtime pressure, broad permissions, local actions, and fail-closed workflow YAML findings."
+                "A local workflow scanner for deprecated artifact/cache actions, runner drift, Node runtime pressure, broad permissions, local actions, and fail-closed workflow YAML findings."
             ),
-            cta_heading="Run the free scanner before any paid Action Guard SKU exists.",
+            cta_heading="Run the free scanner and review its findings.",
             cta_copy=(
-                "The current well is proof and demand-test first: run the public scanner, inspect the JSON/HTML report, and use the proof page to decide whether this should become a paid downloadable pack."
+                "Run the free local scanner and inspect its JSON/HTML report. Check the documented scope and manual migration guidance."
             ),
             what_this_fixes=(
                 "Deprecated actions/upload-artifact@v3 and actions/download-artifact@v3 references.",
@@ -691,7 +667,7 @@ def product_page_template(product: ProductPage) -> ProductPageTemplate:
                 "Open the public README and run the scanner against a local checkout.",
                 "Review actions-upgrade-report.json and actions-upgrade-report.html.",
                 "Apply only deterministic action-version patches when the diff matches your branch policy.",
-                "Treat paid checkout as paused until the proof page shows real demand.",
+                "No paid Action Guard package is currently offered.",
             ),
             support_note=(
                 "No Action Guard purchase is available yet. Use the proof page and public scanner for fit questions; do not send private workflow files through support."
@@ -1000,7 +976,7 @@ def render_purchase_panel(product: ProductPage, path: str, *, context: str) -> s
     )
     if context != "product":
         primary_action = f'<a class="button" href="{free_scan_path}">{escape(free_scan_cta_label(product))}</a>'
-        secondary_actions = (
+        secondary_actions: tuple[str, ...] = (
             f'<a class="button secondary" href="{product_href}">Open product fit and price</a>',
             fit_report_action,
             proof_action,
@@ -1011,10 +987,10 @@ def render_purchase_panel(product: ProductPage, path: str, *, context: str) -> s
         primary_action = (
             fit_report_action.replace('class="button secondary"', 'class="button"', 1)
             if fit_report_action
-            else f'<a class="button" href="{escape(checkout_path)}">Buy {escape(product.name)} - {escape(sale_cta_price(product.price))}</a>'
+            else f'<a class="button" href="{escape(checkout_path)}">Buy {escape(product.name)} - {escape(price_display(product.price))}</a>'
         )
         secondary_actions = (
-            f'<a class="button secondary" href="{escape(checkout_path)}">Buy {escape(product.name)} - {escape(sale_cta_price(product.price))}</a>',
+            f'<a class="button secondary" href="{escape(checkout_path)}">Buy {escape(product.name)} - {escape(price_display(product.price))}</a>',
             proof_action,
             pricing_action,
         )
@@ -1187,7 +1163,7 @@ def render_evaluation_path_section(
         else ""
     )
     price_line = (
-        f"Temporary sale price: {sale_price_detail(product.price)}. Stripe Checkout applies the {SALE_BADGE} discount automatically through {SALE_END_LABEL}."
+        f"Price: {price_detail(product.price)}."
         if product.price
         else "Current listed price is not published on the pricing page yet."
     )
@@ -1238,7 +1214,6 @@ def layout(
     body: str,
     crumbs: list[tuple[str, str]],
     schemas: Iterable[dict[str, object]],
-    show_sale_banner: bool = True,
 ) -> str:
     schema_json = json.dumps(
         [
@@ -1254,7 +1229,6 @@ def layout(
         ],
         indent=2,
     )
-    sale_html = sale_banner_html(path) if show_sale_banner else ""
     return f"""<!doctype html>
 <html lang="en">
   <head>
@@ -1284,7 +1258,6 @@ def layout(
     {nav_html(path)}
     <main class="wrap">
       <section class="warning" id="launch-warning" aria-live="polite"></section>
-      {sale_html}
       <section class="page-title">
         {breadcrumb_html(path, crumbs)}
         <p class="kicker">{escape(kicker)}</p>
@@ -1311,8 +1284,7 @@ def render_guide(guide: GuidePage) -> tuple[str, str]:
     qualification_cta = ""
     if guide.product_slug == "sa20-pack":
         qualification_cta = (
-            '<a class="button secondary" href="/scan">'
-            "Run the free scan first</a>"
+            '<a class="button secondary" href="/scan">Run the free scan first</a>'
         )
         proof_cta = (
             f'<a class="button secondary" href="{relative_href(path, "proof/sqlalchemy-public-proof/index.html")}">'
@@ -1504,27 +1476,18 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
             "--report actions-upgrade-report.json "
             "--html-report actions-upgrade-report.html"
         )
-        command_note = (
-            '<p class="caption">Use a local checkout. No GitHub token, hosted scan, or source upload is required.</p>'
-        )
+        command_note = '<p class="caption">Use a local checkout. No GitHub token, hosted scan, or source upload is required.</p>'
         report = (
             "Actions Upgrade Guard Report\n"
             "status: manual_review_required\n"
-            "rule_pack_version: 2026.05.14\n"
+            "rule_pack_version: 2026.09.26\n"
             "scanned_files: .github/workflows/build.yml\n"
             "blocking_findings: 3\n"
-            "patches: 1"
+            "patches: 0"
         )
-        diff = (
-            "-      - uses: actions/cache@v2\n"
-            "+      - uses: actions/cache@v4\n"
-            "-      - uses: actions/upload-artifact@v3\n"
-            "+      - uses: actions/upload-artifact@v4\n"
-            "-      - uses: actions/download-artifact@v3\n"
-            "+      - uses: actions/download-artifact@v4"
-        )
+        diff = action_guard_patch_preview()
         rows = (
-            ("artifact/cache action deprecations", "autofix preview"),
+            ("artifact/cache action deprecations", "manual compatibility review"),
             ("runner label drift", "finding with deadline/source"),
             ("permissions risk", "manual review"),
             ("invalid YAML", "blocked/fail closed"),
@@ -1543,7 +1506,7 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
             "Fit report complete\n"
             "supported_findings: 38\n"
             "manual_review_findings: 6\n"
-            "recommendation: buy cleanup pack if validation budget exists\n"
+            "recommendation: good_fit (heuristic; review supported scope)\n"
             "next_step: preview deterministic rewrites"
         )
         diff = (
@@ -1551,7 +1514,7 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
             "Repo fit: yes, for the documented SQLAlchemy subset\n"
             "Why: repeated Query.get and select([..]) findings\n"
             "Risk: engine.execute remains manual review\n"
-            "Recommended purchase: cleanup pack or preset bundle"
+            "Manual alternative: use the free report and linked migration guidance"
         )
         rows = (
             ("SQLAlchemy scanner report", "supported input"),
@@ -1685,9 +1648,9 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
         apply_output = (
             "preview output\n"
             "files_changed: 0\n"
-            "patches_generated: 1\n"
-            "autofix_findings: AUG001, AUG002\n"
-            "manual_review_findings: AUG006, AUG008"
+            "patches_generated: 0\n"
+            "autofix_findings: none\n"
+            "manual_review_findings: AUG001, AUG002"
         )
         validation_summary = (
             "validation summary\n"
@@ -1699,7 +1662,7 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
         manager_summary = (
             "final manager summary\n"
             "Blocking workflow findings: 3\n"
-            "Safe patch preview available: artifact/cache action upgrades\n"
+            "No safe automatic patches; review upstream migration guidance.\n"
             "Manual review: runner labels and GITHUB_TOKEN permissions"
         )
     elif product.slug == "fit-report":
@@ -1816,7 +1779,7 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
     workflow_caption = (
         "The value is the controlled workflow: scan, preview, apply supported rewrites, review manual findings, and validate on your branch."
         if product.checkout_path
-        else "The public page is proof-first today; the commercial shape depends on measured demand for this well."
+        else "The free local tool produces findings and manual alternatives for the documented subset; no upgrades are auto-applied. No paid Action Guard package is currently offered."
         if product.slug == "actions-upgrade-guard"
         else "The public page is proof-first today; the commercial shape is a generated FlatCompat bridge for supported static configs."
     )
@@ -1828,6 +1791,7 @@ def render_product_workflow_section(product: ProductPage, path: str) -> str:
         <div class="section-heading">
           <p class="kicker">Example before/after</p>
           <h2>{escape(workflow_heading)}</h2>
+          <p>Illustrative output format: sample counts and validation results below are not a run on your repository. Use the linked proof artifacts for recorded evidence. You can also make changes manually using the free report and migration guides.</p>
         </div>
         <div class="grid two">
           <article class="page-panel">
@@ -1902,16 +1866,16 @@ def render_product(product: ProductPage) -> tuple[str, str]:
         for label, doc_path in supporting_docs
     )
     if product.checkout_path:
-        price_suffix = f" - {escape(sale_cta_price(product.price))}" if product.price else ""
+        price_suffix = (
+            f" - {escape(price_display(product.price))}" if product.price else ""
+        )
         checkout_label = checkout_cta_label(product)
         checkout_button = (
             f'<a class="button" href="{escape(checkout_path)}">'
             f"{escape(checkout_label)}{price_suffix}</a>"
         )
         if product.slug == "fit-report":
-            free_scan_button = (
-                f'<a class="button secondary" href="{free_scan_path}">Run SQLAlchemy scan first</a>'
-            )
+            free_scan_button = f'<a class="button secondary" href="{free_scan_path}">Run SQLAlchemy scan first</a>'
             pydantic_scan_button = (
                 f'<a class="button secondary" href="{tracked_go_path("/go/pydantic-free-scan", product_source)}">'
                 "Run Pydantic scan first</a>"
@@ -1929,7 +1893,11 @@ def render_product(product: ProductPage) -> tuple[str, str]:
             else ""
         )
         top_primary_action = checkout_button
-        top_secondary_actions = (free_scan_button, pydantic_scan_button, fit_report_button)
+        top_secondary_actions: tuple[str, ...] = (
+            free_scan_button,
+            pydantic_scan_button,
+            fit_report_button,
+        )
         checkout_heading = (
             "Buy the fit report"
             if product.slug == "fit-report"
@@ -1944,7 +1912,11 @@ def render_product(product: ProductPage) -> tuple[str, str]:
             if product.slug == "sa20-preset"
             else "Use checkout when the repo matches the supported subset and the cleanup is expensive enough to justify an apply workflow."
         )
-        checkout_secondary_actions = (free_scan_button, pydantic_scan_button, fit_report_button)
+        checkout_secondary_actions: tuple[str, ...] = (
+            free_scan_button,
+            pydantic_scan_button,
+            fit_report_button,
+        )
     else:
         checkout_button = '<span class="button disabled">Checkout not listed yet</span>'
         free_scan_button = (
@@ -1957,10 +1929,10 @@ def render_product(product: ProductPage) -> tuple[str, str]:
                 'class="button secondary"', 'class="button"', 1
             )
             top_secondary_actions = (proof_link, *docs_buttons)
-            checkout_heading = "Paid Action Guard SKU is paused"
+            checkout_heading = "Action Guard is free"
             checkout_copy = (
-                "Use the free scanner and proof page during the demand test. "
-                "Checkout stays hidden until the paid boundary is clear."
+                "Use the free scanner and inspect the reproducible examples. "
+                "No paid Action Guard package is currently offered."
             )
             checkout_secondary_actions = (proof_link, *docs_buttons)
         else:
@@ -1970,7 +1942,10 @@ def render_product(product: ProductPage) -> tuple[str, str]:
             checkout_copy = "Use the public proof and scanner to qualify the static-config subset before treating this as a purchase candidate."
             checkout_secondary_actions = (proof_link, free_scan_button, *docs_buttons)
 
-    top_secondary_actions = (*top_secondary_actions, '<a class="button secondary" href="#example-workflow">View example before/after</a>')
+    top_secondary_actions = (
+        *top_secondary_actions,
+        '<a class="button secondary" href="#example-workflow">View example before/after</a>',
+    )
     top_secondary_actions_html = action_list_html(top_secondary_actions)
     secondary_actions_note = (
         '<p class="caption cta-group-label">Secondary options</p>'
@@ -1985,7 +1960,7 @@ def render_product(product: ProductPage) -> tuple[str, str]:
     )
 
     price_line = (
-        f'<p class="price-line">Temporary sale price: <strong>{escape(sale_price_display(product.price))}</strong>. Normally ${escape(product.price)} per team. {escape(SALE_BADGE)} is applied automatically in Stripe Checkout through {escape(SALE_END_LABEL)}.</p>'
+        f'<p class="price-line">Price: <strong>{escape(price_display(product.price))}</strong> per team.</p>'
         if product.price
         else '<p class="price-line">Checkout is not listed yet.</p>'
     )
@@ -2008,7 +1983,9 @@ def render_product(product: ProductPage) -> tuple[str, str]:
             "Manual-review findings stay visible instead of hidden.",
         )
     )
-    proof_actions = action_list_html((proof_link, pricing_button, release_button, *docs_buttons))
+    proof_actions = action_list_html(
+        (proof_link, pricing_button, release_button, *docs_buttons)
+    )
     workflow_section = render_product_workflow_section(product, path)
     deliverables_heading = (
         "After purchase, you receive"
@@ -2120,7 +2097,6 @@ def render_product(product: ProductPage) -> tuple[str, str]:
             product_schema(product, path),
             software_application_schema(product, path),
         ],
-        show_sale_banner=product.slug != "actions-upgrade-guard",
     )
     return path, html
 
@@ -2134,8 +2110,8 @@ def render_products_hub() -> tuple[str, str]:
       <section class="section">
         <article class="conversion-panel product-hero-panel">
           <div class="conversion-copy">
-            <p class="kicker">Current Product Well</p>
-            <h2>{escape(action_guard.name)} is the active demand test.</h2>
+            <p class="kicker">Free local scanner</p>
+            <h2>{escape(action_guard.name)} is available as a free local scanner.</h2>
             <p>{escape(action_guard.summary)}</p>
           </div>
           <div class="conversion-actions">
@@ -2152,7 +2128,9 @@ def render_products_hub() -> tuple[str, str]:
             "status_class": "available",
             "outcome": "Turn SQLAlchemy or Pydantic scanner output into a local buy/do-not-buy recommendation before a larger purchase.",
             "price": product_price_line(product_lookup["fit-report"]),
-            "href": relative_href(path, product_page_path(product_lookup["fit-report"])),
+            "href": relative_href(
+                path, product_page_path(product_lookup["fit-report"])
+            ),
             "cta": "View fit report details",
             "buy_href": tracked_go_path(
                 product_lookup["fit-report"].checkout_path, catalog_source
@@ -2195,11 +2173,13 @@ def render_products_hub() -> tuple[str, str]:
             "status": STATUS_AVAILABLE,
             "status_class": "available",
             "outcome": "Add reusable SQLAlchemy rollout presets, richer report templates, and manager-ready migration notes.",
-            "price": sale_price_detail(SA20_PRESET_PRICE),
-            "href": relative_href(path, product_page_path(product_lookup["sa20-preset"])),
+            "price": price_detail(SA20_PRESET_PRICE),
+            "href": relative_href(
+                path, product_page_path(product_lookup["sa20-preset"])
+            ),
             "cta": "View rollout kit details",
             "buy_href": tracked_go_path(SA20_PRESET_CHECKOUT_PATH, catalog_source),
-            "buy_cta": f"Buy preset bundle - {sale_cta_price(SA20_PRESET_PRICE)}",
+            "buy_cta": f"Buy preset bundle - {price_display(SA20_PRESET_PRICE)}",
             "checkout_note": SECURE_CHECKOUT_NOTE,
         },
     )
@@ -2260,27 +2240,27 @@ def render_products_hub() -> tuple[str, str]:
         '<section class="section">'
         '<article class="page-panel deliverables-box">'
         '<p class="kicker">Migration Preset Bundle</p>'
-        '<h2>After purchase, you receive</h2>'
+        "<h2>After purchase, you receive</h2>"
         '<ul class="clean">'
-        '<li>Rollout checklist for staged SQLAlchemy 1.4-to-2.0 cleanup work.</li>'
-        '<li>Manager summary template that turns scan findings into a status update.</li>'
-        '<li>Migration-triage presets for common repo shapes.</li>'
-        '<li>Review buckets for supported / manual / unsupported findings.</li>'
-        '<li>Handoff notes for engineering teams picking up the cleanup.</li>'
-        '<li>License and support terms; no human delivery dependency.</li>'
-        '</ul>'
-        '<h3>Sample preview</h3>'
+        "<li>Rollout checklist for staged SQLAlchemy 1.4-to-2.0 cleanup work.</li>"
+        "<li>Manager summary template that turns scan findings into a status update.</li>"
+        "<li>Migration-triage presets for common repo shapes.</li>"
+        "<li>Review buckets for supported / manual / unsupported findings.</li>"
+        "<li>Handoff notes for engineering teams picking up the cleanup.</li>"
+        "<li>License and support terms; no human delivery dependency.</li>"
+        "</ul>"
+        "<h3>Sample preview</h3>"
         '<pre class="code-block"><code>Manager summary excerpt\n'
-        'Supported cleanup findings: 38\n'
-        'Manual-review findings: 6\n'
-        'Rollout bucket: safe mechanical rewrites first\n'
-        'Review buckets: supported / manual-review / unsupported\n'
-        'Next step: run branch validation before merge</code></pre>'
+        "Supported cleanup findings: 38\n"
+        "Manual-review findings: 6\n"
+        "Rollout bucket: safe mechanical rewrites first\n"
+        "Review buckets: supported / manual-review / unsupported\n"
+        "Next step: run branch validation before merge</code></pre>"
         f'<p class="caption">Support: '
         f'<a href="mailto:{SUPPORT_EMAIL}" data-contact-link>'
-        f'<span data-contact-email>{SUPPORT_EMAIL}</span></a></p>'
-        '</article>'
-        '</section>'
+        f"<span data-contact-email>{SUPPORT_EMAIL}</span></a></p>"
+        "</article>"
+        "</section>"
     )
     body = f"""
 {action_guard_section}
@@ -2288,7 +2268,7 @@ def render_products_hub() -> tuple[str, str]:
         <article class="page-panel">
           <p class="kicker">Migration Library</p>
           <h2>Existing packages stay live as proof and buyer-fit assets.</h2>
-          <p>The SQLAlchemy, Pydantic, and flat-config pages remain available for search traffic and real users, but they are no longer the homepage flagship.</p>
+          <p>Compare supported migration patterns, inspect examples, and run a local scan before choosing a tool.</p>
         </article>
       </section>
       <section class="section">
@@ -2305,9 +2285,9 @@ def render_products_hub() -> tuple[str, str]:
     html = layout(
         path=path,
         title="Product Library",
-        description="Product Wells library with the active GitHub Actions well first, and legacy SQLAlchemy, Pydantic, and flat-config packages preserved as proof assets.",
+        description="Local scanners and migration tools for GitHub Actions, SQLAlchemy, Pydantic, and static ESLint configurations.",
         kicker="Library",
-        heading="Product Wells and migration-library packages",
+        heading="Local scanners and migration tools",
         body=body,
         crumbs=[("index.html", "Home"), (path, "Library")],
         schemas=[],
@@ -2329,16 +2309,16 @@ def render_home() -> tuple[str, str]:
           </article>"""
         for title, copy in (
             (
-                "Deadline pressure",
-                "GitHub Actions artifact, cache, runner image, runtime, and permission changes keep turning routine CI into surprise upgrade work.",
+                "Supported workflow checks",
+                "Check workflow references against the documented artifact, cache, runner, runtime, and permission rules.",
             ),
             (
                 "Local evidence first",
                 "The free scanner reads workflow YAML locally and writes JSON/HTML findings with source links and fixability labels.",
             ),
             (
-                "Paid SKU paused",
-                "Action Guard checkout stays hidden until proof-page visits, scanner runs, or buyer questions show real demand.",
+                "Free scanner available",
+                "Action Guard is available as a free local tool. No paid Action Guard package is currently offered.",
             ),
         )
     )
@@ -2352,17 +2332,17 @@ def render_home() -> tuple[str, str]:
             (
                 "SQLAlchemy cleanup pack",
                 "/products/sa20-pack/",
-                "Legacy proof and search asset for the supported SQLAlchemy 1.4 to 2.0 subset.",
+                "Scan and inspect supported SQLAlchemy 1.4 to 2.0 cleanup patterns.",
             ),
             (
                 "Pydantic v2 porter",
                 "/products/pydantic-v2-porter/",
-                "Secondary migration-library package for direct Pydantic v1 to v2 cleanup.",
+                "Check supported direct Pydantic v1 to v2 migration patterns.",
             ),
             (
                 "Flatconfig Lift",
                 "/proof/flatconfig-lift/",
-                "Proof-only ESLint static-config migration page, kept alive without checkout pressure.",
+                "Inspect examples and limitations for static ESLint configuration migration.",
             ),
         )
     )
@@ -2370,9 +2350,9 @@ def render_home() -> tuple[str, str]:
       <section class="section">
         <article class="conversion-panel product-hero-panel">
           <div class="conversion-copy">
-            <p class="kicker">Well of the Month</p>
+            <p class="kicker">Featured tool</p>
             <h2>GitHub Actions Upgrade Guard</h2>
-            <p>Scan GitHub Actions workflows for deadline-sensitive breakage and emit source-linked findings, safe patch previews, and a manager-readable report without hosted services or source upload.</p>
+            <p>Scan GitHub Actions workflows for supported maintenance findings and emit source-linked findings, manual migration guidance, and a manager-readable report without hosted services or source upload.</p>
             <div class="badge-row">
               <span class="badge">Runs locally</span>
               <span class="badge">No GitHub token</span>
@@ -2388,7 +2368,6 @@ def render_home() -> tuple[str, str]:
               <p class="caption cta-group-label">Secondary options</p>
               <a class="button secondary" href="/proof/actions-upgrade-guard/">Read proof and artifacts</a>
               <a class="button secondary" href="/products/actions-upgrade-guard/">Open product page</a>
-              <a class="button secondary" href="/wells/github-actions-upgrade-guard/">Read the well analysis</a>
             </div>
           </div>
         </article>
@@ -2396,8 +2375,8 @@ def render_home() -> tuple[str, str]:
 {trust_boundary_section()}
       <section class="section">
         <div class="section-heading">
-          <p class="kicker">Current well</p>
-          <h2>What matters this month</h2>
+          <p class="kicker">Workflow checks</p>
+          <h2>What the scanner provides</h2>
         </div>
         <div class="grid three">{action_cards}</div>
       </section>
@@ -2410,16 +2389,16 @@ def render_home() -> tuple[str, str]:
               <li>Which workflow files were scanned.</li>
               <li>Which rules fired, with source URLs and deadlines where available.</li>
               <li>Which findings are autofix, manual review, blocked, or informational.</li>
-              <li>Which patch preview is safe enough to inspect before apply mode.</li>
+              <li>Why a finding requires manual review and which source explains the migration.</li>
             </ul>
           </article>
           <article class="page-panel">
-            <p class="kicker">Expansion gate</p>
-            <h2>What would make this a paid product</h2>
+            <p class="kicker">Interpret your results</p>
+            <h2>Know what was checked</h2>
             <ul class="clean">
-              <li>Three or more serious users run the free scanner.</li>
-              <li>A buyer asks about pricing, team scope, or rule-pack updates.</li>
-              <li>Proof and product pages show repeated qualified movement from exact sources.</li>
+              <li>No supported findings detected means only that the current rules found no matching patterns.</li>
+              <li>Review source-linked guidance to address findings manually.</li>
+              <li>Inspect every patch and run your own CI checks before merging.</li>
             </ul>
           </article>
         </div>
@@ -2427,25 +2406,23 @@ def render_home() -> tuple[str, str]:
       <section class="section">
         <div class="section-heading">
           <p class="kicker">Migration Library</p>
-          <h2>Older packages remain available, but they are no longer the flagship.</h2>
+          <h2>Tools for SQLAlchemy, Pydantic, and ESLint migrations.</h2>
         </div>
         <div class="topic-list">{library_cards}</div>
         <div class="page-actions">
           <a class="button secondary" href="/products/">Open the full library</a>
-          <a class="button secondary" href="/framework/">Read the Product Wells framework</a>
         </div>
       </section>
 """
     html = layout(
         path=path,
         title="Autonomous Deadline-Readiness Tools",
-        description="Zipper Tools publishes autonomous Product Wells: local scanners and report generators for urgent software deadlines, starting with GitHub Actions Upgrade Guard.",
-        kicker="Product Wells",
+        description="Find supported upgrade issues locally, inspect source-linked reports, and review manual alternatives. Start with GitHub Actions Upgrade Guard; your source stays on your machine.",
+        kicker="Local developer tools",
         heading="Autonomous deadline-readiness tools for software teams.",
         body=body,
         crumbs=[(path, "Home")],
         schemas=[],
-        show_sale_banner=False,
     )
     return path, html
 
@@ -2469,7 +2446,7 @@ def render_wells_hub() -> tuple[str, str]:
                 "Active",
                 "May 2026",
                 '<a href="/wells/github-actions-upgrade-guard/">GitHub Actions Upgrade Guard</a>',
-                "Current Well of the Month and first front-page demand test.",
+                "Current Featured tool and first front-page demand test.",
                 '<a class="button secondary" href="/proof/actions-upgrade-guard/">Read proof</a>',
             ),
             (
@@ -2513,13 +2490,12 @@ def render_wells_hub() -> tuple[str, str]:
     html = layout(
         path=path,
         title="Product Wells Archive",
-        description="Archive of Zipper Tools Product Wells, starting with GitHub Actions Upgrade Guard as the current Well of the Month.",
+        description="Archive of Zipper Tools Product Wells, starting with GitHub Actions Upgrade Guard as the current Featured tool.",
         kicker="Wells",
         heading="Product Wells archive",
         body=body,
         crumbs=[("index.html", "Home"), (path, "Wells")],
         schemas=[],
-        show_sale_banner=False,
     )
     return path, html
 
@@ -2534,9 +2510,9 @@ def render_action_guard_well() -> tuple[str, str]:
       <section class="section">
         <article class="conversion-panel product-hero-panel">
           <div class="conversion-copy">
-            <p class="kicker">Current Product Well</p>
+            <p class="kicker">Free local scanner</p>
             <h2>GitHub Actions workflow upgrades have deadline-shaped pain.</h2>
-            <p>Action Guard turns artifact/cache deprecations, runner-image drift, runtime pressure, token-permission risk, and invalid YAML into a local report plus safe patch preview.</p>
+            <p>Action Guard turns artifact/cache deprecations, runner-image drift, runtime pressure, token-permission risk, and invalid YAML into a local report plus manual migration guidance.</p>
           </div>
           <div class="conversion-actions">
             <a class="button" href="{tracked_go_path(ACTION_GUARD_FREE_SCAN_ROUTE, source)}">Run free Action Guard scanner</a>
@@ -2551,7 +2527,7 @@ def render_action_guard_well() -> tuple[str, str]:
             <h2>Why this well exists</h2>
             <ul class="clean">
               <li>Workflow deprecations and runner changes are deadline-sensitive but scattered across repos.</li>
-              <li>Teams need patch previews and risk summaries, not a vague upgrade blog post.</li>
+              <li>Teams need source-linked findings and explicit unsupported cases.</li>
               <li>The scanner can work from local workflow YAML without GitHub credentials.</li>
             </ul>
           </article>
@@ -2575,8 +2551,8 @@ def render_action_guard_well() -> tuple[str, str]:
     html = layout(
         path=path,
         title="GitHub Actions Upgrade Guard Well",
-        description="The first Zipper Tools Product Well: a local GitHub Actions upgrade scanner for workflow deprecations, runner drift, permissions risk, and patch previews.",
-        kicker="Well of the Month",
+        description="A local GitHub Actions scanner for supported deprecations, runner drift, and permissions review. No automatic workflow changes.",
+        kicker="Featured tool",
         heading="GitHub Actions Upgrade Guard",
         body=body,
         crumbs=[
@@ -2585,7 +2561,6 @@ def render_action_guard_well() -> tuple[str, str]:
             (path, "GitHub Actions Upgrade Guard"),
         ],
         schemas=[],
-        show_sale_banner=False,
     )
     return path, html
 
@@ -2602,7 +2577,7 @@ def render_framework_page() -> tuple[str, str]:
     cycle = (
         "Collect current official pressure.",
         "Score candidates by urgency, willingness to pay, feasibility, distribution, gap, repeatability, and trust burden.",
-        "Publish one Well of the Month.",
+        "Publish one Featured tool.",
         "Build the smallest local proof artifact.",
         "Promote, pause, or kill by measured demand.",
     )
@@ -2639,7 +2614,6 @@ def render_framework_page() -> tuple[str, str]:
         body=body,
         crumbs=[("index.html", "Home"), (path, "Framework")],
         schemas=[],
-        show_sale_banner=False,
     )
     return path, html
 
@@ -2656,19 +2630,19 @@ def render_sqlalchemy_public_proof() -> tuple[str, str]:
         (
             "Bogdanp/flask_dramatiq_example",
             "Query.get plus declarative import cleanup",
-            "supported and validated on copied public input",
+            "supported static rewrite on copied public input; application validation not established",
             "https://github.com/Bogdanp/flask_dramatiq_example/blob/a2f2c2baf7bdd7e1044ec6d241556f6333a6e397/app.py",
         ),
         (
             "dunossauro/live-de-python",
             "select([table]) list syntax cleanup",
-            "supported and validated on copied public input",
+            "supported static rewrite on copied public input; application validation not established",
             "https://github.com/dunossauro/live-de-python/blob/c0c83d3cb1271b0e55de2f83ad3a2aa4a57b53a8/codigo/Live011/core_select.py",
         ),
         (
             "nylas/sync-engine",
             "Query.get plus string loader cleanup",
-            "supported and validated on copied public input",
+            "supported static rewrite on copied public input; application validation not established",
             "https://github.com/nylas/sync-engine/blob/b91b94b9a0033be4199006eb234d270779a04443/inbox/transactions/search.py",
         ),
     )
@@ -2843,7 +2817,7 @@ def render_sqlalchemy_public_proof() -> tuple[str, str]:
     html = layout(
         path=path,
         title="SQLAlchemy public proof",
-        description="Public SQLAlchemy migration proof for the supported cleanup subset, including validated supported files and fail-closed manual-review examples.",
+        description="Public SQLAlchemy migration proof for the supported cleanup subset, including supported static rewrites and fail-closed manual-review examples.",
         kicker="Public proof",
         heading="SQLAlchemy migration proof on public files",
         body=body,
@@ -2858,150 +2832,46 @@ def render_sqlalchemy_public_proof() -> tuple[str, str]:
 
 
 def action_guard_proof_report() -> dict[str, Any]:
-    return {
-        "product": "actions-upgrade-guard",
-        "version": "0.1.0",
-        "rule_pack_version": "2026.05.14",
-        "status": "manual_review_required",
-        "mode": "dry-run",
-        "root_path": "fixture/deprecated_repo",
-        "scanned_files": [".github/workflows/build.yml"],
-        "files_changed": [],
-        "blocking_findings": 3,
-        "confidence": 0.74,
-        "findings": [
-            {
-                "rule_id": "AUG008",
-                "title": "Floating latest runner label can hide image migrations",
-                "severity": "medium",
-                "classification": "informational",
-                "blocking": False,
-                "path": ".github/workflows/build.yml",
-                "line": 9,
-                "current": "ubuntu-latest",
-                "recommended": "Pin runner labels where reproducibility matters.",
-                "deadline": "2026-06-15",
-                "source_url": "https://github.blog/changelog/2026-05-14-github-actions-upcoming-image-migrations",
-            },
-            {
-                "rule_id": "AUG002",
-                "title": "Actions cache v1/v2 is retired",
-                "severity": "critical",
-                "classification": "autofix",
-                "blocking": True,
-                "path": ".github/workflows/build.yml",
-                "line": 12,
-                "current": "actions/cache@v2",
-                "recommended": "Replace with actions/cache@v4 and rerun the workflow.",
-                "deadline": "2025-03-01",
-                "source_url": "https://github.blog/changelog/2024-09-16-notice-of-upcoming-deprecations-and-changes-in-github-actions-services/",
-            },
-            {
-                "rule_id": "AUG001",
-                "title": "Artifact action v3 is retired on GitHub.com",
-                "severity": "critical",
-                "classification": "autofix",
-                "blocking": True,
-                "path": ".github/workflows/build.yml",
-                "line": 17,
-                "current": "actions/upload-artifact@v3",
-                "recommended": "Replace with actions/upload-artifact@v4 and rerun the workflow.",
-                "deadline": "2025-01-30",
-                "source_url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/",
-            },
-            {
-                "rule_id": "AUG001",
-                "title": "Artifact action v3 is retired on GitHub.com",
-                "severity": "critical",
-                "classification": "autofix",
-                "blocking": True,
-                "path": ".github/workflows/build.yml",
-                "line": 21,
-                "current": "actions/download-artifact@v3",
-                "recommended": "Replace with actions/download-artifact@v4 and rerun the workflow.",
-                "deadline": "2025-01-30",
-                "source_url": "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/",
-            },
-            {
-                "rule_id": "AUG006",
-                "title": "Workflow does not declare GITHUB_TOKEN permissions",
-                "severity": "medium",
-                "classification": "informational",
-                "blocking": False,
-                "path": ".github/workflows/build.yml",
-                "line": None,
-                "current": None,
-                "recommended": "Declare least-privilege top-level or job-level permissions.",
-                "deadline": None,
-                "source_url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication",
-            },
-        ],
-        "patches": [
-            {
-                "title": "Actions cache v1/v2 is retired; Artifact action v3 is retired on GitHub.com",
-                "rule_id": "AUG001,AUG002",
-                "path": ".github/workflows/build.yml",
-                "applied": False,
-                "diff": action_guard_patch_preview(),
-            }
-        ],
-        "notes": [
-            "Runs locally; no GitHub token, source upload, or repository mutation required.",
-            "Only deterministic action-version upgrades are patched automatically.",
-            "Runner, permissions, and runtime findings are reported for review.",
-        ],
-    }
+    proof = (
+        Path(__file__).resolve().parents[1]
+        / "products/actions-upgrade-guard/proof-report.json"
+    )
+    return dict(json.loads(proof.read_text(encoding="utf-8")))
 
 
 def action_guard_patch_preview() -> str:
-    return (
-        "--- a/.github/workflows/build.yml\n"
-        "+++ b/.github/workflows/build.yml\n"
-        "@@ -9,15 +9,15 @@\n"
-        "     runs-on: ubuntu-latest\n"
-        "     steps:\n"
-        "       - uses: actions/checkout@v4\n"
-        "-      - uses: actions/cache@v2\n"
-        "+      - uses: actions/cache@v4\n"
-        "         with:\n"
-        "           path: ~/.cache/pip\n"
-        "           key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}\n"
-        "       - run: pytest\n"
-        "-      - uses: actions/upload-artifact@v3\n"
-        "+      - uses: actions/upload-artifact@v4\n"
-        "         with:\n"
-        "           name: coverage\n"
-        "           path: htmlcov\n"
-        "-      - uses: actions/download-artifact@v3\n"
-        "+      - uses: actions/download-artifact@v4\n"
-        "         with:\n"
-        "           name: coverage\n"
-    )
+    return "No safe patch generated. Review platform, runner, shared artifact names, hidden files, and download compatibility using each finding's source."
 
 
 def write_action_guard_proof_assets(output_dir: Path) -> None:
     proof_dir = output_dir / "proof" / "actions-upgrade-guard"
     proof_dir.mkdir(parents=True, exist_ok=True)
     report_json = json.dumps(action_guard_proof_report(), indent=2)
-    (proof_dir / "actions-upgrade-report.json").write_text(
-        report_json + "\n", encoding="utf-8"
+    write_generated_text(
+        (proof_dir / "actions-upgrade-report.json"),
+        report_json + "\n",
+        encoding="utf-8",
     )
-    (proof_dir / "patch-preview.diff").write_text(
-        action_guard_patch_preview(), encoding="utf-8"
+    write_generated_text(
+        (proof_dir / "patch-preview.diff"),
+        action_guard_patch_preview(),
+        encoding="utf-8",
     )
     report_html = f"""<!doctype html>
 <html lang="en">
   <head><meta charset="utf-8" /><title>Actions Upgrade Guard Report</title></head>
   <body>
     <h1>Actions Upgrade Guard Report</h1>
-    <p>Status: manual_review_required. Blocking findings: 3. Confidence: 0.74.</p>
+    <p>Status: manual_review_required. Blocking findings: 3. No automatic patches.</p>
     <h2>Patch preview</h2>
     {code_block(action_guard_patch_preview())}
   </body>
 </html>
 """
-    (proof_dir / "actions-upgrade-report.html").write_text(
-        clean_generated_text(report_html), encoding="utf-8"
+    write_generated_text(
+        (proof_dir / "actions-upgrade-report.html"),
+        clean_generated_text(report_html),
+        encoding="utf-8",
     )
 
 
@@ -3017,8 +2887,8 @@ def render_action_guard_proof() -> tuple[str, str]:
         f"rule_pack_version: {report['rule_pack_version']}\n"
         "scanned_files: .github/workflows/build.yml\n"
         "blocking_findings: 3\n"
-        "autofix_findings: AUG001, AUG002\n"
-        "manual_review: AUG006, AUG008"
+        "autofix_findings: none\n"
+        "manual_review: AUG001, AUG002; informational: AUG006, AUG008"
     )
     before_file = (
         "jobs:\n"
@@ -3043,7 +2913,7 @@ def render_action_guard_proof() -> tuple[str, str]:
             f'<a class="button secondary" href="{relative_href(path, "products/actions-upgrade-guard/index.html")}">Open product page</a>',
             f'<a class="button secondary" href="{relative_href(path, "proof/actions-upgrade-guard/actions-upgrade-report.json")}">Open JSON artifact</a>',
             f'<a class="button secondary" href="{relative_href(path, "proof/actions-upgrade-guard/actions-upgrade-report.html")}">Open HTML artifact</a>',
-            f'<a class="button secondary" href="{relative_href(path, "proof/actions-upgrade-guard/patch-preview.diff")}">Open patch preview</a>',
+            f'<a class="button secondary" href="{relative_href(path, "proof/actions-upgrade-guard/patch-preview.diff")}">Read no-safe-patch explanation</a>',
         )
     )
     body = f"""
@@ -3052,7 +2922,7 @@ def render_action_guard_proof() -> tuple[str, str]:
           <div class="conversion-copy">
             <p class="kicker">Proof artifact</p>
             <h2>One fixture run, shown as files a buyer can inspect.</h2>
-            <p>The proof page publishes the before workflow, command, JSON report excerpt, HTML report artifact, patch preview, and fail-closed findings for the first Product Well.</p>
+            <p>The proof page publishes the before workflow, command, JSON report excerpt, HTML report artifact, no-safe-patch explanation, and fail-closed findings for GitHub Actions Upgrade Guard.</p>
           </div>
           <div class="conversion-actions">
             {artifact_actions}
@@ -3100,14 +2970,14 @@ def render_action_guard_proof() -> tuple[str, str]:
       <section class="section">
         <article class="page-panel">
           <h2>Why this is not just actionlint</h2>
-          <p>Action Guard is not trying to replace syntax linting. It is a deadline-readiness report: source-backed deprecation rules, fixability classification, safe patch previews, and a manager-readable risk surface for workflow changes that can break releases.</p>
+          <p>Action Guard is not trying to replace syntax linting. It is a deadline-readiness report: source-backed deprecation rules, fixability classification, manual migration guidance, and a manager-readable risk surface for workflow changes that can break releases.</p>
         </article>
       </section>
 """
     html = layout(
         path=path,
         title="GitHub Actions Upgrade Guard proof",
-        description="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, patch preview, and fail-closed findings.",
+        description="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, manual alternatives, and fail-closed findings.",
         kicker="Public proof",
         heading="GitHub Actions Upgrade Guard proof artifacts",
         body=body,
@@ -3118,7 +2988,6 @@ def render_action_guard_proof() -> tuple[str, str]:
             (path, "Proof"),
         ],
         schemas=[],
-        show_sale_banner=False,
     )
     return path, html
 
@@ -3141,9 +3010,7 @@ def render_generic_product_proof(product: ProductPage) -> tuple[str, str]:
         else ""
     )
     product_button = f'<a class="button" href="{relative_href(path, product_page_path(product))}">Open {escape(product.name)}</a>'
-    decision_actions = action_list_html(
-        (product_button, pricing_button, *docs_buttons)
-    )
+    decision_actions = action_list_html((product_button, pricing_button, *docs_buttons))
     if product.slug == "pydantic-v2-porter":
         artifact_scan = (
             "scan report\n"
@@ -3311,7 +3178,7 @@ def write_sitemap(
         + items
         + "</urlset>"
     )
-    (output_dir / filename).write_text(xml, encoding="utf-8")
+    write_generated_text((output_dir / filename), xml, encoding="utf-8")
 
 
 def write_sitemap_index(
@@ -3327,7 +3194,7 @@ def write_sitemap_index(
         + items
         + "</sitemapindex>"
     )
-    (output_dir / "sitemap.xml").write_text(xml, encoding="utf-8")
+    write_generated_text((output_dir / "sitemap.xml"), xml, encoding="utf-8")
 
 
 def clean_page_redirects(page_paths: Iterable[str]) -> list[tuple[str, str, int]]:
@@ -3351,7 +3218,9 @@ def write_redirects(
     output_dir: Path, redirects: Iterable[tuple[str, str, int]]
 ) -> None:
     lines = [f"{source} {target} {status}" for source, target, status in redirects]
-    (output_dir / "_redirects").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    write_generated_text(
+        (output_dir / "_redirects"), "\n".join(lines) + "\n", encoding="utf-8"
+    )
 
 
 def build_site(output_dir: Path) -> dict[str, Any]:
@@ -3384,7 +3253,7 @@ def build_site(output_dir: Path) -> dict[str, Any]:
     for rel_path, html in pages:
         path = output_dir / PurePosixPath(rel_path)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(clean_generated_text(html), encoding="utf-8")
+        write_generated_text(path, clean_generated_text(html), encoding="utf-8")
     write_action_guard_proof_assets(output_dir)
 
     lastmod = date.today().isoformat()
@@ -3422,11 +3291,14 @@ def build_site(output_dir: Path) -> dict[str, Any]:
         lastmod,
     )
 
-    (output_dir / "robots.txt").write_text(
+    write_generated_text(
+        (output_dir / "robots.txt"),
         f"User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n",
         encoding="utf-8",
     )
-    (output_dir / f"{INDEXNOW_KEY}.txt").write_text(INDEXNOW_KEY, encoding="utf-8")
+    write_generated_text(
+        (output_dir / f"{INDEXNOW_KEY}.txt"), INDEXNOW_KEY, encoding="utf-8"
+    )
     page_paths = [
         "index.html",
         *STATIC_PAGE_PATHS,
@@ -3455,10 +3327,19 @@ def build_site(output_dir: Path) -> dict[str, Any]:
         "products": [asdict(product) for product in PRODUCTS],
         "guides": [asdict(guide) for guide in GUIDES],
     }
-    (output_dir / "_site_manifest.json").write_text(
-        json.dumps(manifest, indent=2), encoding="utf-8"
+    write_generated_text(
+        (output_dir / "_site_manifest.json"),
+        json.dumps(manifest, indent=2),
+        encoding="utf-8",
     )
     return manifest
+
+
+def write_generated_text(path: Path, text: str, encoding: str = "utf-8") -> None:
+    # Repeated builds should not truncate identical files while indexers read them.
+    if path.exists() and path.read_text(encoding=encoding) == text:
+        return
+    path.write_text(text, encoding=encoding)
 
 
 def main() -> None:

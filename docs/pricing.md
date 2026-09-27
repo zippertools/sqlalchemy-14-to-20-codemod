@@ -5,16 +5,14 @@
 | Buyer Question | Recommended Option | Price |
 | --- | --- | --- |
 | "Does my repo have supported patterns?" | Free scan | Free |
-| "Is automation worth it for SQLAlchemy or Pydantic?" | SQLAlchemy/Pydantic fit report | $9.90 sale; normally $99 |
-| "I want the SQLAlchemy cleanup workflow." | SQLAlchemy pack | $30 sale; normally $299.99 |
-| "I want SQLAlchemy rollout docs and presets." | Preset bundle | $15 sale; normally $149.99 |
-| "I need the Pydantic v1 to v2 cleanup subset." | Pydantic cleanup pack | $25 sale; normally $249.99 |
+| "Is automation worth it for SQLAlchemy or Pydantic?" | SQLAlchemy/Pydantic fit report | $99 |
+| "I want the SQLAlchemy cleanup workflow." | SQLAlchemy pack | $299.99 |
+| "I want SQLAlchemy rollout docs and presets." | Preset bundle | $149.99 |
+| "I need the Pydantic v1 to v2 cleanup subset." | Pydantic cleanup pack | $249.99 |
 
-## Temporary sale
+## Current pricing
 
-The Migration Sprint Sale is active from May 6, 2026 through May 27, 2026 at
-11:59 PM Pacific. Every listed paid product is 90% off during that window, and
-Stripe Checkout applies the discount automatically.
+The May 2026 promotion has ended. Regular checkout prices above apply.
 
 ## Checkout and delivery terms
 
@@ -28,11 +26,11 @@ Support email: `support@zippertools.org`.
 
 ## Free vs paid at a glance
 
-| Capability | Free scan | $9.90 sale SQLAlchemy/Pydantic fit report | Cleanup pack | Preset bundle |
+| Capability | Free scan | $99 SQLAlchemy/Pydantic fit report | Cleanup pack | Preset bundle |
 | --- | --- | --- | --- | --- |
 | Public/local CLI | Yes | Reads scanner output locally | Yes | Uses scanner output locally |
-| Core deterministic transforms | Yes | No code changes | Yes | Uses scanner output |
-| Diff preview | Yes | Summarizes candidates | Yes | Uses scanner output |
+| Supported-candidate detection | Yes | No code changes | Yes | Uses scanner output |
+| Diff preview | No | Summarizes candidates | Yes | Uses scanner output |
 | JSON migration report | Yes | Adds buyer-fit summary | Yes, plus buyer docs | Uses public CLI outputs plus richer templates |
 | Manual-review findings | Yes | Summarizes risk buckets | Yes | Uses public CLI outputs plus rollout guidance |
 | Preset/rollout guidance | Basic public docs | Automated recommendation | Yes | Yes |
@@ -45,10 +43,10 @@ Price: **$0**
 
 Use the public repo, CLI, and GitHub Action for:
 
-- core deterministic transforms
+- supported-candidate detection
 - manual-review findings
 - JSON migration report
-- diff preview
+- source locations and manual-review findings
 - demo fixture and public docs
 
 The point of the free tier is qualification and trust. A buyer should know
@@ -69,7 +67,6 @@ Not for:
 
 Product name: **`SQLAlchemy/Pydantic Fit Report Add-on`**
 
-Temporary sale price: **$9.90 per team** through May 27, 2026 at 11:59 PM Pacific.
 Normal checkout price: **$99 per team**.
 
 What it adds:
@@ -95,7 +92,6 @@ human review.
 
 Product name: **`SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack`**
 
-Temporary sale price: **$30 per team** through May 27, 2026 at 11:59 PM Pacific.
 Normal checkout price: **$299.99 per team**.
 
 What it adds:
@@ -122,7 +118,6 @@ rewrites, or app-specific debugging.
 
 Product name: **`Migration Preset Bundle`**
 
-Temporary sale price: **$15 per team** through May 27, 2026 at 11:59 PM Pacific.
 Normal checkout price: **$149.99 per team**.
 
 What it includes:
@@ -147,7 +142,6 @@ Not for: code rewrites, private repo debugging, or a migration service.
 
 Product name: **`Pydantic v1 to v2 Migration Cleanup Pack`**
 
-Temporary sale price: **$25 per team** through May 27, 2026 at 11:59 PM Pacific.
 Normal checkout price: **$249.99 per team**.
 
 What it includes:

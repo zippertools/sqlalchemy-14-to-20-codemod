@@ -19,11 +19,9 @@ def _assert_primary_nav_order(html: str) -> None:
         "</nav>", 1
     )[0]
     labels = (
-        "Wells",
         "Scan",
         "Library",
         "Guides",
-        "Framework",
         "Pricing",
         "Policies",
         "Repo",
@@ -35,11 +33,9 @@ def _assert_primary_nav_order(html: str) -> None:
 def _assert_footer_nav_order(html: str) -> None:
     footer_html = html.split('<div class="footer-links">', 1)[1].split("</div>", 1)[0]
     labels = (
-        "Wells",
         "Scan",
         "Library",
         "Guides",
-        "Framework",
         "Pricing",
         "Demo",
         "Policies",
@@ -67,7 +63,9 @@ def test_build_site_generates_sitemaps_and_indexnow_key() -> None:
     assert (
         site_dir / "proof" / "actions-upgrade-guard" / "actions-upgrade-report.html"
     ).exists()
-    assert (site_dir / "proof" / "actions-upgrade-guard" / "patch-preview.diff").exists()
+    assert (
+        site_dir / "proof" / "actions-upgrade-guard" / "patch-preview.diff"
+    ).exists()
     assert (site_dir / "proof" / "pydantic-v2-porter" / "index.html").exists()
     assert (site_dir / "proof" / "flatconfig-lift" / "index.html").exists()
     proof_text = (
@@ -95,8 +93,14 @@ def test_build_site_generates_sitemaps_and_indexnow_key() -> None:
         "https://zippertools.org/proof/sqlalchemy-public-proof/"
         in manifest["urls"]["proof"]
     )
-    assert "https://zippertools.org/proof/actions-upgrade-guard/" in manifest["urls"]["proof"]
-    assert "https://zippertools.org/products/actions-upgrade-guard/" in manifest["urls"]["products"]
+    assert (
+        "https://zippertools.org/proof/actions-upgrade-guard/"
+        in manifest["urls"]["proof"]
+    )
+    assert (
+        "https://zippertools.org/products/actions-upgrade-guard/"
+        in manifest["urls"]["products"]
+    )
     assert "https://zippertools.org/wells/" in manifest["urls"]["hubs"]
     assert "https://zippertools.org/framework/" in manifest["urls"]["hubs"]
     assert (
@@ -174,7 +178,7 @@ def test_generated_redirects_preserve_legacy_paths_and_track_checkout() -> None:
         in redirects_text
     )
     assert (
-        "/go/pydantic-free-scan https://github.com/zippertools/pydantic-v1-to-v2-codemod/blob/main/README.md"
+        "/go/pydantic-free-scan https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/README.md"
         in redirects_text
     )
     assert (
@@ -183,7 +187,7 @@ def test_generated_redirects_preserve_legacy_paths_and_track_checkout() -> None:
     )
     assert "utm_campaign=free_scan" in redirects_text
     assert (
-        "/go/github-release https://github.com/zippertools/sqlalchemy-14-to-20-codemod/releases/tag/v0.1.1"
+        "/go/github-release https://github.com/zippertools/sqlalchemy-14-to-20-codemod/releases/tag/v0.1.2"
         in redirects_text
     )
     assert "/go/pydantic-free-scan/*" not in redirects_text
@@ -242,8 +246,8 @@ def test_product_pages_link_to_trackable_checkout_routes() -> None:
     assert "Run the SQLAlchemy scan first" in sa20_text
     assert "Run the Pydantic scan first" in pydantic_text
     assert "not the SQLAlchemy scanner" in pydantic_text
-    assert "Buy cleanup pack - $30 sale" in sa20_text
-    assert "Buy Pydantic cleanup pack - $25 sale" in pydantic_text
+    assert "Buy cleanup pack - $299.99" in sa20_text
+    assert "Buy Pydantic cleanup pack - $249.99" in pydantic_text
     assert 'href="/go/fit-report/product-products-sa20-pack"' in sa20_text
     assert 'href="/go/fit-report/product-products-pydantic-v2-porter"' in pydantic_text
     assert "Stripe Checkout handles secure payment and receipts." in sa20_text
@@ -339,28 +343,28 @@ def test_static_indexable_pages_use_clean_canonicals_and_links() -> None:
     assert 'contactEmail: "support@zippertools.org"' in config_text
     assert "/go/actions-upgrade-guard-free/home-well-index" in index_text
     assert "/proof/actions-upgrade-guard/" in index_text
-    assert "/wells/github-actions-upgrade-guard/" in index_text
+    assert "/wells/github-actions-upgrade-guard/" not in index_text
     assert "Autonomous deadline-readiness tools for software teams." in index_text
     assert "GitHub Actions Upgrade Guard" in index_text
-    assert "Paid SKU paused" in index_text
-    assert "Migration Sprint Sale" in pricing_text
-    assert (
-        "Sale price: $9.90 during Migration Sprint Sale; normally $99 per team"
-        in pricing_text
-    )
-    assert "Buy automated fit report - $9.90 sale" in pricing_text
+    assert "Free scanner available" in index_text
+    assert "Migration Sprint Sale" not in pricing_text
+    assert "Price: $99 per team" in pricing_text
+    assert "Buy automated fit report - $99" in pricing_text
     assert "Do not trust this blindly with your project" in index_text
     assert "does not expose the full paid apply engine" in index_text
     assert "Public proof is intentionally narrow" in index_text
     assert "Migration Sprint Sale" not in index_text
     for page_text in (scan_text, pricing_text, demo_text):
-        assert "Migration Sprint Sale" in page_text
-        assert "90% off" in page_text
+        assert "Migration Sprint Sale" not in page_text
+        assert "90% off" not in page_text
     assert "Migration Sprint Sale" not in policies_text
     assert "Product Wells" in policies_text
-    assert "GitHub Actions Upgrade Guard is currently published as a free scanner" in policies_text
+    assert (
+        "GitHub Actions Upgrade Guard is currently published as a free scanner"
+        in policies_text
+    )
     assert "Secure checkout is handled by Stripe." in pricing_text
-    current_well_pos = index_text.index('<p class="kicker">Current well</p>')
+    current_well_pos = index_text.index('<p class="kicker">Workflow checks</p>')
     free_scanner_pos = index_text.index('<p class="kicker">Free scanner</p>')
     library_pos = index_text.index('<p class="kicker">Migration Library</p>')
     assert current_well_pos < free_scanner_pos < library_pos
@@ -371,7 +375,9 @@ def test_static_indexable_pages_use_clean_canonicals_and_links() -> None:
     assert "/go/pydantic-free-scan/scan-chooser" in scan_text
     assert "/go/flatconfig-free-scan/scan-chooser" in scan_text
     assert "Run a Product Well Scanner" in scan_text
-    assert "python -m pydantic_v2_porter.cli . --report migration-report.json" in scan_text
+    assert (
+        "python -m pydantic_v2_porter.cli . --report migration-report.json" in scan_text
+    )
     assert "not the SQLAlchemy scanner" in scan_text
     assert "Run a SQLAlchemy 2.0 Migration Scan" not in scan_text
     assert "Paid-pack artifact trail" in demo_text
@@ -408,11 +414,11 @@ def test_static_indexable_pages_use_clean_canonicals_and_links() -> None:
 def test_free_scan_install_path_uses_verified_archive_command() -> None:
     install_url = (
         "https://github.com/zippertools/"
-        "sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.1.zip"
+        "sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip"
     )
     pydantic_install_url = (
         "https://github.com/zippertools/"
-        "pydantic-v1-to-v2-codemod/archive/refs/tags/v0.1.1.zip"
+        "sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip#subdirectory=products/pydantic-v2-porter"
     )
     scan_text = Path("site/scan.html").read_text(encoding="utf-8")
     product_text = Path("site/products/sa20-pack/index.html").read_text(
@@ -446,7 +452,9 @@ def test_free_scan_install_path_uses_verified_archive_command() -> None:
         assert normalized_fallback in " ".join(text.split())
 
     assert pydantic_install_url in pydantic_text
-    assert "sqlalchemy-14-to-20-codemod/archive/refs/heads/main.zip" not in pydantic_text
+    assert (
+        "sqlalchemy-14-to-20-codemod/archive/refs/heads/main.zip" not in pydantic_text
+    )
     assert (
         "python -m pydantic_v2_porter.cli path/to/repo --report migration-report.json"
         in pydantic_text
@@ -472,9 +480,9 @@ def test_site_ctas_do_not_point_to_stale_or_cache_miss_prone_routes() -> None:
     assert go_hrefs
     for href in go_hrefs:
         assert href.startswith(
-                (
-                    "/go/actions-upgrade-guard-free",
-                    "/go/free-scan",
+            (
+                "/go/actions-upgrade-guard-free",
+                "/go/free-scan",
                 "/go/pydantic-free-scan",
                 "/go/flatconfig-free-scan",
                 "/go/fit-report",
@@ -488,7 +496,10 @@ def test_site_ctas_do_not_point_to_stale_or_cache_miss_prone_routes() -> None:
 
     redirects_text = (site_dir / "_redirects").read_text(encoding="utf-8")
     assert "/go/pydantic-free-scan" in redirects_text
-    assert "github.com/zippertools/pydantic-v1-to-v2-codemod" in redirects_text
+    assert (
+        "github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter"
+        in redirects_text
+    )
 
 
 def test_indexnow_payload_uses_generated_manifest_groups() -> None:

@@ -55,7 +55,10 @@ def report_to_html(report: ScanReport) -> str:
         for item in report.findings
     )
     if not findings:
-        findings = "<p>No findings.</p>"
+        findings = (
+            "<p>No supported findings detected. This is not exhausti"
+            "ve compatibility or safety verification.</p>"
+        )
 
     patches = "\n".join(
         f"""

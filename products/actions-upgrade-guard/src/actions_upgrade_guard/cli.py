@@ -25,7 +25,10 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--apply",
         action="store_true",
-        help="Apply only deterministic action-version upgrades.",
+        help=(
+            "Request eligible fixes; this rule pack has none and lea"
+            "ves files unchanged."
+        ),
     )
     parser.add_argument(
         "--report",
@@ -61,6 +64,8 @@ def _write_reports(report: ScanReport, json_path: Path, html_path: Path | None) 
 
 def _print_summary(report: ScanReport) -> None:
     _write_console(f"Status: {report.status}")
+    if not report.findings:
+        _write_console("No supported findings detected.")
     _write_console(f"Scanned files: {len(report.scanned_files)}")
     _write_console(f"Findings: {len(report.findings)}")
     _write_console(f"Blocking findings: {len(report.blocking_findings)}")

@@ -51,7 +51,7 @@ scope.
 Install from the public GitHub repo subproject:
 
 ```bash
-python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.1.zip#subdirectory=products/flatconfig-lift"
+python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip#subdirectory=products/flatconfig-lift"
 ```
 
 Then scan a local checkout:

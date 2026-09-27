@@ -22,16 +22,16 @@ const DELIVERY_ARTIFACTS = {
     downloadName: "zippertools-fit-report-add-on.zip",
   },
   "sa20-pack": {
-    artifactKey: "sa20-pack-edge-case-pack.zip",
-    downloadName: "sa20-pack-edge-case-pack.zip",
+    artifactKey: "sa20-pack-edge-case-pack-v0.1.2.zip",
+    downloadName: "sa20-pack-edge-case-pack-v0.1.2.zip",
   },
   "sa20-preset": {
     artifactKey: "sa20-pack-preset-bundle.zip",
     downloadName: "sa20-pack-preset-bundle.zip",
   },
   "pydantic-v2-porter": {
-    artifactKey: "pydantic-v2-porter.zip",
-    downloadName: "pydantic-v2-porter.zip",
+    artifactKey: "pydantic-v2-porter-v0.1.2.zip",
+    downloadName: "pydantic-v2-porter-v0.1.2.zip",
   },
 };
 

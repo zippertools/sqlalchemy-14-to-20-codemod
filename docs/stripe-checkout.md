@@ -1,6 +1,6 @@
 # Stripe Checkout Setup
 
-Last updated: 2026-05-06
+Last updated: 2026-09-26
 
 This uses repo-controlled Stripe Checkout Sessions created by the Cloudflare
 Worker.
@@ -27,22 +27,9 @@ prices come from `site/product_catalog.mjs`. Live Stripe Products and Prices als
 exist in the connected account for Dashboard clarity and future price-ID
 checkout migration.
 
-## Temporary Migration Sprint Sale
+## Promotion status
 
-The Migration Sprint Sale runs from May 6, 2026 through May 27, 2026 at
-11:59 PM Pacific. The Stripe coupon is `ro5ZyRLf` and gives 90% off all listed
-paid products.
-
-The Worker keeps the normal inline `price_data` amounts and applies the coupon
-automatically while the sale window is active. After `2026-05-28T06:59:59Z`, the
-Worker stops sending the coupon and restores promotion-code entry.
-
-Sale prices during the window:
-
-- Fit Report: `$9.90` sale; normally `$99`
-- SQLAlchemy cleanup pack: `$30` sale; normally `$299.99`
-- Migration Preset Bundle: `$15` sale; normally `$149.99`
-- Pydantic cleanup pack: `$25` sale; normally `$249.99`
+The May 2026 sale has ended. The Worker uses the regular catalog amounts below.
 
 ## Live Stripe catalog
 
@@ -103,38 +90,19 @@ npx.cmd wrangler secret put STRIPE_AUTOMATIC_TAX_ENABLED
 
 Use `true` only after Stripe Tax is configured. Leave it unset while testing.
 
-## Test checkout
+## Test checkout without changing production secrets
 
-1. Deploy the Worker with test Stripe secrets.
-2. Open `https://zippertools.org/go/sa20-pack/test`.
-3. Confirm Stripe Checkout shows:
-   - `SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack`
-   - `$30` after the Migration Sprint Sale coupon is applied
-   - no inventory/scarcity text
-   - no ZIP-size framing
-4. Pay with a Stripe test card.
-5. On the success page, click `Open delivery`.
-6. Confirm `/stripe/delivery` verifies the session and downloads the matching
-   product ZIP.
-7. Confirm the webhook event appears in Cloudflare logs as
-   `stripe_checkout_paid`.
+Use the authorized Zipper Tools sandbox (`acct_1TKBtaATQfsHIwbt`) and a local
+Worker. Confirm livemode is false before any simulated payment. Use Stripe CLI
+forwarding to exercise signed webhooks. A `/test` suffix on a production `/go/`
+route is only a tracking label: it does NOT select Stripe test mode.
 
-## Go live
+Create sessions with the local Worker's catalog, complete payment with Stripe's
+test fixture mechanisms, verify unpaid delivery denial, receive the signed
+completion webhook, and download the matching private KV artifact through the
+local delivery handler. Install and use each downloaded package separately.
+Test values and local results do not establish production checkout health.
 
-1. Replace the test secret key with the live Stripe secret key.
-2. Create the same live webhook endpoint in Stripe live mode.
-3. Replace `STRIPE_WEBHOOK_SECRET` with the live webhook signing secret.
-4. Confirm the `PAID_ARTIFACTS` KV namespace contains all four paid ZIP keys
-   before deploy.
-5. Make one low-risk live purchase and refund it from Stripe if needed.
-
-## Retire Previous Checkout
-
-After Stripe test and live checkout both work:
-
-1. Remove or unpublish previous checkout-provider product pages.
-2. Remove the previous checkout-provider webhook endpoint from its developer
-   settings.
-3. Stop sending traffic to the old custom-domain checkout.
-4. Keep old order records for accounting and support history.
-5. Use Stripe for new orders, refunds, and payout tracking.
+Do not replace production Stripe secrets to run tests. No real purchase or refund
+is authorized for the September 26 release. Before deployment, verify catalog
+amounts using read-only live API requests and record the existing Worker version.

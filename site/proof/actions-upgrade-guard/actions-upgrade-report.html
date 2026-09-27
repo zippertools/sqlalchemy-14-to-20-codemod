@@ -3,29 +3,8 @@
   <head><meta charset="utf-8" /><title>Actions Upgrade Guard Report</title></head>
   <body>
     <h1>Actions Upgrade Guard Report</h1>
-    <p>Status: manual_review_required. Blocking findings: 3. Confidence: 0.74.</p>
+    <p>Status: manual_review_required. Blocking findings: 3. No automatic patches.</p>
     <h2>Patch preview</h2>
-    <pre class="code-block"><code>--- a/.github/workflows/build.yml
-+++ b/.github/workflows/build.yml
-@@ -9,15 +9,15 @@
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v4
--      - uses: actions/cache@v2
-+      - uses: actions/cache@v4
-         with:
-           path: ~/.cache/pip
-           key: pip-${{ runner.os }}-${{ hashFiles(&#x27;requirements.txt&#x27;) }}
-       - run: pytest
--      - uses: actions/upload-artifact@v3
-+      - uses: actions/upload-artifact@v4
-         with:
-           name: coverage
-           path: htmlcov
--      - uses: actions/download-artifact@v3
-+      - uses: actions/download-artifact@v4
-         with:
-           name: coverage
-</code></pre>
+    <pre class="code-block"><code>No safe patch generated. Review platform, runner, shared artifact names, hidden files, and download compatibility using each finding&#x27;s source.</code></pre>
   </body>
 </html>

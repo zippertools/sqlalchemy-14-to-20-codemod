@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from pydantic_v2_porter.discovery import discover_python_targets
@@ -12,7 +12,7 @@ DEFAULT_REPORT = "pydantic-v2-porter-report.json"
 
 
 def _utc_now() -> str:
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def run_migration(root: Path, apply: bool, show_diff: bool) -> MigrationReport:

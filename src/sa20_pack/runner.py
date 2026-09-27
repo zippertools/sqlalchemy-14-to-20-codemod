@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from sa20_pack.discovery import iter_python_files
@@ -33,7 +33,7 @@ def run_migration(root: Path, apply: bool, show_diff: bool) -> MigrationReport:
     return MigrationReport(
         root_path=str(root),
         mode="dry-run",
-        created_at=datetime.now(UTC).isoformat(),
+        created_at=datetime.now(timezone.utc).isoformat(),
         files_scanned=len(file_results),
         file_results=file_results,
         validation_results=[],

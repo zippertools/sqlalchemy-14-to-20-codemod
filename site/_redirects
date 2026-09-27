@@ -1,9 +1,9 @@
 /favicon.ico /favicon.svg 301
 /go/free-scan https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/docs/quickstart.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=quickstart 302
 /go/actions-upgrade-guard-free https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/actions-upgrade-guard/README.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=actions-upgrade-guard 302
-/go/pydantic-free-scan https://github.com/zippertools/pydantic-v1-to-v2-codemod/blob/main/README.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=pydantic-v2-porter 302
+/go/pydantic-free-scan https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/README.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=pydantic-v2-porter 302
 /go/flatconfig-free-scan https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/flatconfig-lift/README.md?utm_source=zippertools&utm_medium=site&utm_campaign=free_scan&utm_content=flatconfig-lift 302
-/go/github-release https://github.com/zippertools/sqlalchemy-14-to-20-codemod/releases/tag/v0.1.1?utm_source=zippertools&utm_medium=site&utm_campaign=trust&utm_content=v0.1.1 302
+/go/github-release https://github.com/zippertools/sqlalchemy-14-to-20-codemod/releases/tag/v0.1.2?utm_source=zippertools&utm_medium=site&utm_campaign=trust&utm_content=v0.1.2 302
 /sqlalchemy-2-migration-scan /scan 301
 /sqlalchemy-2-migration-scan.html /scan 301
 /sqlalchemy-14-to-20-migration-pack /products/sa20-pack/ 301

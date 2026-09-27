@@ -181,7 +181,7 @@ const env = { ASSETS: { fetch: async () => new Response('asset') } };
 const routes = [
   ['/go/free-scan', '/docs/quickstart.md'],
   ['/go/actions-upgrade-guard-free', '/products/actions-upgrade-guard/README.md'],
-  ['/go/pydantic-free-scan', '/pydantic-v1-to-v2-codemod/blob/main/README.md'],
+  ['/go/pydantic-free-scan', '/products/pydantic-v2-porter/README.md'],
   ['/go/flatconfig-free-scan', '/products/flatconfig-lift/README.md'],
 ];
 const originalLog = console.log;
@@ -216,7 +216,8 @@ for (const [route, expectedPath] of routes) {
             "products/actions-upgrade-guard/README.md free_scan unit-test"
         ),
         (
-            "302 github.com /zippertools/pydantic-v1-to-v2-codemod/blob/main/"
+            "302 github.com /zippertools/sqlalchemy-14-to-20-codemod/blob/main/"
+            "products/pydantic-v2-porter/"
             "README.md free_scan unit-test"
         ),
         (
@@ -282,10 +283,12 @@ globalThis.fetch = originalFetch;
     )
     assert "utm_term=home-well" in lines[2]
     assert lines[3].startswith(
-        "302 https://github.com/zippertools/pydantic-v1-to-v2-codemod/blob/main/README.md"
+        "302 https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/README.md"
     )
     assert "utm_term=guide-pydantic-basesettings-moved" in lines[3]
-    assert lines[4].startswith("303 https://checkout.stripe.com/c/pay/cs_test_fit-report")
+    assert lines[4].startswith(
+        "303 https://checkout.stripe.com/c/pay/cs_test_fit-report"
+    )
     assert lines[5].startswith(
         "303 https://checkout.stripe.com/c/pay/cs_test_pydantic-v2-porter"
     )
@@ -362,10 +365,10 @@ const env = {
   PAID_ARTIFACTS: {
     get: async (key) => {
       assetHits.push(key);
-      if (key === 'manifest:sa20-pack-edge-case-pack.zip') {
+      if (key === 'manifest:sa20-pack-edge-case-pack-v0.1.2.zip') {
         return JSON.stringify({ chunks: 1, bytes: 9 });
       }
-      if (key === 'chunk:sa20-pack-edge-case-pack.zip:0') {
+      if (key === 'chunk:sa20-pack-edge-case-pack-v0.1.2.zip:0') {
         return btoa('zip-bytes');
       }
       return null;
@@ -404,9 +407,9 @@ console.log(await response.text());
 
     assert result.stdout.strip().splitlines() == [
         "https://api.stripe.com/v1/checkout/sessions/cs_test_paid",
-        "manifest:sa20-pack-edge-case-pack.zip",
+        "manifest:sa20-pack-edge-case-pack-v0.1.2.zip",
         "200",
-        'attachment; filename="sa20-pack-edge-case-pack.zip"',
+        'attachment; filename="sa20-pack-edge-case-pack-v0.1.2.zip"',
         "zip-bytes",
     ]
 
@@ -424,7 +427,7 @@ const env = {
   },
 };
 const response = await worker.fetch(
-  new Request('https://zippertools.org/__stripe_paid_assets/sa20-pack-edge-case-pack.zip'),
+  new Request('https://zippertools.org/__stripe_paid_assets/sa20-pack-edge-case-pack-v0.1.2.zip'),
   env,
 );
 console.log(response.status);

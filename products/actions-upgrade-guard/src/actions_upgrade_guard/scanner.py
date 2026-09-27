@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from datetime import timezone
 from pathlib import Path
 from typing import Any, cast
 
@@ -33,9 +34,9 @@ def _line_number(lines: list[str], needle: str) -> int | None:
 
 
 def _utc_now() -> str:
-    from datetime import UTC, datetime
+    from datetime import datetime
 
-    return datetime.now(UTC).isoformat()
+    return datetime.now(timezone.utc).isoformat()
 
 
 def _relative(root: Path, path: Path) -> str:
@@ -131,7 +132,7 @@ def _scan_workflow(
     findings: list[Finding] = []
     replacements: list[Replacement] = []
     relative = _relative(root, path)
-    lines = path.read_text(encoding="utf-8").splitlines()
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     workflow, error = _safe_load(path)
     if error:
         findings.append(
@@ -171,12 +172,16 @@ def _scan_workflow(
     for _job_name, job in jobs:
         runs_on_values = _string_values(job.get("runs-on"))
         for value in runs_on_values:
-            if value == "ubuntu-20.04":
+            if value == "ubuntu-20.04" and "self-hosted" not in runs_on_values:
                 findings.append(
                     _finding(
                         "AUG003",
                         relative,
-                        "Job still uses the retired ubuntu-20.04 hosted runner.",
+                        (
+                            "Job references ubuntu-20.04. This image is retired on G"
+                            "itHub-hosted runners; custom self-hosted labels require"
+                            " separate review."
+                        ),
                         line=_line_number(lines, "ubuntu-20.04"),
                         current=value,
                         recommended="Test and move to ubuntu-22.04 or ubuntu-24.04.",
@@ -214,7 +219,11 @@ def _scan_workflow(
                 _finding(
                     "AUG005",
                     relative,
-                    "Job opts out of Node24 by allowing the unsecure Node runtime.",
+                    (
+                        "Job declares the Node 20 opt-out; GitHub announced its "
+                        "removal on September 23, 2026. Review runner compatibil"
+                        "ity."
+                    ),
                     line=_line_number(lines, "ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION"),
                     current="ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION",
                 )
@@ -237,20 +246,10 @@ def _scan_workflow(
                     _finding(
                         rule_id,
                         relative,
-                        f"{before} should be upgraded to {after}.",
+                        f"Review {before}: compatibility is unverified.",
                         line=_line_number(lines, before),
                         current=before,
-                        recommended=f"Replace with {after} and rerun the workflow.",
-                    )
-                )
-                replacements.append(
-                    Replacement(
-                        rule_id=rule_id,
-                        title=metadata.title,
-                        path=path,
-                        before=before,
-                        after=after,
-                        description=f"Replace {before} with {after}.",
+                        recommended=metadata.recommendation,
                     )
                 )
 
@@ -280,7 +279,7 @@ def _scan_workflow(
 
 def _scan_local_action(root: Path, path: Path) -> list[Finding]:
     relative = _relative(root, path)
-    lines = path.read_text(encoding="utf-8").splitlines()
+    lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
     payload, error = _safe_load(path)
     if error:
         return [
@@ -362,8 +361,16 @@ def scan_repo(root: Path, apply: bool = False) -> ScanReport:
             "Runs locally; no GitHub token, source upload, or repository "
             "mutation required."
         ),
-        "Only deterministic action-version upgrades are patched automatically.",
-        "Runner, permissions, and runtime findings are reported for review.",
+        (
+            "No safe patch: platform, runner, and artifact behavior "
+            "cannot be established from action tags alone. All curre"
+            "nt upgrade rules require manual review."
+        ),
+        "Rules reviewed 2026-09-26; no rules eligible for automatic application.",
+        (
+            "No supported findings detected does not establish repos"
+            "itory safety or exhaustive compatibility."
+        ),
     ]
     if not workflow_files:
         notes.append("No .github/workflows/*.yml or *.yaml files were found.")

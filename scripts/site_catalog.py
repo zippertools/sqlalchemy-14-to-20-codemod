@@ -10,25 +10,15 @@ SITE_URL = "https://zippertools.org"
 INDEXNOW_KEY = "66d2924ff8a74b898f29b91e27b2fce8"
 REPO_URL = "https://github.com/zippertools/sqlalchemy-14-to-20-codemod"
 PYDANTIC_REPO_URL = "https://github.com/zippertools/pydantic-v1-to-v2-codemod"
-PUBLIC_RELEASE_TAG = "v0.1.1"
-PYDANTIC_RELEASE_TAG = "v0.1.1"
+PUBLIC_RELEASE_TAG = "v0.1.2"
+PYDANTIC_RELEASE_TAG = "v0.1.2"
 SUPPORT_EMAIL = "support@zippertools.org"
-SALE_NAME = "Migration Sprint Sale"
-SALE_BADGE = "90% off"
-SALE_DISCOUNT_PERCENT = 90
-SALE_STRIPE_COUPON_ID = "ro5ZyRLf"
-SALE_START_ISO = "2026-05-06T07:00:00Z"
-SALE_END_ISO = "2026-05-28T06:59:59Z"
-SALE_END_LABEL = "May 27, 2026 at 11:59 PM Pacific"
-SALE_COPY = (
-    f"{SALE_NAME}: {SALE_BADGE} every listed paid product through "
-    f"{SALE_END_LABEL}. Discount is applied automatically in Stripe Checkout."
-)
 SA20_INSTALL_URL = f"{REPO_URL}/archive/refs/tags/{PUBLIC_RELEASE_TAG}.zip"
 # pip's `#subdirectory=` fragment works on both git+ URLs and archive zip URLs.
 # Use the archive form so users do not need a local git binary.
 PYDANTIC_INSTALL_URL = (
-    f"{PYDANTIC_REPO_URL}/archive/refs/tags/{PYDANTIC_RELEASE_TAG}.zip"
+    f"{REPO_URL}/archive/refs/tags/{PUBLIC_RELEASE_TAG}.zip"
+    "#subdirectory=products/pydantic-v2-porter"
 )
 FLATCONFIG_INSTALL_URL = (
     f"{REPO_URL}/archive/refs/tags/{PUBLIC_RELEASE_TAG}.zip"
@@ -52,11 +42,11 @@ REFUND_LANGUAGE = "14-day refund review for published-scope or delivery mismatch
 
 FIT_REPORT_ROUTE = "/go/fit-report"
 FIT_REPORT_REGULAR_PRICE = "$99"
-FIT_REPORT_PRICE = "$9.90"
+FIT_REPORT_PRICE = FIT_REPORT_REGULAR_PRICE
 FIT_REPORT_NAME = "SQLAlchemy/Pydantic Fit Report Add-on"
 FIT_REPORT_LABEL = "SQLAlchemy/Pydantic fit report"
 FIT_REPORT_PRODUCT_SLUGS = frozenset(("sa20-pack", "pydantic-v2-porter"))
-FIT_REPORT_CTA = f"Buy automated fit report - {FIT_REPORT_PRICE} sale"
+FIT_REPORT_CTA = f"Buy automated fit report - {FIT_REPORT_PRICE}"
 FIT_REPORT_SCOPE_NOTE = (
     "Use this only with SQLAlchemy or Pydantic scanner output. It is not listed "
     "for ESLint proof-only pages."
@@ -85,26 +75,12 @@ def format_cents(cents: int) -> str:
     return f"${dollars.quantize(Decimal('0.01'))}"
 
 
-def sale_price_cents(price: str) -> int:
-    return int(
-        (
-            Decimal(price_to_cents(price))
-            * Decimal(100 - SALE_DISCOUNT_PERCENT)
-            / Decimal("100")
-        ).quantize(Decimal("1"), rounding=ROUND_HALF_UP)
-    )
+def price_display(price: str) -> str:
+    return format_cents(price_to_cents(price))
 
 
-def sale_price_display(price: str) -> str:
-    return format_cents(sale_price_cents(price))
-
-
-def sale_price_detail(price: str) -> str:
-    return f"{sale_price_display(price)} during {SALE_NAME}; normally ${price} per team"
-
-
-def sale_cta_price(price: str) -> str:
-    return f"{sale_price_display(price)} sale"
+def price_detail(price: str) -> str:
+    return f"{price_display(price)} per team"
 
 
 @dataclass(frozen=True)
@@ -2077,17 +2053,17 @@ PRODUCTS: tuple[ProductPage, ...] = (
         slug="actions-upgrade-guard",
         name="GitHub Actions Upgrade Guard",
         family="GitHub Actions deadline-readiness",
-        description="Local scanner for GitHub Actions workflow deprecations, runner drift, permissions risk, and safe patch previews.",
-        summary="Use Action Guard when workflow deadlines or platform changes are likely to break CI and you need a local report, patch preview, and fail-closed findings before checkout exists.",
+        description="Local scanner for GitHub Actions workflow deprecations, runner drift, permissions risk, and manual migration guidance.",
+        summary="Use Action Guard when workflow deadlines or platform changes are likely to break CI and you need a local report, source-linked manual alternatives, and fail-closed findings.",
         who_it_is_for=(
             "Platform engineers responsible for keeping many GitHub Actions workflows current.",
             "DevOps leads cleaning up artifact, cache, runner, Node runtime, and permission risks before they block releases.",
             "Repo owners who need a manager-readable Actions risk report without giving a hosted service repository access.",
         ),
         proof_points=(
-            "Public proof shows deprecated artifact and cache actions detected with a patch preview.",
+            "Public proof shows legacy artifact and cache references with explicit manual review and no automatic edits.",
             "Runner, Node runtime, permission, local-action, and invalid-YAML cases stay visible as findings instead of guessed fixes.",
-            "The scanner runs locally with no GitHub token, source upload, or repo mutation unless apply mode is explicitly used.",
+            "The scanner runs locally with no GitHub token, source upload, or automatic workflow edits.",
         ),
         not_for=(
             "Teams looking for hosted monitoring or automatic GitHub account access.",
@@ -2095,11 +2071,7 @@ PRODUCTS: tuple[ProductPage, ...] = (
             "Security hardening beyond the documented workflow-upgrade rules.",
         ),
         guide_slugs=(),
-        docs=(
-            ("README", ACTION_GUARD_README_PATH),
-            ("Product Wells doctrine", "docs/autonomous-product-wells.md"),
-            ("Overhaul checklist", "docs/product-wells-overhaul-todo.md"),
-        ),
+        docs=(("README", ACTION_GUARD_README_PATH),),
         price="",  # Paid SKU intentionally paused until proof demand is visible.
     ),
     ProductPage(

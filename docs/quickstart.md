@@ -3,7 +3,7 @@
 ## Install and run
 
 ```bash
-python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.1.zip"
+python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip"
 python -m sa20_pack.cli . --report migration-report.json
 ```
 

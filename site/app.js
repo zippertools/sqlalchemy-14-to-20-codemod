@@ -1,5 +1,6 @@
 import {
   checkoutSale,
+  saleIsActive,
   commerce,
   productByKey,
   productTrackingUrl,
@@ -79,21 +80,6 @@ import {
       return blobUrl("docs/quickstart.md");
     }
     return product.checkoutUrl || product.links?.[0]?.href || "#";
-  }
-
-  function saleIsActive() {
-    if (!checkoutSale?.active) {
-      return false;
-    }
-    const now = Date.now();
-    const startsAt = Date.parse(checkoutSale.startsAt || "");
-    const endsAt = Date.parse(checkoutSale.endsAt || "");
-    return (
-      Number.isFinite(startsAt) &&
-      Number.isFinite(endsAt) &&
-      now >= startsAt &&
-      now <= endsAt
-    );
   }
 
   function applySaleBanner() {

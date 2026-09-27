@@ -99,3 +99,7 @@ python -m sa20_pack.cli public_repo_trials/sa20-pack/airflow-db-cleanup --report
 - full `Query` API migration to `select()`
 - package, test, or database integration success for every public repo that
   contains one supported snippet
+
+## September 26, 2026 validation correction
+
+Historical `validated` statuses below do not establish that application checks ran: the old runner accepted an all-skipped validation set. Version 0.1.2 reports `validation_not_run` in that case. Historical rewrite examples remain static rewrite evidence, not verified application compatibility. Run your own configured checks on a copy before adopting changes.

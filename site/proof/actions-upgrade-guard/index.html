@@ -4,17 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GitHub Actions Upgrade Guard proof | Zipper Tools</title>
-    <meta name="description" content="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, patch preview, and fail-closed findings." />
+    <meta name="description" content="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, manual alternatives, and fail-closed findings." />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://zippertools.org/proof/actions-upgrade-guard/" />
     <meta property="og:title" content="GitHub Actions Upgrade Guard proof" />
-    <meta property="og:description" content="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, patch preview, and fail-closed findings." />
+    <meta property="og:description" content="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, manual alternatives, and fail-closed findings." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zippertools.org/proof/actions-upgrade-guard/" />
     <meta property="og:image" content="https://zippertools.org/og-preview.svg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="GitHub Actions Upgrade Guard proof" />
-    <meta name="twitter:description" content="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, patch preview, and fail-closed findings." />
+    <meta name="twitter:description" content="Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, manual alternatives, and fail-closed findings." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../../styles.css" />
     <script src="../../config.js"></script>
@@ -31,7 +31,7 @@
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "GitHub Actions Upgrade Guard proof",
-    "description": "Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, patch preview, and fail-closed findings.",
+    "description": "Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, manual alternatives, and fail-closed findings.",
     "url": "https://zippertools.org/proof/actions-upgrade-guard/",
     "isPartOf": {
       "@type": "WebSite",
@@ -73,15 +73,14 @@
     </script>
   </head>
   <body>
-    <header class="site-header"><div class="wrap nav"><a class="brand" href="/">Zipper Tools</a><nav class="nav-links" aria-label="Primary"><a href="/wells/">Wells</a><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/framework/">Framework</a><a href="/pricing">Pricing</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a></nav></div></header>
+    <header class="site-header"><div class="wrap nav"><a class="brand" href="/">Zipper Tools</a><nav class="nav-links" aria-label="Primary"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a></nav></div></header>
     <main class="wrap">
       <section class="warning" id="launch-warning" aria-live="polite"></section>
-
       <section class="page-title">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/wells/">Wells</a></li><li><a href="/wells/github-actions-upgrade-guard/">Action Guard</a></li><li aria-current="page">Proof</li></ol></nav>
         <p class="kicker">Public proof</p>
         <h1>GitHub Actions Upgrade Guard proof artifacts</h1>
-        <p>Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, patch preview, and fail-closed findings.</p>
+        <p>Public proof artifacts for GitHub Actions Upgrade Guard, including before workflow, command, generated report, manual alternatives, and fail-closed findings.</p>
       </section>
 
       <section class="section">
@@ -89,10 +88,10 @@
           <div class="conversion-copy">
             <p class="kicker">Proof artifact</p>
             <h2>One fixture run, shown as files a buyer can inspect.</h2>
-            <p>The proof page publishes the before workflow, command, JSON report excerpt, HTML report artifact, patch preview, and fail-closed findings for the first Product Well.</p>
+            <p>The proof page publishes the before workflow, command, JSON report excerpt, HTML report artifact, no-safe-patch explanation, and fail-closed findings for GitHub Actions Upgrade Guard.</p>
           </div>
           <div class="conversion-actions">
-            <ul class="action-list"><li><a class="button" href="/go/actions-upgrade-guard-free/proof-proof-actions-upgrade-guard">Run free Action Guard scanner</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/products/actions-upgrade-guard/">Open product page</a><span class="sr-only">.</span></li><li><a class="button secondary" href="actions-upgrade-report.json">Open JSON artifact</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/proof/actions-upgrade-guard/actions-upgrade-report">Open HTML artifact</a><span class="sr-only">.</span></li><li><a class="button secondary" href="patch-preview.diff">Open patch preview</a><span class="sr-only">.</span></li></ul>
+            <ul class="action-list"><li><a class="button" href="/go/actions-upgrade-guard-free/proof-proof-actions-upgrade-guard">Run free Action Guard scanner</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/products/actions-upgrade-guard/">Open product page</a><span class="sr-only">.</span></li><li><a class="button secondary" href="actions-upgrade-report.json">Open JSON artifact</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/proof/actions-upgrade-guard/actions-upgrade-report">Open HTML artifact</a><span class="sr-only">.</span></li><li><a class="button secondary" href="patch-preview.diff">Read no-safe-patch explanation</a><span class="sr-only">.</span></li></ul>
           </div>
         </article>
       </section>
@@ -128,36 +127,15 @@ python -m actions_upgrade_guard.cli . --report actions-upgrade-report.json --htm
           <article class="page-panel">
             <h2>Buyer-readable report excerpt</h2>
             <pre class="code-block"><code>status: manual_review_required
-rule_pack_version: 2026.05.14
+rule_pack_version: 2026.09.26
 scanned_files: .github/workflows/build.yml
 blocking_findings: 3
-autofix_findings: AUG001, AUG002
-manual_review: AUG006, AUG008</code></pre>
+autofix_findings: none
+manual_review: AUG001, AUG002; informational: AUG006, AUG008</code></pre>
           </article>
           <article class="page-panel">
             <h2>Patch preview</h2>
-            <pre class="code-block"><code>--- a/.github/workflows/build.yml
-+++ b/.github/workflows/build.yml
-@@ -9,15 +9,15 @@
-     runs-on: ubuntu-latest
-     steps:
-       - uses: actions/checkout@v4
--      - uses: actions/cache@v2
-+      - uses: actions/cache@v4
-         with:
-           path: ~/.cache/pip
-           key: pip-${{ runner.os }}-${{ hashFiles(&#x27;requirements.txt&#x27;) }}
-       - run: pytest
--      - uses: actions/upload-artifact@v3
-+      - uses: actions/upload-artifact@v4
-         with:
-           name: coverage
-           path: htmlcov
--      - uses: actions/download-artifact@v3
-+      - uses: actions/download-artifact@v4
-         with:
-           name: coverage
-</code></pre>
+            <pre class="code-block"><code>No safe patch generated. Review platform, runner, shared artifact names, hidden files, and download compatibility using each finding&#x27;s source.</code></pre>
           </article>
         </div>
       </section>
@@ -180,11 +158,11 @@ manual_review: AUG006, AUG008</code></pre>
       <section class="section">
         <article class="page-panel">
           <h2>Why this is not just actionlint</h2>
-          <p>Action Guard is not trying to replace syntax linting. It is a deadline-readiness report: source-backed deprecation rules, fixability classification, safe patch previews, and a manager-readable risk surface for workflow changes that can break releases.</p>
+          <p>Action Guard is not trying to replace syntax linting. It is a deadline-readiness report: source-backed deprecation rules, fixability classification, manual migration guidance, and a manager-readable risk surface for workflow changes that can break releases.</p>
         </article>
       </section>
 
     </main>
-    <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/wells/">Wells</a><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/framework/">Framework</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
+    <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
   </body>
 </html>

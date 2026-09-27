@@ -50,7 +50,7 @@ inside the supported validator and settings patterns.
 Install from the public GitHub repo subproject and scan a local checkout:
 
 ```bash
-python -m pip install "https://github.com/zippertools/pydantic-v1-to-v2-codemod/archive/refs/tags/v0.1.1.zip"
+python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip#subdirectory=products/pydantic-v2-porter"
 python -m pydantic_v2_porter.cli path/to/repo --report migration-report.json
 ```
 

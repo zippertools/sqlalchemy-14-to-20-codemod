@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-
 from legacy_shop.models import Base, Customer, Invoice
 from legacy_shop.reports import (
     create_invoice_statement,
@@ -12,6 +9,8 @@ from legacy_shop.reports import (
     mark_invoice_paid_statement,
     paid_customers_with_invoices,
 )
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 
 def _session() -> Session:

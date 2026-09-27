@@ -41,6 +41,8 @@ def _print_summary(report: MigrationReport) -> None:
     _write_console(f"Files changed: {len(report.files_changed)}")
     _write_console(f"Unsupported findings: {len(report.findings)}")
     _write_console(f"Confidence: {report.confidence:.3f}")
+    if not report.transforms_applied and not report.findings:
+        _write_console("No supported findings detected.")
     if report.transforms_applied:
         _write_console("Commercial pack coverage candidates:")
         for transform in report.transforms_applied:

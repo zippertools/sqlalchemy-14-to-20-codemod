@@ -2,25 +2,28 @@ from __future__ import annotations
 
 from actions_upgrade_guard.models import Rule
 
-RULE_PACK_VERSION = "2026.05.14"
+RULE_PACK_VERSION = "2026.09.26"
 
 ARTIFACT_V3_SOURCE = (
-    "https://github.blog/changelog/2024-04-16-deprecation-notice-v3-of-the-artifact-actions/"
+    "https://github.blog/changelog/2024-04-16-deprecation-no"
+    "tice-v3-of-the-artifact-actions/"
 )
 CACHE_V2_SOURCE = (
-    "https://github.blog/changelog/2024-09-16-notice-of-upcoming-deprecations-and-changes-in-github-actions-services/"
+    "https://github.blog/changelog/2025-01-15-github-actions-"
+    "ubuntu-20-runner-image-brownout-dates-and-other-breaking-changes/"
 )
 UBUNTU_20_SOURCE = (
-    "https://github.blog/changelog/2025-01-15-github-actions-ubuntu-20-runner-image-brownout-dates-and-other-breaking-changes/"
+    "https://github.blog/changelog/2025-01-15-github-actions"
+    "-ubuntu-20-runner-image-brownout-dates-and-other-breaki"
+    "ng-changes/"
 )
-NODE20_SOURCE = (
-    "https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
-)
+NODE20_SOURCE = "https://github.blog/changelog/2026-09-23-node-20-is-no-longer-available-in-github-actions/"
 IMAGE_MIGRATIONS_SOURCE = (
     "https://github.blog/changelog/2026-05-14-github-actions-upcoming-image-migrations"
 )
 PERMISSIONS_SOURCE = (
-    "https://docs.github.com/en/actions/security-for-github-actions/security-guides/automatic-token-authentication"
+    "https://docs.github.com/en/actions/security-for-github-"
+    "actions/security-guides/automatic-token-authentication"
 )
 
 RULES: dict[str, Rule] = {
@@ -29,32 +32,40 @@ RULES: dict[str, Rule] = {
         title="Artifact action v3 is retired on GitHub.com",
         category="deadline",
         severity="critical",
-        classification="autofix",
+        classification="manual_review",
         source_url=ARTIFACT_V3_SOURCE,
         source_label="GitHub Changelog: Deprecation notice v3 artifact actions",
         deadline="2025-01-30",
-        autofix=True,
+        autofix=False,
         description=(
             "actions/upload-artifact@v3 and actions/download-artifact@v3 are "
             "retired on GitHub.com and can fail workflows."
         ),
-        recommendation="Update artifact actions to v4 and review v4 behavior changes.",
+        recommendation=(
+            "On GitHub.com, review artifact migration guidance: v4 c"
+            "hanges shared names, hidden files, and download compati"
+            "bility. GHES requires separate review."
+        ),
     ),
     "AUG002": Rule(
         id="AUG002",
-        title="Actions cache v1/v2 is retired",
+        title="Legacy cache action requires compatibility review",
         category="deadline",
         severity="critical",
-        classification="autofix",
+        classification="manual_review",
         source_url=CACHE_V2_SOURCE,
         source_label="GitHub Changelog: cache v1-v2 deprecation",
         deadline="2025-03-01",
-        autofix=True,
+        autofix=False,
         description=(
             "actions/cache v1 and v2 are retired after the cache service "
             "architecture migration."
         ),
-        recommendation="Update actions/cache to v4 and run the workflow before merge.",
+        recommendation=(
+            "Review current cache releases and runner requirements ("
+            "new cache service needs runner >=2.231.0). Test locally"
+            " chosen versions in CI before merging."
+        ),
     ),
     "AUG003": Rule(
         id="AUG003",
@@ -80,12 +91,12 @@ RULES: dict[str, Rule] = {
         classification="manual_review",
         source_url=NODE20_SOURCE,
         source_label="GitHub Changelog: Node 20 deprecation on Actions runners",
-        deadline="2026-06-02",
+        deadline="2026-09-23",
         autofix=False,
         description=(
-            "Node20 is being deprecated on GitHub Actions runners. Local "
-            "JavaScript actions should be tested on Node24 before the runner "
-            "default changes."
+            "Node20 was removed on September 23, 2026 for GitHub.com and "
+            "Data Residency runners. Test local actions on Node24; "
+            "server edition and self-hosted prerequisites require review."
         ),
         recommendation=(
             "Update local action metadata to node24 after compatibility testing."
@@ -99,11 +110,11 @@ RULES: dict[str, Rule] = {
         classification="manual_review",
         source_url=NODE20_SOURCE,
         source_label="GitHub Changelog: Node 20 deprecation on Actions runners",
-        deadline="2026-06-02",
+        deadline="2026-09-23",
         autofix=False,
         description=(
-            "ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION is a temporary opt-out "
-            "from the Node24 default and should not become permanent policy."
+            "The Node20 opt-out is no longer available on current GitHub.com "
+            "runners. Review action and runner compatibility."
         ),
         recommendation="Remove the opt-out after action dependencies support Node24.",
     ),
@@ -147,7 +158,7 @@ RULES: dict[str, Rule] = {
         classification="informational",
         source_url=IMAGE_MIGRATIONS_SOURCE,
         source_label="GitHub Changelog: upcoming image migrations",
-        deadline="2026-06-15",
+        deadline=None,
         autofix=False,
         description=(
             "latest runner labels can move under a workflow without a code "

@@ -45,15 +45,13 @@ only the private paid artifact mapping beside the checkout code.
 
 Before sending paid traffic:
 
-1. set the Stripe test secrets from
-   [`stripe-checkout.md`](stripe-checkout.md)
-2. confirm all paid ZIPs exist in the `PAID_ARTIFACTS` Workers KV namespace
-3. deploy the Worker
-4. run a test checkout through each live `/go/...` route
-5. confirm no checkout screen shows inventory/scarcity text or tiny ZIP-size
-   framing
-6. confirm `/stripe/delivery` opens the matching paid artifact only after a
-   paid Checkout Session
+1. run a local sandbox checkout as described in [Stripe testing](stripe-checkout.md)
+2. verify all paid ZIPs exist and their downloaded contents match published scope
+3. verify regular prices with read-only live Stripe requests
+4. deploy only after all release gates pass; preserve production Stripe secrets
+5. smoke-test public pages and unpaid delivery rejection without a real charge
+
+A `/test` route suffix is a tracking label, not Stripe test mode.
 
 ## 3. Deploy the storefront
 
@@ -96,7 +94,7 @@ Before announcing anything:
 3. verify success and cancel pages load
 4. verify policy links work
 5. verify analytics appear in Cloudflare
-6. verify at least one real checkout works end to end
+6. verify the real Stripe sandbox flow works end to end
 7. run `python -m sa20_pack.launch_readiness`
 
 ## 7. Where to view progress

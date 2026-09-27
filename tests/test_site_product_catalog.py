@@ -1,10 +1,83 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
+from decimal import Decimal
 from pathlib import Path
 
 from scripts.build_site import build_site
+
+
+def test_expired_promotion_prices_match_checkout_and_structured_offers() -> None:
+    script = """
+Date.now = () => Date.parse('2026-09-26T12:00:00Z');
+const {checkoutProducts, saleIsActive} = await import('./site/product_catalog.mjs');
+const {STRIPE_PRODUCTS} = await import('./worker/index.mjs');
+console.log(JSON.stringify({
+  windows: ['2026-05-06T06:59:59Z', '2026-05-07T12:00:00Z',
+            '2026-05-28T07:00:00Z', 'invalid'].map(t => saleIsActive(Date.parse(t))),
+  products: Object.values(checkoutProducts).map(p => ({
+    slug: p.slug, price: p.price, detail: p.priceDetail, cta: p.ctaLabel,
+    checkout: STRIPE_PRODUCTS[p.checkoutSlug].unitAmount,
+  })),
+}));
+"""
+    result = subprocess.run(
+        ["node", "--input-type=module", "-e", script],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    data = json.loads(result.stdout)
+    assert data["windows"] == [False, True, False, False]
+    build_site(Path("site"))
+    for product in data["products"]:
+        assert Decimal(product["price"].removeprefix("$")) * 100 == product["checkout"]
+        assert "sale" not in product["cta"].lower()
+        assert "sale" not in product["detail"].lower()
+        html = Path(f"site/products/{product['slug']}/index.html").read_text(
+            encoding="utf-8"
+        )
+        schemas = re.findall(
+            r'<script type="application/ld\+json">(.*?)</script>', html, re.S
+        )
+        offers = [
+            item["offers"]
+            for block in schemas
+            for item in json.loads(block)
+            if "offers" in item
+        ]
+        assert offers, product["slug"]
+        for offer in offers:
+            assert Decimal(offer["price"]) * 100 == product["checkout"]
+            assert "priceValidUntil" not in offer
+
+
+def test_public_html_does_not_advertise_retired_promotion() -> None:
+    for path in Path("site").rglob("*.html"):
+        html = path.read_text(encoding="utf-8")
+        for stale in (
+            "Migration Sprint Sale",
+            "90% off",
+            "2026-05-27",
+            "$9.90",
+            "Sale price",
+        ):
+            assert stale not in html, f"{path}: {stale}"
+    for name in (
+        "index.html",
+        "products/index.html",
+        "products/actions-upgrade-guard/index.html",
+    ):
+        html = (Path("site") / name).read_text(encoding="utf-8")
+        for internal in (
+            "demand test",
+            "Expansion gate",
+            "Product Wells doctrine",
+            "Overhaul checklist",
+        ):
+            assert internal not in html, f"{name}: {internal}"
 
 
 def test_product_catalog_order_status_and_ctas() -> None:
@@ -21,23 +94,18 @@ def test_product_catalog_order_status_and_ctas() -> None:
     eslint_pos = html.index("ESLint Flat Config Migration Cleanup Pack")
 
     assert (
-        action_pos
-        < fit_pos
-        < sqlalchemy_pos
-        < pydantic_pos
-        < preset_pos
-        < eslint_pos
+        action_pos < fit_pos < sqlalchemy_pos < pydantic_pos < preset_pos < eslint_pos
     )
     assert html.count('class="status-label available">Available now') == 4
     assert "Example/proof page only" in html
-    assert "Current Product Well" in html
+    assert "Free local scanner" in html
     assert "/go/actions-upgrade-guard-free/catalog-card-products" in html
     assert "/products/actions-upgrade-guard/" in html
     assert "/proof/actions-upgrade-guard/" in html
-    assert "$9.90 during Migration Sprint Sale; normally $99 per team" in html
-    assert "$30 during Migration Sprint Sale; normally $299.99 per team" in html
-    assert "$25 during Migration Sprint Sale; normally $249.99 per team" in html
-    assert "$15 during Migration Sprint Sale; normally $149.99 per team" in html
+    assert "$99 per team" in html
+    assert "$299.99 per team" in html
+    assert "$249.99 per team" in html
+    assert "$149.99 per team" in html
     assert "Not currently purchasable" in html
     assert "Read proof page" in html
     assert "/products/fit-report/" in html
@@ -50,10 +118,10 @@ def test_product_catalog_order_status_and_ctas() -> None:
     assert "/go/sa20-preset/catalog-card-products" in html
     assert "View fit report details" in html
     assert "View rollout kit details" in html
-    assert "Buy automated fit report - $9.90 sale" in html
-    assert "Buy cleanup pack - $30 sale" in html
-    assert "Buy Pydantic cleanup pack - $25 sale" in html
-    assert "Buy preset bundle - $15 sale" in html
+    assert "Buy automated fit report - $99" in html
+    assert "Buy cleanup pack - $299.99" in html
+    assert "Buy Pydantic cleanup pack - $249.99" in html
+    assert "Buy preset bundle - $149.99" in html
     assert html.count("Secure checkout is handled by Stripe.") == 4
     assert "Labs and proofs" in html
     catalog_text = Path("site/product_catalog.mjs").read_text(encoding="utf-8")
@@ -78,11 +146,9 @@ def test_product_catalog_order_status_and_ctas() -> None:
         "</nav>", 1
     )[0]
     expected_nav = (
-        "Wells",
         "Scan",
         "Library",
         "Guides",
-        "Framework",
         "Pricing",
         "Policies",
         "Repo",
@@ -91,11 +157,9 @@ def test_product_catalog_order_status_and_ctas() -> None:
     assert positions == sorted(positions)
     footer_html = html.split('<div class="footer-links">', 1)[1].split("</div>", 1)[0]
     expected_footer = (
-        "Wells",
         "Scan",
         "Library",
         "Guides",
-        "Framework",
         "Pricing",
         "Demo",
         "Policies",
@@ -182,10 +246,10 @@ console.log(JSON.stringify({
         "sa20-preset": 14999,
     }
     assert data["ctaLabels"] == {
-        "fitReport": "Buy automated fit report - $9.90 sale",
-        "pydantic": "Buy Pydantic cleanup pack - $25 sale",
-        "sa20": "Buy cleanup pack - $30 sale",
-        "sa20Preset": "Buy preset bundle - $15 sale",
+        "fitReport": "Buy automated fit report - $99",
+        "pydantic": "Buy Pydantic cleanup pack - $249.99",
+        "sa20": "Buy cleanup pack - $299.99",
+        "sa20Preset": "Buy preset bundle - $149.99",
     }
     assert data["sale"] == {
         "active": True,

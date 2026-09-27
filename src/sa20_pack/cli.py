@@ -38,6 +38,12 @@ def _build_parser() -> argparse.ArgumentParser:
 
 def _print_summary(report: MigrationReport) -> None:
     _write_console(f"Status: {report.status}")
+    if (
+        not report.transform_count
+        and not report.unsupported_count
+        and not report.parse_error_count
+    ):
+        _write_console("No supported findings detected.")
     _write_console(f"Files scanned: {report.files_scanned}")
     _write_console(f"Files changed: {len(report.files_changed)}")
     _write_console(f"Transforms applied: {report.transform_count}")

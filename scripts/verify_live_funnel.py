@@ -28,32 +28,26 @@ from dataclasses import dataclass, field
 
 DEFAULT_BASE_URL = "https://zippertools.org"
 REPO_URL = "https://github.com/zippertools/sqlalchemy-14-to-20-codemod"
-PYDANTIC_REPO_URL = "https://github.com/zippertools/pydantic-v1-to-v2-codemod"
+PYDANTIC_REPO_URL = REPO_URL
 RAW_REPO_URL = (
-    "https://raw.githubusercontent.com/zippertools/"
-    "sqlalchemy-14-to-20-codemod/main"
+    "https://raw.githubusercontent.com/zippertools/sqlalchemy-14-to-20-codemod/main"
 )
-PYDANTIC_RAW_REPO_URL = (
-    "https://raw.githubusercontent.com/zippertools/"
-    "pydantic-v1-to-v2-codemod/main"
-)
+PYDANTIC_RAW_REPO_URL = "https://raw.githubusercontent.com/zippertools/sqlalchemy-14-to-20-codemod/main/products/pydantic-v2-porter"
 GITHUB_API_CONTENTS_URL = (
-    "https://api.github.com/repos/zippertools/"
-    "sqlalchemy-14-to-20-codemod/contents"
+    "https://api.github.com/repos/zippertools/sqlalchemy-14-to-20-codemod/contents"
 )
 
 SQLALCHEMY_INSTALL = (
     'python -m pip install "https://github.com/zippertools/'
-    'sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.1.zip"'
+    'sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip"'
 )
 SQLALCHEMY_RUN = "python -m sa20_pack.cli . --report migration-report.json"
 PYDANTIC_INSTALL = (
     'python -m pip install "https://github.com/zippertools/'
-    'pydantic-v1-to-v2-codemod/archive/refs/tags/v0.1.1.zip"'
+    'sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip#subdirectory=products/pydantic-v2-porter"'
 )
 PYDANTIC_RUN = (
-    "python -m pydantic_v2_porter.cli path/to/repo "
-    "--report migration-report.json"
+    "python -m pydantic_v2_porter.cli path/to/repo --report migration-report.json"
 )
 ACTION_GUARD_README_PATH = (
     "/zippertools/sqlalchemy-14-to-20-codemod/blob/main/"
@@ -167,9 +161,7 @@ REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
         "Secure checkout is handled by Stripe.",
         "Support: support@zippertools.org",
     ),
-    "/products/flatconfig-lift/": (
-        "No checkout is listed for this proof page yet.",
-    ),
+    "/products/flatconfig-lift/": ("No checkout is listed for this proof page yet.",),
     "/policies": (
         "Support:",
         "support@zippertools.org",
@@ -511,9 +503,8 @@ def check_free_scan_route(base_url: str, path: str) -> CheckResult:
         required = (SQLALCHEMY_INSTALL, SQLALCHEMY_RUN)
     elif parsed.netloc == "github.com" and parsed.path == ACTION_GUARD_README_PATH:
         required = ("GitHub Actions Upgrade Guard", "actions_upgrade_guard.cli")
-    elif (
-        parsed.netloc == "github.com"
-        and parsed.path.endswith("/pydantic-v1-to-v2-codemod/blob/main/README.md")
+    elif parsed.netloc == "github.com" and parsed.path.endswith(
+        "/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/README.md"
     ):
         required = (PYDANTIC_INSTALL, PYDANTIC_RUN)
     else:
@@ -566,7 +557,7 @@ def check_github_docs() -> list[CheckResult]:
         ),
         (
             "GitHub rendered Pydantic README",
-            f"{PYDANTIC_REPO_URL}/blob/main/README.md?plain=1",
+            f"{PYDANTIC_REPO_URL}/blob/main/products/pydantic-v2-porter/README.md?plain=1",
             (PYDANTIC_INSTALL, PYDANTIC_RUN),
             None,
         ),

@@ -1,5 +1,14 @@
 # AGENTS.md
 
+## Operating authority
+
+`docs/master-operating-directive.md` is the current owner directive. It takes
+precedence over older strategy and session notes below. Prioritize trust and
+purchasing defects, then one verified customer journey. Keep internal Product
+Well strategy out of purchasing paths. Preserve the directive's explicit owner
+approval boundaries for prices, policies, licenses, and consequential external
+actions. Historical commercial-ready claims below are not current launch proof.
+
 ## Mission
 
 Build a zero-cost, repo-native autonomous product-well engine for self-serve

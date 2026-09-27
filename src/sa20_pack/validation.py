@@ -3,7 +3,11 @@ from __future__ import annotations
 import os
 import subprocess
 import sys
-import tomllib
+
+if sys.version_info >= (3, 11):
+    import tomllib
+else:
+    import tomli as tomllib
 from importlib.util import find_spec
 from pathlib import Path
 

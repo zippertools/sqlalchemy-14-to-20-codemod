@@ -52,15 +52,14 @@
     },
     "offers": {
       "@type": "Offer",
-      "price": "15",
+      "price": "149.99",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://zippertools.org/products/sa20-preset/",
       "seller": {
         "@type": "Organization",
         "name": "Zipper Tools"
-      },
-      "priceValidUntil": "2026-05-27"
+      }
     }
   },
   {
@@ -73,11 +72,10 @@
     "url": "https://zippertools.org/products/sa20-preset/",
     "offers": {
       "@type": "Offer",
-      "price": "15",
+      "price": "149.99",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
-      "url": "https://zippertools.org/products/sa20-preset/",
-      "priceValidUntil": "2026-05-27"
+      "url": "https://zippertools.org/products/sa20-preset/"
     }
   },
   {
@@ -108,10 +106,9 @@
     </script>
   </head>
   <body>
-    <header class="site-header"><div class="wrap nav"><a class="brand" href="/">Zipper Tools</a><nav class="nav-links" aria-label="Primary"><a href="/wells/">Wells</a><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/framework/">Framework</a><a href="/pricing">Pricing</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a></nav></div></header>
+    <header class="site-header"><div class="wrap nav"><a class="brand" href="/">Zipper Tools</a><nav class="nav-links" aria-label="Primary"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a></nav></div></header>
     <main class="wrap">
       <section class="warning" id="launch-warning" aria-live="polite"></section>
-      <section class="sale-banner" data-sale-banner data-sale-ends="May 27, 2026 at 11:59 PM Pacific"><div><p class="kicker">90% off for three weeks</p><strong>Migration Sprint Sale</strong><span>Migration Sprint Sale: 90% off every listed paid product through May 27, 2026 at 11:59 PM Pacific. Discount is applied automatically in Stripe Checkout.</span></div><a class="button secondary" href="/pricing">See sale pricing</a></section>
       <section class="page-title">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/products/">Library</a></li><li aria-current="page">Migration Preset Bundle</li></ol></nav>
         <p class="kicker">Product</p>
@@ -126,10 +123,10 @@
             <h2>Buy this when the team needs rollout structure, not code rewrites.</h2>
             <p>The preset bundle is a documentation product for teams that already know what the scan found and need a cleaner way to plan, report, and hand off the work.</p>
             <ul class="clean decision-list"><li>Downloadable docs and presets; no repo upload.</li><li>Templates turn scanner output into manager and reviewer notes.</li><li>Manual-review findings stay visible instead of hidden.</li></ul>
-            <p class="price-line">Temporary sale price: <strong>$15</strong>. Normally $149.99 per team. 90% off is applied automatically in Stripe Checkout through May 27, 2026 at 11:59 PM Pacific.</p>
+            <p class="price-line">Price: <strong>$149.99</strong> per team.</p>
           </div>
           <div class="conversion-actions">
-            <div class="primary-cta"><a class="button" href="/go/sa20-preset/product-products-sa20-preset">Buy preset bundle - $15 sale</a></div>
+            <div class="primary-cta"><a class="button" href="/go/sa20-preset/product-products-sa20-preset">Buy preset bundle - $149.99</a></div>
             <div class="secondary-cta-group">
               <p class="caption cta-group-label">Secondary options</p>
               <ul class="action-list"><li><a class="button secondary" href="/scan">Run the SQLAlchemy scan first</a><span class="sr-only">.</span></li><li><a class="button secondary" href="#example-workflow">View example before/after</a><span class="sr-only">.</span></li></ul>
@@ -162,11 +159,12 @@
         <div class="section-heading">
           <p class="kicker">Example before/after</p>
           <h2>See the migration deliverable before checkout.</h2>
+          <p>Illustrative output format: sample counts and validation results below are not a run on your repository. Use the linked proof artifacts for recorded evidence. You can also make changes manually using the free report and migration guides.</p>
         </div>
         <div class="grid two">
           <article class="page-panel">
             <h3>Local command</h3>
-            <pre class="code-block"><code>python -m pip install &quot;https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.1.zip&quot;
+            <pre class="code-block"><code>python -m pip install &quot;https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip&quot;
 python -m sa20_pack.cli . --report migration-report.json
 # Then fill the purchased rollout templates from the local report.</code></pre>
             <p class="caption">This product is rollout documentation and presets, not the code rewrite engine.</p>
@@ -259,7 +257,7 @@ Risk: unsupported findings stay out of the rollout checklist.</code></pre>
             <p>Use checkout when you need rollout templates and manager-ready notes, not code rewrites.</p>
           </div>
           <div class="conversion-actions">
-            <div class="primary-cta"><a class="button" href="/go/sa20-preset/product-products-sa20-preset">Buy preset bundle - $15 sale</a></div>
+            <div class="primary-cta"><a class="button" href="/go/sa20-preset/product-products-sa20-preset">Buy preset bundle - $149.99</a></div>
             <div class="secondary-cta-group">
               <p class="caption cta-group-label">Secondary options</p>
               <ul class="action-list"><li><a class="button secondary" href="/scan">Run the SQLAlchemy scan first</a><span class="sr-only">.</span></li></ul>
@@ -274,6 +272,6 @@ Risk: unsupported findings stay out of the rollout checklist.</code></pre>
       </section>
 
     </main>
-    <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/wells/">Wells</a><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/framework/">Framework</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
+    <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
   </body>
 </html>

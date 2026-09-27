@@ -80,7 +80,8 @@ class MigrationReport:
 
     @property
     def validation_passed(self) -> bool:
-        return all(item.success for item in self.validation_results)
+        executed = [item for item in self.validation_results if not item.skipped]
+        return bool(executed) and all(item.success for item in executed)
 
     @property
     def parse_error_count(self) -> int:
@@ -110,6 +111,10 @@ class MigrationReport:
     def status(self) -> str:
         if self.parse_error_count > 0:
             return "parse_error"
+        if self.mode == "apply" and not any(
+            not item.skipped for item in self.validation_results
+        ):
+            return "validation_not_run"
         if self.mode == "apply" and not self.validation_passed:
             return "validation_failed"
         if self.unsupported_count > 0:
