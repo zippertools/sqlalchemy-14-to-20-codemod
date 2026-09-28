@@ -30,12 +30,12 @@ const env={STRIPE_SECRET_KEY:'test-only-cli-adapter',ASSETS:{fetch:async(req)=>n
  if(!r.ok)throw Error('KV read failed '+r.status);
  return r.text();
 }}};
-let webhookCount=0;
+const webhookSessions=new Set();
 const server=createServer(async(req,res)=>{
  try{
  const chunks=[];for await(const c of req)chunks.push(c);
  const r=await worker.fetch(new Request('http://localhost:8789'+req.url,{method:req.method,headers:req.headers,...(chunks.length?{body:Buffer.concat(chunks)}:{})}),env);
- if(req.url==='/stripe/webhook'&&r.status===200)webhookCount++;
+ if(req.url==='/stripe/webhook'&&r.status===200){const event=JSON.parse(Buffer.concat(chunks).toString());if(event.type==='checkout.session.completed')webhookSessions.add(event.data.object.id);}
  res.writeHead(r.status,Object.fromEntries(r.headers));res.end(Buffer.from(await r.arrayBuffer()));
  }catch(e){res.writeHead(500);res.end(e.message);}
 });
@@ -45,7 +45,7 @@ try{
  await new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(Error('Listener timeout')),30000);function read(c){const m=String(c).match(/whsec_[A-Za-z0-9]+/);if(m){env.STRIPE_WEBHOOK_SECRET=m[0];clearTimeout(timeout);resolve();}}listener.stdout.on('data',read);listener.stderr.on('data',read);});
  const results=[];
  for(const p of Object.values(STRIPE_PRODUCTS)){
-  const r=await worker.fetch(new Request('http://localhost:8789/go/'+p.slug+'/release-sandbox'),env);
+  const r=await worker.fetch(new Request('http://localhost:8789/go/'+p.slug+'/release-sandbox', {method:'POST',headers:{origin:'http://localhost:8789'}}),env);
   if(r.status!==303)throw Error('Checkout create failed '+await r.text());
   const url=r.headers.get('location');const id=url.match(/cs_test_[A-Za-z0-9]+/)[0];
   const unpaid=await worker.fetch(new Request('http://localhost:8789/stripe/delivery?session_id='+id),env);
@@ -65,9 +65,10 @@ try{
   writeFileSync('test_runs/release-evidence/'+p.artifactKey,bytes);
   results.push({product:p.slug,session:id,livemode:session.livemode,amount:session.amount_total,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex'),delivery:delivered.status,recovery:200,success:200});
  }
- const deadline=Date.now()+45000;
- while(webhookCount<4 && Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,500));
- if(webhookCount<4)throw Error('Expected four signed webhooks, got '+webhookCount);
+ const deadline=Date.now()+120000;
+ while(!results.every(result=>webhookSessions.has(result.session)) && Date.now()<deadline)await new Promise(resolve=>setTimeout(resolve,500));
+ if(!results.every(result=>webhookSessions.has(result.session)))throw Error('Missing signed webhook for a purchased test session');
+ const webhookCount=webhookSessions.size;
  writeFileSync('test_runs/release-evidence/sandbox-results.json',JSON.stringify({results,webhookCount},null,2));
  console.log(JSON.stringify({results,webhookCount}));
 }finally{listener.kill();server.close();}

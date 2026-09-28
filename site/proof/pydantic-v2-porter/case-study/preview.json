@@ -1,0 +1,82 @@
+{
+  "artifact_changes": [
+    {
+      "changed": true,
+      "diff": "--- a/app\\models.py\n+++ b/app\\models.py\n@@ -1,22 +1,20 @@\n-from pydantic import BaseModel, validator\n+from pydantic import BaseModel, field_validator\n \n \n class Order(BaseModel):\n     customer: str\n     quantity: int\n \n-    @validator(\"customer\")\n+    @field_validator(\"customer\")\n     def normalize_customer(cls, value):\n         value = value.strip()\n         if not value:\n             raise ValueError(\"customer required\")\n         return value\n \n-    @validator(\"quantity\")\n+    @field_validator(\"quantity\")\n     def positive_quantity(cls, value):\n         if value < 1:\n             raise ValueError(\"quantity must be positive\")\n         return value\n-\n-    class Config:\n-        extra = \"forbid\"\n+    model_config = {\"extra\": \"forbid\"}\n",
+      "kind": "update",
+      "path": "app\\models.py"
+    },
+    {
+      "changed": true,
+      "diff": "--- a/app\\settings.py\n+++ b/app\\settings.py\n@@ -1,8 +1,6 @@\n-from pydantic import BaseSettings\n+from pydantic_settings import BaseSettings\n \n \n class Settings(BaseSettings):\n     service_name: str = \"Order API\"\n-\n-    class Config:\n-        env_prefix = \"ZIPPER_PROOF_\"\n+    model_config = {\"env_prefix\": \"ZIPPER_PROOF_\"}\n",
+      "kind": "update",
+      "path": "app\\settings.py"
+    }
+  ],
+  "confidence": 0.88,
+  "created_at": "2026-09-28T02:18:50.121479+00:00",
+  "file_results": [
+    {
+      "changed": true,
+      "findings": [],
+      "notes": [],
+      "path": "app\\models.py",
+      "transforms_applied": [
+        "config_to_model_config",
+        "validator_to_field_validator"
+      ]
+    },
+    {
+      "changed": true,
+      "findings": [],
+      "notes": [
+        "Install the pydantic-settings package and update your dependency files."
+      ],
+      "path": "app\\settings.py",
+      "transforms_applied": [
+        "basesettings_import_move",
+        "config_to_model_config"
+      ]
+    },
+    {
+      "changed": false,
+      "findings": [
+        {
+          "blocking": true,
+          "code": "unsupported-validator-signature",
+          "line": null,
+          "message": "validator decorators only support exact two-parameter classmethod signatures like (cls, v).",
+          "path": "manual_review.py"
+        }
+      ],
+      "notes": [],
+      "path": "manual_review.py",
+      "transforms_applied": []
+    }
+  ],
+  "files_changed": [
+    "app\\models.py",
+    "app\\settings.py"
+  ],
+  "findings": [
+    {
+      "blocking": true,
+      "code": "unsupported-validator-signature",
+      "line": null,
+      "message": "validator decorators only support exact two-parameter classmethod signatures like (cls, v).",
+      "path": "manual_review.py"
+    }
+  ],
+  "mode": "dry-run",
+  "notes": [
+    "Install the pydantic-settings package and update your dependency files.",
+    "Unsupported files were left untouched. Review the findings before claiming the migration is complete."
+  ],
+  "root_path": "fastapi-orders",
+  "status": "manual_review_required",
+  "transforms_applied": [
+    "basesettings_import_move",
+    "config_to_model_config",
+    "validator_to_field_validator"
+  ]
+}

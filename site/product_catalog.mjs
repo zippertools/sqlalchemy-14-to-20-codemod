@@ -95,7 +95,7 @@ function pydanticRepoBlobUrl(path, content) {
 
 const paidAssurances = Object.freeze([
   "Stripe Checkout handles secure payment and receipts.",
-  "After payment, /stripe/delivery verifies the Stripe session and streams the purchased ZIP.",
+  "Download your purchased ZIP after payment.",
   "Runs locally; no hosted API, repo upload, or production credentials needed.",
   "14-day refund review for published-scope or delivery mismatches.",
 ]);
@@ -107,7 +107,7 @@ export const commerce = Object.freeze({
   checkoutLanguage: "Stripe Checkout handles secure payment and receipts.",
   refundLanguage: "14-day refund review for published-scope or delivery mismatches.",
   deliveryLanguage:
-    "After payment, /stripe/delivery verifies the Stripe session and streams the purchased ZIP.",
+    "Download your purchased ZIP after payment.",
   localNoUploadClaim:
     "Runs locally; no hosted API, repo upload, or production credentials needed.",
   noSourceUploadClaim: "No source upload.",

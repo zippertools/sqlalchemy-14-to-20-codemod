@@ -3,235 +3,85 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#08111f" />
-    <title>Run a Product Well Scanner | Zipper Tools</title>
-    <meta
-      name="description"
-      content="Choose the free local GitHub Actions, SQLAlchemy, Pydantic, or ESLint scanner path, view example output, and decide whether any paid workflow is worth it."
-    />
+    <title>Scan locally. Understand the report for free. | Zipper Tools</title>
+    <meta name="description" content="Choose your matching scanner. No repository upload and no paid assessment required." />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://zippertools.org/scan" />
-    <meta property="og:title" content="Run a Product Well Scanner" />
-    <meta
-      property="og:description"
-      content="Run this command, get a report, upload no repo files, then decide whether automation is worth it."
-    />
+    <meta property="og:title" content="Scan locally. Understand the report for free." />
+    <meta property="og:description" content="Choose your matching scanner. No repository upload and no paid assessment required." />
+    <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zippertools.org/scan" />
     <meta property="og:image" content="https://zippertools.org/og-preview.svg" />
-    <meta property="og:site_name" content="Zipper Tools" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Scan locally. Understand the report for free." />
+    <meta name="twitter:description" content="Choose your matching scanner. No repository upload and no paid assessment required." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
     <script src="config.js"></script>
     <script type="module" src="app.js"></script>
+    <script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Zipper Tools",
+    "url": "https://zippertools.org/"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Scan locally. Understand the report for free.",
+    "description": "Choose your matching scanner. No repository upload and no paid assessment required.",
+    "url": "https://zippertools.org/scan",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Zipper Tools",
+      "url": "https://zippertools.org/"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://zippertools.org/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Scan locally. Understand the report for free.",
+        "item": "https://zippertools.org/scan"
+      }
+    ]
+  }
+]
+    </script>
   </head>
   <body>
-    <header class="site-header">
-      <div class="wrap nav">
-        <a class="brand" href="/">Zipper Tools</a>
-        <nav class="nav-links" aria-label="Primary">
-
-          <a href="/scan">Scan</a>
-          <a href="/products/">Library</a>
-          <a href="/guides/">Guides</a>
-
-          <a href="/pricing">Pricing</a>
-          <a href="/policies">Policies</a>
-          <a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a>
-        </nav>
-      </div>
-    </header>
-
+    <header class="site-header"><div class="wrap nav"><a class="brand" href="/">Zipper Tools</a><nav class="nav-links" aria-label="Primary"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a></nav></div></header>
     <main class="wrap">
       <section class="warning" id="launch-warning" aria-live="polite"></section>
       <section class="page-title">
-        <p class="kicker">Free local scan</p>
-        <h1>Choose the local scanner you need. Upload no repo files.</h1>
-        <p>
-          Start with the scanner that matches the deadline or migration in front
-          of you. The report tells you whether repeated supported candidates
-          exist before any checkout decision.
-        </p>
-        <div class="badge-row">
-          <span class="badge">Local-only</span>
-          <span class="badge">No source upload</span>
-          <span class="badge">Manual-review flags</span>
-          <span class="badge">Last updated 2026-05-06</span>
-        </div>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Scan locally. Understand the report for free.</li></ol></nav>
+        <p class="kicker">Free diagnosis</p>
+        <h1>Scan locally. Understand the report for free.</h1>
+        <p>Choose your matching scanner. No repository upload and no paid assessment required.</p>
       </section>
-
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Choose scanner</p>
-          <h2>What deadline or migration are you checking?</h2>
-        </div>
-        <div class="grid three">
-          <article class="page-panel">
-            <h3>GitHub Actions Upgrade Guard</h3>
-            <p>Scan workflow YAML for artifact/cache deprecations, runner drift, Node runtime pressure, permission risk, and manual migration guidance.</p>
-            <div class="page-actions">
-              <a class="button" href="/go/actions-upgrade-guard-free/scan-chooser">Open Action Guard scanner</a>
-            </div>
-          </article>
-          <article class="page-panel">
-            <h3>SQLAlchemy 1.4 -> 2.0</h3>
-            <p>Find repeated Query.get, select([..]), string relationship paths, DML constructor, and declarative import cleanup candidates.</p>
-            <div class="page-actions">
-              <a class="button" href="#sqlalchemy-scan">Use SQLAlchemy scanner</a>
-            </div>
-          </article>
-          <article class="page-panel">
-            <h3>Pydantic v1 -> v2</h3>
-            <p>Run the Pydantic scanner for imports, BaseSettings, Config, validator, validate_arguments, and root-validator checks.</p>
-            <div class="page-actions">
-              <a class="button" href="#pydantic-scan">Use Pydantic scanner</a>
-            </div>
-          </article>
-          <article class="page-panel">
-            <h3>ESLint flat config proof</h3>
-            <p>Review the static-config proof and README. ESLint is proof-only on this storefront, not a listed checkout product.</p>
-            <div class="page-actions">
-              <a class="button secondary" href="/go/flatconfig-free-scan/scan-chooser">Open ESLint proof scanner</a>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="pydantic-scan">
-        <div class="grid two">
-          <article class="page-panel">
-            <p class="kicker">Pydantic install</p>
-            <h2>Install the Pydantic scanner from the public GitHub repo</h2>
-            <pre class="code-block">python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip#subdirectory=products/pydantic-v2-porter"
-python -m pydantic_v2_porter.cli . --report migration-report.json</pre>
-            <p class="caption">
-              This is the separate Pydantic scanner, not the SQLAlchemy scanner.
-              It still runs locally and uploads no source files.
-            </p>
-            <div class="page-actions">
-              <a class="button" href="/go/pydantic-free-scan/scan-chooser">Open Pydantic quickstart</a>
-              <a class="button secondary" href="https://github.com/zippertools/pydantic-v1-to-v2-codemod" data-repo-link>View Pydantic scanner repo</a>
-            </div>
-          </article>
-          <article class="page-panel">
-            <p class="kicker">Pydantic scan</p>
-            <h2>Run against a local checkout</h2>
-            <pre class="code-block">python -m pydantic_v2_porter.cli . --report migration-report.json</pre>
-            <p class="caption">
-              The report separates supported direct rewrites from alias-heavy,
-              signature-heavy, or removed-config cases that need manual review.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="sqlalchemy-scan">
-        <div class="grid two">
-          <article class="page-panel">
-            <p class="kicker">Install</p>
-            <h2>Install from the public GitHub repo</h2>
-            <pre class="code-block">python -m pip install "https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip"
-python -m sa20_pack.cli . --report migration-report.json</pre>
-            <p class="caption">
-              If installation fails, retry from the GitHub quickstart or contact
-              support at support@zippertools.org.
-            </p>
-            <div class="page-actions">
-              <a class="button" href="/go/free-scan/scan-install">Open quickstart</a>
-              <a class="button secondary" href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>View GitHub repo</a>
-            </div>
-          </article>
-          <article class="page-panel">
-            <p class="kicker">Scan</p>
-            <h2>Run against a local checkout</h2>
-            <pre class="code-block">python -m sa20_pack.cli . --report migration-report.json</pre>
-            <p class="caption">
-              Keep the report with your branch notes. Do not send private
-              source code through support.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="example-output">
-        <div class="section-heading">
-          <p class="kicker">Example output</p>
-          <h2>Decide from evidence, not a checkout page.</h2>
-        </div>
-        <div class="grid two">
-          <article class="report-card">
-            <p class="report-label">migration-report.json summary</p>
-            <pre class="report-preview">supported_findings: 38
-manual_review_findings: 6
-files_uploaded: 0
-recommended_next_step: preview deterministic rewrites</pre>
-          </article>
-          <article class="page-panel">
-            <h3>When to buy</h3>
-            <ul class="clean">
-              <li>Use the $99 fit report if the scan output is promising but ambiguous.</li>
-              <li>Buy the cleanup pack if 10+ supported findings repeat across the repo.</li>
-              <li>Use the preset bundle if you want more repeatable rollout structure.</li>
-              <li>Do not buy if unsupported findings dominate the work.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <div
-          class="grid three"
-          data-product-cards="freeScan,fitReport,sa20"
-          data-product-source="scan-offer"
-        ></div>
-      </section>
-
-      <section class="section">
-        <div class="grid two">
-          <article class="page-panel">
-            <p class="kicker">FAQ</p>
-            <h2>What happens to my code?</h2>
-            <p>
-              The scan runs in your local checkout. The public path does not
-              upload repository files. No human review is required for the
-              scanner, fit report, preset bundle, or cleanup pack.
-            </p>
-          </article>
-          <article class="page-panel">
-            <p class="kicker">Scope</p>
-            <h2>What does the scanner look for?</h2>
-            <p>
-              The scanner is aimed at repeated SQLAlchemy cleanup patterns such
-              as Query.get, select list syntax, simple string joins/loaders, DML
-              constructor kwargs, and declarative import moves. Risky execution
-              and query-shape cases stay in manual review.
-            </p>
-          </article>
-        </div>
-      </section>
+      <section class="section" id=pydantic><article class="page-panel"><h2>1. Run the Pydantic scanner</h2><p>Python 3.10+ and pip are required. Replace path/to/your/repo with your local checkout. The public scanner does not edit files or send your code anywhere.</p><pre class="code-block">python -m venv .zipper-venv
+# Windows PowerShell:
+.\.zipper-venv\Scripts\Activate.ps1
+# macOS / Linux: source .zipper-venv/bin/activate
+python -m pip install &quot;https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip#subdirectory=products/pydantic-v2-porter&quot;
+python -m pydantic_v2_porter.cli path/to/your/repo --report migration-report.json</pre><p>Exit 0 means the scan completed without reported manual-review findings; it does not prove compatibility. Exit 2 means review the reported findings. If installation fails, check Python and network access, then use the <a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/README.md">quickstart</a>. On PowerShell, you can use .\.zipper-venv\Scripts\python.exe directly if activation is disabled.</p></article></section><section class="section"><article class="page-panel"><h2>2. Interpret the report for free</h2><p>Open migration-report.json locally. The file_results section lists patterns and findings by file. transforms_applied names candidate categories in a community scan; it does not mean files were changed. A file with blocking findings needs manual review even when it also has supported candidates.</p><p><strong>No supported findings detected</strong> means only that the scanner found no matching supported patterns. It is not a clean bill of health.</p><ul class="clean"><li>Few simple candidates: follow the upstream guide and fix them manually.</li><li>Repeated candidates in unblocked files: compare the tested example and decide whether paid automation saves enough work.</li><li>Mostly blocked files: do not buy expecting a complete migration.</li></ul><p>The free report is enough to evaluate supported patterns. No paid fit report is required. You can use the <a href="https://docs.pydantic.dev/latest/migration/">official migration guide</a> or the free <a href="https://github.com/pydantic/bump-pydantic">bump-pydantic codemod</a>. Compare both on a branch before paying.</p></article></section><section class="section"><article class="page-panel"><h2>3. Compare the work before buying</h2><p>Best fit: an existing Python application with repeated direct Pydantic v1 imports, simple validators, settings imports or Config classes, and tests you can run. For a few edits, use the free report and migrate manually.</p><p>Not a complete FastAPI upgrade. Complex validators, aliases and unsupported configuration remain manual work.</p><div class="page-actions"><a class="button" href="/proof/pydantic-v2-porter/">Inspect real output from the example</a><a class="button secondary" href="/products/pydantic-v2-porter/">Paid scope and price</a></div></article></section><section class="section"><article class="page-panel"><h2>Other scanners</h2><h3 id="sqlalchemy">SQLAlchemy</h3><pre class="code-block">python -m venv .zipper-venv
+# Windows PowerShell:
+.\.zipper-venv\Scripts\Activate.ps1
+# macOS / Linux: source .zipper-venv/bin/activate
+python -m pip install &quot;https://github.com/zippertools/sqlalchemy-14-to-20-codemod/archive/refs/tags/v0.1.2.zip&quot;
+python -m sa20_pack.cli path/to/your/repo --report migration-report.json</pre><div class="page-actions"><a class="button secondary" href="/go/actions-upgrade-guard-free/scan-selector">Free Action Guard scanner</a><a class="button secondary" href="/go/flatconfig-free-scan/scan-selector">ESLint proof and scanner</a></div></article></section>
     </main>
-
-    <footer class="site-footer">
-      <div class="wrap footer-grid">
-        <div>
-          <p class="footer-title">Zipper Tools</p>
-          <p class="caption">Autonomous deadline-readiness tools for software teams.</p>
-        </div>
-        <div class="footer-links">
-
-          <a href="/scan">Scan</a>
-          <a href="/products/">Library</a>
-          <a href="/guides/">Guides</a>
-
-          <a href="/pricing">Pricing</a>
-          <a href="/demo">Demo</a>
-          <a href="/policies">Policies</a>
-          <a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a>
-          <a href="/policies#contact">Contact</a>
-        </div>
-        <p class="caption footer-note">Support:
-          <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a>
-        </p>
-      </div>
-    </footer>
+    <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
   </body>
 </html>

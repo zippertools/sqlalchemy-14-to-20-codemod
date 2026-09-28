@@ -80,11 +80,10 @@ def test_build_site_generates_sitemaps_and_indexnow_key() -> None:
     assert "Apply output" in proof_text
     assert "Final manager summary" in proof_text
     assert "Final report shape" in proof_text
-    assert "Scan report" in pydantic_proof_text
-    assert "Preview diff" in pydantic_proof_text
-    assert "Apply output" in pydantic_proof_text
-    assert "Validation summary" in pydantic_proof_text
-    assert "Final manager summary" in pydantic_proof_text
+    assert "case-study/scan.json" in pydantic_proof_text
+    assert "case-study/paid.diff" in pydantic_proof_text
+    assert "case-study/free.diff" in pydantic_proof_text
+    assert "not a customer claim" in pydantic_proof_text
     assert (site_dir / "sitemap.xml").exists()
     assert (site_dir / "sitemap-problem-pages.xml").exists()
     assert len(manifest["guides"]) >= 50
@@ -228,50 +227,18 @@ def test_product_pages_link_to_trackable_checkout_routes() -> None:
     ).read_text(encoding="utf-8")
 
     assert 'href="/go/sa20-pack/product-products-sa20-pack"' in sa20_text
-    assert (
-        'href="/go/pydantic-v2-porter/product-products-pydantic-v2-porter"'
-        in pydantic_text
-    )
-    assert (
-        'href="/go/pydantic-free-scan/product-products-pydantic-v2-porter"'
-        in pydantic_text
-    )
-    # SQLAlchemy buyer-path scan CTA routes to the controlled /scan page
-    # rather than jumping straight to the GitHub quickstart redirect, so
-    # buyers stay on-site for the first step. /scan still links out to the
-    # GitHub quickstart as a secondary trust path.
-    assert 'href="/scan"' in sa20_text
-    assert 'href="/scan?source=product-products-sa20-pack"' not in sa20_text
-    assert "/go/free-scan/product-products-sa20-pack" not in sa20_text
-    assert "Run the SQLAlchemy scan first" in sa20_text
-    assert "Run the Pydantic scan first" in pydantic_text
-    assert "not the SQLAlchemy scanner" in pydantic_text
-    assert "Buy cleanup pack - $299.99" in sa20_text
-    assert "Buy Pydantic cleanup pack - $249.99" in pydantic_text
-    assert 'href="/go/fit-report/product-products-sa20-pack"' in sa20_text
-    assert 'href="/go/fit-report/product-products-pydantic-v2-porter"' in pydantic_text
-    assert "Stripe Checkout handles secure payment and receipts." in sa20_text
-    assert (
-        "14-day refund review for published-scope or delivery mismatches."
-        in pydantic_text
-    )
-    assert "SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack" in sa20_text
-    assert "Pydantic v1 to v2 Migration Cleanup Pack" in pydantic_text
-    assert "After purchase, you receive" in sa20_text
-    assert "After purchase, you receive" in pydantic_text
-    assert "Preview/apply commands" in sa20_text
-    assert "Supported rewrite table" in pydantic_text
-    for product_text in (sa20_text, pydantic_text):
-        assert "Apply output" in product_text
-        assert "Validation summary" in product_text
-        assert "Final manager summary" in product_text
-    assert "license/support terms" in sa20_text
-    assert sa20_text.index("After purchase, you receive") < sa20_text.index(
-        "Do not use this if"
-    )
-    assert 'href="/proof/sqlalchemy-public-proof/"' in sa20_text
+    assert 'method="post" action="/go/pydantic-v2-porter/pydantic-focused-offer"' in pydantic_text
+    assert 'href="/scan#pydantic"' in pydantic_text
+    assert "/go/fit-report" not in sa20_text
+    assert "/go/fit-report" not in pydantic_text
+    assert "$249.99 per team" in pydantic_text
+    assert "14-day refund review for published-scope or delivery mismatches." in pydantic_text
+    assert "--apply --diff" in pydantic_text
     assert 'href="/proof/pydantic-v2-porter/"' in pydantic_text
-    assert 'href="/pricing#pydantic-v2-porter"' in pydantic_text
+    assert "bump-pydantic" in pydantic_text
+    assert "Not a complete FastAPI upgrade" in pydantic_text
+    assert "manual review" in pydantic_text
+    assert 'href="/policies"' in pydantic_text
 
 
 def test_fit_report_scope_is_not_offered_on_proof_only_eslint_pages() -> None:
@@ -290,7 +257,7 @@ def test_fit_report_scope_is_not_offered_on_proof_only_eslint_pages() -> None:
     assert "SQLAlchemy/Pydantic Fit Report Add-on" in pricing_text
     assert "SQLAlchemy/Pydantic Fit Report Add-on" in store_text
     assert "separate Pydantic scanner" in pricing_text
-    assert "/go/fit-report" in pydantic_text
+    assert "/go/fit-report" not in pydantic_text
     assert "/go/fit-report" not in eslint_text
     assert (
         "fit-report add-on is not listed for this proof-only product yet" in eslint_text
@@ -315,9 +282,9 @@ def test_generated_links_and_sitemaps_use_clean_public_urls() -> None:
     assert "index.html" not in product_text
     assert 'href="/products/"' in product_text
     for html in (product_text, proof_text):
-        assert "Do not trust this blindly with your project" in html
+        assert "Scope and validation" in html
         assert "does not expose the full paid apply engine" in html
-        assert "Public proof is intentionally narrow" in html
+        assert "Examples establish only the cases shown" in html
 
 
 def test_static_indexable_pages_use_clean_canonicals_and_links() -> None:
@@ -341,45 +308,22 @@ def test_static_indexable_pages_use_clean_canonicals_and_links() -> None:
     assert 'pydanticPackUrl: "/go/pydantic-v2-porter"' in config_text
     assert 'fitReportUrl: "/go/fit-report"' in config_text
     assert 'contactEmail: "support@zippertools.org"' in config_text
-    assert "/go/actions-upgrade-guard-free/home-well-index" in index_text
-    assert "/proof/actions-upgrade-guard/" in index_text
-    assert "/wells/github-actions-upgrade-guard/" not in index_text
-    assert "Autonomous deadline-readiness tools for software teams." in index_text
-    assert "GitHub Actions Upgrade Guard" in index_text
-    assert "Free scanner available" in index_text
-    assert "Migration Sprint Sale" not in pricing_text
-    assert "Price: $99 per team" in pricing_text
-    assert "Buy automated fit report - $99" in pricing_text
-    assert "Do not trust this blindly with your project" in index_text
-    assert "does not expose the full paid apply engine" in index_text
-    assert "Public proof is intentionally narrow" in index_text
-    assert "Migration Sprint Sale" not in index_text
-    for page_text in (scan_text, pricing_text, demo_text):
+    assert "Upgrading an older FastAPI app?" in index_text
+    assert 'href="/scan#pydantic"' in index_text
+    assert "/products/actions-upgrade-guard/" in index_text
+    assert "No automatic edits" in index_text
+    assert "Optional add-ons" in pricing_text
+    assert "$99 per team" in pricing_text
+    assert "No paid fit report is required" in pricing_text
+    for page_text in (scan_text, pricing_text, demo_text, index_text):
         assert "Migration Sprint Sale" not in page_text
         assert "90% off" not in page_text
-    assert "Migration Sprint Sale" not in policies_text
-    assert "Product Wells" in policies_text
-    assert (
-        "GitHub Actions Upgrade Guard is currently published as a free scanner"
-        in policies_text
-    )
-    assert "Secure checkout is handled by Stripe." in pricing_text
-    current_well_pos = index_text.index('<p class="kicker">Workflow checks</p>')
-    free_scanner_pos = index_text.index('<p class="kicker">Free scanner</p>')
-    library_pos = index_text.index('<p class="kicker">Migration Library</p>')
-    assert current_well_pos < free_scanner_pos < library_pos
     assert "/products/sa20-pack/" in index_text
     assert "/products/pydantic-v2-porter/" in index_text
-    assert "What deadline or migration are you checking?" in scan_text
-    assert "/go/actions-upgrade-guard-free/scan-chooser" in scan_text
-    assert "/go/pydantic-free-scan/scan-chooser" in scan_text
-    assert "/go/flatconfig-free-scan/scan-chooser" in scan_text
-    assert "Run a Product Well Scanner" in scan_text
-    assert (
-        "python -m pydantic_v2_porter.cli . --report migration-report.json" in scan_text
-    )
-    assert "not the SQLAlchemy scanner" in scan_text
-    assert "Run a SQLAlchemy 2.0 Migration Scan" not in scan_text
+    assert "/go/actions-upgrade-guard-free/scan-selector" in scan_text
+    assert "/go/flatconfig-free-scan/scan-selector" in scan_text
+    assert "python -m pydantic_v2_porter.cli path/to/your/repo" in scan_text
+    assert "transforms_applied names candidate categories" in scan_text
     assert "Paid-pack artifact trail" in demo_text
     assert "Preview diff" in demo_text
     assert "Apply output" in demo_text
@@ -439,7 +383,10 @@ def test_free_scan_install_path_uses_verified_archive_command() -> None:
     )
     normalized_fallback = " ".join(fallback_note.split())
 
-    for text in (scan_text, quickstart_text):
+    assert install_url in scan_text
+    assert "python -m sa20_pack.cli path/to/your/repo" in scan_text
+    assert "If installation fails" in scan_text
+    for text in (quickstart_text,):
         assert install_url in text
         assert "pip install sa20-pack" not in text
         assert scan_command in text

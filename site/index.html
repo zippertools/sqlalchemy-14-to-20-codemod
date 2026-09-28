@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Autonomous Deadline-Readiness Tools | Zipper Tools</title>
-    <meta name="description" content="Find supported upgrade issues locally, inspect source-linked reports, and review manual alternatives. Start with GitHub Actions Upgrade Guard; your source stays on your machine." />
+    <title>Upgrading an older FastAPI app? Start with a local Pydantic scan. | Zipper Tools</title>
+    <meta name="description" content="Find supported Pydantic v1 patterns, see what needs manual work, and decide whether repetitive cleanup is worth automating." />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://zippertools.org/" />
-    <meta property="og:title" content="Autonomous Deadline-Readiness Tools" />
-    <meta property="og:description" content="Find supported upgrade issues locally, inspect source-linked reports, and review manual alternatives. Start with GitHub Actions Upgrade Guard; your source stays on your machine." />
+    <meta property="og:title" content="Upgrading an older FastAPI app? Start with a local Pydantic scan." />
+    <meta property="og:description" content="Find supported Pydantic v1 patterns, see what needs manual work, and decide whether repetitive cleanup is worth automating." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zippertools.org/" />
     <meta property="og:image" content="https://zippertools.org/og-preview.svg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Autonomous Deadline-Readiness Tools" />
-    <meta name="twitter:description" content="Find supported upgrade issues locally, inspect source-linked reports, and review manual alternatives. Start with GitHub Actions Upgrade Guard; your source stays on your machine." />
+    <meta name="twitter:title" content="Upgrading an older FastAPI app? Start with a local Pydantic scan." />
+    <meta name="twitter:description" content="Find supported Pydantic v1 patterns, see what needs manual work, and decide whether repetitive cleanup is worth automating." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
     <script src="config.js"></script>
@@ -30,8 +30,8 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Autonomous Deadline-Readiness Tools",
-    "description": "Find supported upgrade issues locally, inspect source-linked reports, and review manual alternatives. Start with GitHub Actions Upgrade Guard; your source stays on your machine.",
+    "name": "Upgrading an older FastAPI app? Start with a local Pydantic scan.",
+    "description": "Find supported Pydantic v1 patterns, see what needs manual work, and decide whether repetitive cleanup is worth automating.",
     "url": "https://zippertools.org/",
     "isPartOf": {
       "@type": "WebSite",
@@ -60,109 +60,11 @@
       <section class="warning" id="launch-warning" aria-live="polite"></section>
       <section class="page-title">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li aria-current="page">Home</li></ol></nav>
-        <p class="kicker">Local developer tools</p>
-        <h1>Autonomous deadline-readiness tools for software teams.</h1>
-        <p>Find supported upgrade issues locally, inspect source-linked reports, and review manual alternatives. Start with GitHub Actions Upgrade Guard; your source stays on your machine.</p>
+        <p class="kicker">Local migration tools</p>
+        <h1>Upgrading an older FastAPI app? Start with a local Pydantic scan.</h1>
+        <p>Find supported Pydantic v1 patterns, see what needs manual work, and decide whether repetitive cleanup is worth automating.</p>
       </section>
-
-      <section class="section">
-        <article class="conversion-panel product-hero-panel">
-          <div class="conversion-copy">
-            <p class="kicker">Featured tool</p>
-            <h2>GitHub Actions Upgrade Guard</h2>
-            <p>Scan GitHub Actions workflows for supported maintenance findings and emit source-linked findings, manual migration guidance, and a manager-readable report without hosted services or source upload.</p>
-            <div class="badge-row">
-              <span class="badge">Runs locally</span>
-              <span class="badge">No GitHub token</span>
-              <span class="badge">Patch preview</span>
-              <span class="badge">Fail closed</span>
-            </div>
-          </div>
-          <div class="conversion-actions">
-            <div class="primary-cta">
-              <a class="button" href="/go/actions-upgrade-guard-free/home-well-index">Run free Action Guard scanner</a>
-            </div>
-            <div class="secondary-cta-group">
-              <p class="caption cta-group-label">Secondary options</p>
-              <a class="button secondary" href="/proof/actions-upgrade-guard/">Read proof and artifacts</a>
-              <a class="button secondary" href="/products/actions-upgrade-guard/">Open product page</a>
-            </div>
-          </div>
-        </article>
-      </section>
-      <section class="section">
-        <article class="page-panel">
-          <p class="kicker">Trust boundary</p>
-          <h2>Do not trust this blindly with your project</h2>
-          <ul class="clean"><li>Visible GitHub stars and forks are weak or absent social proof; treat the public repo as a fit signal, not as proof that the tool is safe for your repo.</li><li>The public repo is scanner-first and does not expose the full paid apply engine.</li><li>Public proof is intentionally narrow: a few supported examples plus fail-closed examples. Run on a branch and trust changes only after your own typecheck, build, and tests pass.</li></ul>
-        </article>
-      </section>
-
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Workflow checks</p>
-          <h2>What the scanner provides</h2>
-        </div>
-        <div class="grid three">
-          <article class="page-panel">
-            <h3>Supported workflow checks</h3>
-            <p>Check workflow references against the documented artifact, cache, runner, runtime, and permission rules.</p>
-          </article>
-          <article class="page-panel">
-            <h3>Local evidence first</h3>
-            <p>The free scanner reads workflow YAML locally and writes JSON/HTML findings with source links and fixability labels.</p>
-          </article>
-          <article class="page-panel">
-            <h3>Free scanner available</h3>
-            <p>Action Guard is available as a free local tool. No paid Action Guard package is currently offered.</p>
-          </article></div>
-      </section>
-      <section class="section">
-        <div class="grid two">
-          <article class="page-panel">
-            <p class="kicker">Free scanner</p>
-            <h2>What the public path proves</h2>
-            <ul class="clean">
-              <li>Which workflow files were scanned.</li>
-              <li>Which rules fired, with source URLs and deadlines where available.</li>
-              <li>Which findings are autofix, manual review, blocked, or informational.</li>
-              <li>Why a finding requires manual review and which source explains the migration.</li>
-            </ul>
-          </article>
-          <article class="page-panel">
-            <p class="kicker">Interpret your results</p>
-            <h2>Know what was checked</h2>
-            <ul class="clean">
-              <li>No supported findings detected means only that the current rules found no matching patterns.</li>
-              <li>Review source-linked guidance to address findings manually.</li>
-              <li>Inspect every patch and run your own CI checks before merging.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-      <section class="section">
-        <div class="section-heading">
-          <p class="kicker">Migration Library</p>
-          <h2>Tools for SQLAlchemy, Pydantic, and ESLint migrations.</h2>
-        </div>
-        <div class="topic-list">
-          <a class="topic-card" href="/products/sa20-pack/">
-            <strong>SQLAlchemy cleanup pack</strong>
-            <span>Scan and inspect supported SQLAlchemy 1.4 to 2.0 cleanup patterns.</span>
-          </a>
-          <a class="topic-card" href="/products/pydantic-v2-porter/">
-            <strong>Pydantic v2 porter</strong>
-            <span>Check supported direct Pydantic v1 to v2 migration patterns.</span>
-          </a>
-          <a class="topic-card" href="/proof/flatconfig-lift/">
-            <strong>Flatconfig Lift</strong>
-            <span>Inspect examples and limitations for static ESLint configuration migration.</span>
-          </a></div>
-        <div class="page-actions">
-          <a class="button secondary" href="/products/">Open the full library</a>
-        </div>
-      </section>
-
+      <div class="page-actions"><a class="button" href="/scan#pydantic">Run the free Pydantic scan</a><a class="button secondary" href="/proof/pydantic-v2-porter/">See the tested example</a></div><section class="section"><article class="page-panel"><h2>Free diagnosis. Optional paid cleanup.</h2><p>Best fit: an existing Python application with repeated direct Pydantic v1 imports, simple validators, settings imports or Config classes, and tests you can run. For a few edits, use the free report and migrate manually.</p><p>Not a complete FastAPI upgrade. Complex validators, aliases and unsupported configuration remain manual work.</p><p>The free report is enough to evaluate supported patterns. No paid fit report is required. You can use the <a href="https://docs.pydantic.dev/latest/migration/">official migration guide</a> or the free <a href="https://github.com/pydantic/bump-pydantic">bump-pydantic codemod</a>. Compare both on a branch before paying.</p><p>The Pydantic Cleanup Pack adds the supported preview/apply workflow for <strong>$249.99 per team</strong>.</p><a class="button secondary" href="/products/pydantic-v2-porter/">Review scope, proof and price</a></article></section><section class="section"><article class="page-panel"><h2>Working on a different upgrade?</h2><div class="topic-list"><a class="topic-card" href="/products/sa20-pack/"><strong>SQLAlchemy 1.4 → 2.0</strong><span>Free diagnosis and optional paid cleanup for a narrow syntax subset.</span></a><a class="topic-card" href="/products/actions-upgrade-guard/"><strong>GitHub Actions maintenance</strong><span>Free workflow diagnosis with source-linked manual guidance. No automatic edits.</span></a><a class="topic-card" href="/products/flatconfig-lift/"><strong>ESLint configuration</strong><span>Free static-config examples and documented limits.</span></a></div></article></section>
     </main>
     <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
   </body>

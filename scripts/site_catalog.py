@@ -32,8 +32,7 @@ CHECKOUT_PROVIDER = "Stripe"
 SECURE_CHECKOUT_NOTE = f"Secure checkout is handled by {CHECKOUT_PROVIDER}."
 CHECKOUT_LANGUAGE = f"{CHECKOUT_PROVIDER} Checkout handles secure payment and receipts."
 DELIVERY_LANGUAGE = (
-    "After payment, /stripe/delivery verifies the Stripe session and streams the "
-    "purchased ZIP."
+    "Download your purchased ZIP after payment."
 )
 LOCAL_NO_UPLOAD_LANGUAGE = (
     "Runs locally; no hosted API, repo upload, or production credentials needed."

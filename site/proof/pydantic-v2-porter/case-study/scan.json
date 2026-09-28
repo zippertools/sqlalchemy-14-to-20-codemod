@@ -1,0 +1,67 @@
+{
+  "artifact_changes": [],
+  "confidence": 0.86,
+  "created_at": "2026-09-28T02:18:49.751582+00:00",
+  "file_results": [
+    {
+      "changed": false,
+      "findings": [],
+      "notes": [],
+      "path": "app\\models.py",
+      "transforms_applied": [
+        "config_to_model_config",
+        "validator_to_field_validator"
+      ]
+    },
+    {
+      "changed": false,
+      "findings": [],
+      "notes": [
+        "Install the pydantic-settings package before applying the commercial migration pack."
+      ],
+      "path": "app\\settings.py",
+      "transforms_applied": [
+        "basesettings_import_move",
+        "config_to_model_config"
+      ]
+    },
+    {
+      "changed": false,
+      "findings": [
+        {
+          "blocking": true,
+          "code": "unsupported-validator-signature",
+          "line": 6,
+          "message": "validator decorators only support exact two-parameter classmethod signatures like (cls, v).",
+          "path": "manual_review.py"
+        }
+      ],
+      "notes": [],
+      "path": "manual_review.py",
+      "transforms_applied": []
+    }
+  ],
+  "files_changed": [],
+  "findings": [
+    {
+      "blocking": true,
+      "code": "unsupported-validator-signature",
+      "line": 6,
+      "message": "validator decorators only support exact two-parameter classmethod signatures like (cls, v).",
+      "path": "manual_review.py"
+    }
+  ],
+  "mode": "dry-run",
+  "notes": [
+    "Detected supported candidates that the commercial pack can rewrite automatically.",
+    "Install the pydantic-settings package before applying the commercial migration pack.",
+    "Unsupported files were left untouched. The public repo only reports fit and manual-review blockers."
+  ],
+  "root_path": "fastapi-orders",
+  "status": "manual_review_required",
+  "transforms_applied": [
+    "basesettings_import_move",
+    "config_to_model_config",
+    "validator_to_field_validator"
+  ]
+}

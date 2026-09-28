@@ -1,0 +1,42 @@
+--- before/app/models.py
++++ paid/app/models.py
+@@ -1,22 +1,20 @@
+-from pydantic import BaseModel, validator
++from pydantic import BaseModel, field_validator
+ 
+ 
+ class Order(BaseModel):
+     customer: str
+     quantity: int
+ 
+-    @validator("customer")
++    @field_validator("customer")
+     def normalize_customer(cls, value):
+         value = value.strip()
+         if not value:
+             raise ValueError("customer required")
+         return value
+ 
+-    @validator("quantity")
++    @field_validator("quantity")
+     def positive_quantity(cls, value):
+         if value < 1:
+             raise ValueError("quantity must be positive")
+         return value
+-
+-    class Config:
+-        extra = "forbid"
++    model_config = {"extra": "forbid"}
+--- before/app/settings.py
++++ paid/app/settings.py
+@@ -1,8 +1,6 @@
+-from pydantic import BaseSettings
++from pydantic_settings import BaseSettings
+ 
+ 
+ class Settings(BaseSettings):
+     service_name: str = "Order API"
+-
+-    class Config:
+-        env_prefix = "ZIPPER_PROOF_"
++    model_config = {"env_prefix": "ZIPPER_PROOF_"}

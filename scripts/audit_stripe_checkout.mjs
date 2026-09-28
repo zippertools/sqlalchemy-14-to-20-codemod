@@ -60,7 +60,7 @@ async function auditProduct(args, product) {
   };
 
   try {
-    const request = new Request(`${args.siteUrl}${product.route}/${AUDIT_SOURCE}`);
+    const request = new Request(`${args.siteUrl}${product.route}/${AUDIT_SOURCE}`, {method: "POST", headers: {origin: args.siteUrl}});
     const env = {
       ASSETS: { fetch: async () => new Response("asset") },
       STRIPE_SECRET_KEY: "sk_test_audit",

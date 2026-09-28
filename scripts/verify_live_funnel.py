@@ -88,14 +88,7 @@ BASE_PAGE_PATHS: tuple[str, ...] = (
 )
 
 REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
-    "/": (
-        "Autonomous deadline-readiness tools for software teams.",
-        "GitHub Actions Upgrade Guard",
-        "Run free Action Guard scanner",
-        "Read proof and artifacts",
-        "Free scanner available",
-        "Support: support@zippertools.org",
-    ),
+    "/": ("Upgrading an older FastAPI app?", "/scan#pydantic", "$249.99"),
     "/wells/": (
         "Product Wells archive",
         "GitHub Actions Upgrade Guard",
@@ -124,20 +117,17 @@ REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
     ),
     "/scan": (
         SQLALCHEMY_INSTALL,
-        SQLALCHEMY_RUN,
-        "Support: support@zippertools.org",
+        PYDANTIC_INSTALL,
+        "Interpret the report for free",
+        "No supported findings detected",
     ),
     "/pricing": (
-        "Price: $99 per team",
-        "Price: $299.99 per team",
-        "Price: $149.99 per team",
-        "Price: $249.99 per team",
-        "Buy automated fit report - $99",
-        "Buy cleanup pack - $299.99",
-        "Buy preset bundle - $149.99",
-        "Buy Pydantic cleanup pack - $249.99",
-        "Secure checkout is handled by Stripe.",
-        "Support: support@zippertools.org",
+        "$99 per team",
+        "$299.99 per team",
+        "$149.99 per team",
+        "$249.99 per team",
+        "Optional add-ons",
+        'method="post"',
     ),
     "/products/": (
         "Available now",
@@ -152,13 +142,15 @@ REQUIRED_BY_PATH: dict[str, tuple[str, ...]] = {
         "Support: support@zippertools.org",
     ),
     "/products/pydantic-v2-porter/": (
-        PYDANTIC_INSTALL,
-        (
-            "The free scan link on this page opens the Pydantic scanner, "
-            "not the SQLAlchemy scanner."
-        ),
-        "Secure checkout is handled by Stripe.",
-        "Support: support@zippertools.org",
+        "$249.99 per team",
+        "Supported scope and limitations",
+        "bump-pydantic",
+        'method="post"',
+    ),
+    "/proof/pydantic-v2-porter/": (
+        "case-study/results.json",
+        "bump-pydantic 0.8.0",
+        "not a customer claim",
     ),
     "/products/flatconfig-lift/": ("No checkout is listed for this proof page yet.",),
     "/policies": (
@@ -224,7 +216,13 @@ class FetchResult:
             self.body,
             flags=re.IGNORECASE | re.DOTALL,
         )
-        without_tags = re.sub(r"<[^>]+>", " ", without_scripts)
+        without_inline = re.sub(
+            r"</?(?:span|a|code|strong|em|b|i)\b[^>]*>",
+            "",
+            without_scripts,
+            flags=re.IGNORECASE,
+        )
+        without_tags = re.sub(r"<[^>]+>", " ", without_inline)
         return normalize_text(html.unescape(without_tags))
 
     @property
@@ -598,15 +596,14 @@ def check_paid_routes(base_url: str) -> list[CheckResult]:
         except Exception as exc:
             results.append(CheckResult(path, url, False, [str(exc)]))
             continue
-        location = result.headers.get("Location", "")
-        if result.status not in {301, 302, 303, 307, 308}:
-            failures.append(f"expected Stripe redirect, got HTTP {result.status}")
-            failures.extend(assert_forbidden_absent(result))
-        elif not (
-            location.startswith("https://checkout.stripe.com/")
-            or location.startswith("https://buy.stripe.com/")
-        ):
-            failures.append(f"redirect did not point to Stripe checkout: {location}")
+        if result.status != 200:
+            failures.append(
+                f"expected non-creating review page, got HTTP {result.status}"
+            )
+        elif 'form method="post"' not in result.body:
+            failures.append("missing explicit purchase form")
+        if result.headers.get("Location"):
+            failures.append("GET must not create or redirect to a Stripe session")
         results.append(
             CheckResult(
                 label=path,
@@ -614,7 +611,7 @@ def check_paid_routes(base_url: str) -> list[CheckResult]:
                 ok=not failures,
                 failures=failures,
                 status=result.status,
-                final_url=location,
+                final_url=result.final_url,
             )
         )
     return results
@@ -685,7 +682,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--skip-paid-routes",
         action="store_true",
-        help="Skip live Stripe checkout route creation checks.",
+        help="Skip read-only checkout review-page checks.",
     )
     parser.add_argument(
         "--skip-github",

@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import posixpath
+import shutil
 import sys
 from collections import defaultdict
 from collections.abc import Iterable
@@ -15,6 +16,7 @@ from typing import Any
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from scripts.sales_pages import render_sales_pages
 from scripts.site_catalog import (
     ACTION_GUARD_FREE_SCAN_ROUTE,
     ACTION_GUARD_README_PATH,
@@ -22,11 +24,9 @@ from scripts.site_catalog import (
     DELIVERY_LANGUAGE,
     FAMILY_DESCRIPTIONS,
     FAMILY_TITLES,
-    FIT_REPORT_CTA,
     FIT_REPORT_LABEL,
     FIT_REPORT_PRICE,
     FIT_REPORT_PRODUCT_SLUGS,
-    FIT_REPORT_ROUTE,
     FLATCONFIG_INSTALL_URL,
     GUIDES,
     INDEXNOW_KEY,
@@ -96,9 +96,9 @@ RELEASE_URL = (
     f"?utm_source=zippertools&utm_medium=site&utm_campaign=trust&utm_content={PUBLIC_RELEASE_TAG}"
 )
 PUBLIC_TRUST_BOUNDARY = (
-    "Visible GitHub stars and forks are weak or absent social proof; treat the public repo as a fit signal, not as proof that the tool is safe for your repo.",
+    "Run on a branch and review the documented scope before applying changes.",
     "The public repo is scanner-first and does not expose the full paid apply engine.",
-    "Public proof is intentionally narrow: a few supported examples plus fail-closed examples. Run on a branch and trust changes only after your own typecheck, build, and tests pass.",
+    "Examples establish only the cases shown. Run your own application tests before merging.",
 )
 
 PRICING_SECTION_IDS = {
@@ -109,8 +109,8 @@ PRICING_SECTION_IDS = {
 }
 
 FIT_REPORT_ADDON_LANGUAGE = (
-    f"{FIT_REPORT_PRICE} {FIT_REPORT_LABEL} add-on is the lower-friction step "
-    "when SQLAlchemy or Pydantic scan output is ambiguous."
+    "The free report includes the evidence needed to evaluate fit. "
+    "Paid summary and template add-ons are optional."
 )
 
 REDIRECTS = (
@@ -499,7 +499,7 @@ def trust_boundary_section() -> str:
     return f"""      <section class="section">
         <article class="page-panel">
           <p class="kicker">Trust boundary</p>
-          <h2>Do not trust this blindly with your project</h2>
+          <h2>Scope and validation</h2>
           {clean_list_html(PUBLIC_TRUST_BOUNDARY)}
         </article>
       </section>
@@ -953,11 +953,7 @@ def render_purchase_panel(product: ProductPage, path: str, *, context: str) -> s
     source = tracking_source(path, context)
     checkout_path = tracked_go_path(product.checkout_path, source)
     free_scan_path = free_scan_go_path(product, source)
-    fit_report_action = (
-        f'<a class="button secondary" href="{tracked_go_path(FIT_REPORT_ROUTE, source)}">{FIT_REPORT_CTA}</a>'
-        if supports_fit_report(product)
-        else ""
-    )
+    fit_report_action = ""
     product_href = relative_href(path, product_page_path(product))
     proof_href = relative_href(path, product_proof_path(product))
     proof_action = f'<a class="button secondary" href="{proof_href}">Read proof</a>'
@@ -972,7 +968,7 @@ def render_purchase_panel(product: ProductPage, path: str, *, context: str) -> s
     intro = (
         "Buy only after your local report shows repeated supported findings and a validation path the team can review."
         if context == "product"
-        else "One matching page is not enough by itself. Run the local scan, then use the matching fit report add-on where listed or buy only when the same supported pattern appears often enough to matter."
+        else "One matching page is not enough by itself. Run the local scan, then buy only when the same supported pattern appears often enough to matter."
     )
     if context != "product":
         primary_action = f'<a class="button" href="{free_scan_path}">{escape(free_scan_cta_label(product))}</a>'
@@ -1018,7 +1014,7 @@ def render_purchase_panel(product: ProductPage, path: str, *, context: str) -> s
           <div class="page-actions purchase-actions">
             <div class="primary-cta">{primary_action}</div>
             <div class="secondary-cta-group">
-              <p class="caption cta-group-label">Secondary options</p>
+              <p class="caption cta-group-label">Explore the details</p>
               {secondary_actions_html}
             </div>
           </div>
@@ -1042,7 +1038,7 @@ def guide_faq_items(
     if supports_fit_report(product):
         buy_answer = (
             f"Use {product_name} only when this pattern repeats across enough files that manual cleanup is still costly. "
-            f"Run the public scan or read the proof first. If the report shows ten or more supported findings, buy the pack or use the {FIT_REPORT_PRICE} {FIT_REPORT_LABEL} add-on; if unsupported findings dominate, keep the work manual."
+            "Use the free report and upstream guide to evaluate fit. Buy only if repeated supported edits justify the price; no paid assessment is required."
         )
     else:
         buy_answer = (
@@ -1101,15 +1097,11 @@ def render_problem_scan_cta(
         else relative_href(path, "products/index.html")
     )
     scan_intro = (
-        f"Run the matching scanner locally first. If the report shows 10+ supported findings for this kind of cleanup, compare the paid workflow or use the {FIT_REPORT_PRICE} {FIT_REPORT_LABEL} add-on before buying the full pack."
+        "Run the matching scanner locally first. Read the free findings and manual alternatives; consider paid cleanup only if supported patterns repeat enough to justify the price."
         if supports_fit_report(product)
         else "Run the matching scanner locally first. The fit-report add-on is not listed for this proof-only product yet, so use the proof page and scanner output before treating it as a purchase candidate."
     )
-    fit_report_action = (
-        f'<a class="button secondary" href="{tracked_go_path(FIT_REPORT_ROUTE, source)}">{FIT_REPORT_CTA}</a>'
-        if supports_fit_report(product)
-        else ""
-    )
+    fit_report_action = ""
     report_preview = (
         "Example scan summary\n"
         "supported_findings: 38\n"
@@ -1153,15 +1145,11 @@ def render_evaluation_path_section(
     proof_href = relative_href(path, product_proof_path(product))
     pricing_href = pricing_section_href(path, product)
     fit_report_note = (
-        f"If the scan output is ambiguous, use the {FIT_REPORT_PRICE} {FIT_REPORT_LABEL} add-on before buying the full pack."
+        "If the scan output is ambiguous, review its findings and upstream guidance. Do not buy expecting unsupported cases to be resolved."
         if supports_fit_report(product)
         else "The fit-report add-on is not listed for this proof-only product yet; use the proof page and scanner output before treating this as purchasable."
     )
-    fit_report_action = (
-        f'<a class="button secondary" href="{tracked_go_path(FIT_REPORT_ROUTE, tracking_source(path, "guide-fit"))}">{FIT_REPORT_CTA}</a>'
-        if supports_fit_report(product)
-        else ""
-    )
+    fit_report_action = ""
     price_line = (
         f"Price: {price_detail(product.price)}."
         if product.price
@@ -1886,12 +1874,7 @@ def render_product(product: ProductPage) -> tuple[str, str]:
                 f"{escape(free_scan_cta_label(product))}</a>"
             )
             pydantic_scan_button = ""
-        fit_report_button = (
-            f'<a class="button secondary" href="{tracked_go_path(FIT_REPORT_ROUTE, product_source)}">'
-            f"{FIT_REPORT_CTA}</a>"
-            if supports_fit_report(product)
-            else ""
-        )
+        fit_report_button = ""
         top_primary_action = checkout_button
         top_secondary_actions: tuple[str, ...] = (
             free_scan_button,
@@ -1948,13 +1931,13 @@ def render_product(product: ProductPage) -> tuple[str, str]:
     )
     top_secondary_actions_html = action_list_html(top_secondary_actions)
     secondary_actions_note = (
-        '<p class="caption cta-group-label">Secondary options</p>'
+        '<p class="caption cta-group-label">Explore the details</p>'
         if top_secondary_actions_html
         else ""
     )
     checkout_secondary_actions_html = action_list_html(checkout_secondary_actions)
     checkout_secondary_note = (
-        '<p class="caption cta-group-label">Secondary options</p>'
+        '<p class="caption cta-group-label">Explore the details</p>'
         if checkout_secondary_actions_html
         else ""
     )
@@ -1979,7 +1962,9 @@ def render_product(product: ProductPage) -> tuple[str, str]:
         if product.slug == "sa20-preset"
         else (
             "Local workflow with no repo upload.",
-            "Previewable changes and a structured report.",
+            "Previewable changes and a structured report."
+            if product.checkout_path
+            else "Source-linked findings and manual guidance; no automatic edits.",
             "Manual-review findings stay visible instead of hidden.",
         )
     )
@@ -1997,7 +1982,7 @@ def render_product(product: ProductPage) -> tuple[str, str]:
       <section class="section">
         <article class="conversion-panel product-hero-panel">
           <div class="conversion-copy">
-            <p class="kicker">Primary CTA</p>
+            <p class="kicker">Start here</p>
             <h2>{escape(template.cta_heading)}</h2>
             <p>{escape(template.cta_copy)}</p>
             <ul class="clean decision-list">{"".join(f"<li>{escape(item)}</li>" for item in decision_bullets)}</ul>
@@ -2062,7 +2047,7 @@ def render_product(product: ProductPage) -> tuple[str, str]:
       <section class="section">
         <article class="conversion-panel checkout-panel">
           <div class="conversion-copy">
-            <p class="kicker">Checkout CTA</p>
+            <p class="kicker">Next step</p>
             <h2>{escape(checkout_heading)}</h2>
             <p>{escape(checkout_copy)}</p>
           </div>
@@ -2121,12 +2106,12 @@ def render_products_hub() -> tuple[str, str]:
           </div>
         </article>
       </section>"""
-    available_cards = (
+    available_cards: tuple[dict[str, str], ...] = (
         {
             "name": product_lookup["fit-report"].name,
             "status": STATUS_AVAILABLE,
             "status_class": "available",
-            "outcome": "Turn SQLAlchemy or Pydantic scanner output into a local buy/do-not-buy recommendation before a larger purchase.",
+            "outcome": "Optional local summary of scanner output. Not required to evaluate fit or buy a cleanup pack.",
             "price": product_price_line(product_lookup["fit-report"]),
             "href": relative_href(
                 path, product_page_path(product_lookup["fit-report"])
@@ -2224,6 +2209,16 @@ def render_products_hub() -> tuple[str, str]:
             {checkout_note}
           </article>"""
 
+    order = {
+        "Pydantic v1 to v2 Migration Cleanup Pack": 0,
+        "SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack": 1,
+        "GitHub Actions Upgrade Guard": 2,
+        "SQLAlchemy/Pydantic Fit Report Add-on": 3,
+        "Migration Preset Bundle": 4,
+    }
+    available_cards = tuple(
+        sorted(available_cards, key=lambda card: order.get(card["name"], 9))
+    )
     available_html = "".join(render_catalog_card(card) for card in available_cards)
     coming_soon_html = "".join(render_catalog_card(card) for card in coming_soon_cards)
     proof_html = "".join(render_catalog_card(card) for card in proof_cards)
@@ -2263,19 +2258,19 @@ def render_products_hub() -> tuple[str, str]:
         "</section>"
     )
     body = f"""
-{action_guard_section}
       <section class="section">
         <article class="page-panel">
           <p class="kicker">Migration Library</p>
-          <h2>Existing packages stay live as proof and buyer-fit assets.</h2>
+          <h2>Choose the tool for your migration.</h2>
           <p>Compare supported migration patterns, inspect examples, and run a local scan before choosing a tool.</p>
         </article>
       </section>
       <section class="section">
-        <div class="section-heading"><p class="kicker">{escape(STATUS_AVAILABLE)}</p><h2>Migration Library packages, each with a real detail page.</h2></div>
+        <div class="section-heading"><p class="kicker">{escape(STATUS_AVAILABLE)}</p><h2>Optional paid cleanup packs and add-ons.</h2></div>
         <div class="catalog-grid">{available_html}</div>
       </section>
 {preset_deliverables}
+{action_guard_section}
 {coming_soon_section}
       <section class="section">
         <div class="section-heading"><p class="kicker">Labs and proofs</p><h2>Useful proof, separate from purchasable products.</h2></div>
@@ -2365,7 +2360,7 @@ def render_home() -> tuple[str, str]:
               <a class="button" href="{tracked_go_path(ACTION_GUARD_FREE_SCAN_ROUTE, source)}">Run free Action Guard scanner</a>
             </div>
             <div class="secondary-cta-group">
-              <p class="caption cta-group-label">Secondary options</p>
+              <p class="caption cta-group-label">Explore the details</p>
               <a class="button secondary" href="/proof/actions-upgrade-guard/">Read proof and artifacts</a>
               <a class="button secondary" href="/products/actions-upgrade-guard/">Open product page</a>
             </div>
@@ -3249,12 +3244,20 @@ def build_site(output_dir: Path) -> dict[str, Any]:
         *[render_guide(guide) for guide in GUIDES],
         *[render_product(product) for product in PRODUCTS],
         *proof_pages,
+        *render_sales_pages(layout),
     ]
+    pages = list(dict(pages).items())
     for rel_path, html in pages:
         path = output_dir / PurePosixPath(rel_path)
         path.parent.mkdir(parents=True, exist_ok=True)
         write_generated_text(path, clean_generated_text(html), encoding="utf-8")
     write_action_guard_proof_assets(output_dir)
+    proof_assets = (
+        Path(__file__).resolve().parents[1] / "site/proof/pydantic-v2-porter/case-study"
+    )
+    proof_destination = output_dir / "proof/pydantic-v2-porter/case-study"
+    if proof_assets.exists() and proof_assets.resolve() != proof_destination.resolve():
+        shutil.copytree(proof_assets, proof_destination, dirs_exist_ok=True)
 
     lastmod = date.today().isoformat()
     proof_urls = [canonical_url(path) for path, _html in proof_pages]

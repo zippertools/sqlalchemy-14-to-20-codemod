@@ -1,0 +1,55 @@
+--- before/app/models.py
++++ free/app/models.py
+@@ -1,22 +1,22 @@
+-from pydantic import BaseModel, validator
++from pydantic import field_validator, ConfigDict, BaseModel
+ 
+ 
+ class Order(BaseModel):
+     customer: str
+     quantity: int
+ 
+-    @validator("customer")
++    @field_validator("customer")
++    @classmethod
+     def normalize_customer(cls, value):
+         value = value.strip()
+         if not value:
+             raise ValueError("customer required")
+         return value
+ 
+-    @validator("quantity")
++    @field_validator("quantity")
++    @classmethod
+     def positive_quantity(cls, value):
+         if value < 1:
+             raise ValueError("quantity must be positive")
+         return value
+-
+-    class Config:
+-        extra = "forbid"
++    model_config = ConfigDict(extra="forbid")
+--- before/app/settings.py
++++ free/app/settings.py
+@@ -1,8 +1,6 @@
+-from pydantic import BaseSettings
++from pydantic_settings import BaseSettings, SettingsConfigDict
+ 
+ 
+ class Settings(BaseSettings):
+     service_name: str = "Order API"
+-
+-    class Config:
+-        env_prefix = "ZIPPER_PROOF_"
++    model_config = SettingsConfigDict(env_prefix="ZIPPER_PROOF_")
+--- before/manual_review.py
++++ free/manual_review.py
+@@ -4,6 +4,8 @@
+ class LegacyOrder(BaseModel):
+     quantity: int
+ 
++    # TODO[pydantic]: We couldn't refactor the `validator`, please replace it by `field_validator` manually.
++    # Check https://docs.pydantic.dev/dev-v2/migration/#changes-to-validators for more information.
+     @validator("quantity")
+     def dependent_validation(cls, value, values):
+         return value

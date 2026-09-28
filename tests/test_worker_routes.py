@@ -50,7 +50,8 @@ globalThis.fetch = async (url, init) => {
     { status: 200 },
   );
 };
-const request = new Request('https://zippertools.org/go/sa20-pack/product-sa20-pack');
+const request = new Request('https://zippertools.org/go/sa20-pack/product-sa20-pack',
+  {method: 'POST', headers: {origin: 'https://zippertools.org'}});
 const response = await worker.fetch(request, env);
 globalThis.fetch = originalFetch;
 console.log(response.status);
@@ -64,8 +65,8 @@ console.log(response.headers.get('location'));
     )
 
     lines = result.stdout.strip().splitlines()
-    assert "conversion_route" in lines[0]
-    assert lines[1] == (
+    assert "conversion_route" in lines[1]
+    assert lines[0] == (
         "https://api.stripe.com/v1/checkout/sessions sa20-pack product-sa20-pack 29999"
     )
     assert lines[-2] == "303"
@@ -103,7 +104,8 @@ globalThis.fetch = async (_url, init) => {
   );
 };
 for (const [route] of routes) {
-  const request = new Request(`https://zippertools.org${route}/unit-test`);
+  const request = new Request(`https://zippertools.org${route}/unit-test`,
+  {method: 'POST', headers: {origin: 'https://zippertools.org'}});
   const response = await worker.fetch(request, env);
   const location = new URL(response.headers.get('location'));
   const payload = decodeURIComponent(location.pathname.split('cs_test_').at(-1));
@@ -153,7 +155,8 @@ globalThis.fetch = async (_url, init) => {
   );
 };
 const response = await worker.fetch(
-  new Request('https://zippertools.org/go/sa20-pack/unit-test'),
+  new Request('https://zippertools.org/go/sa20-pack/unit-test',
+  {method: 'POST', headers: {origin: 'https://zippertools.org'}}),
   env,
 );
 globalThis.fetch = originalFetch;
@@ -255,8 +258,10 @@ const checks = [
   new Request('https://zippertools.org/go/free-scan?source=pricing-free'),
   new Request('https://zippertools.org/go/actions-upgrade-guard-free?source=home-well'),
   new Request('https://zippertools.org/go/pydantic-free-scan?source=guide-pydantic-basesettings-moved'),
-  new Request('https://zippertools.org/go/fit-report?source=guide-pydantic-basesettings-moved'),
-  new Request('https://zippertools.org/go/pydantic-v2-porter?source=guide-pydantic-basesettings-moved'),
+  new Request('https://zippertools.org/go/fit-report?source=guide-pydantic-basesettings-moved',
+  {method: 'POST', headers: {origin: 'https://zippertools.org'}}),
+  new Request('https://zippertools.org/go/pydantic-v2-porter?source=guide-pydantic-basesettings-moved',
+  {method: 'POST', headers: {origin: 'https://zippertools.org'}}),
 ];
 for (const request of checks) {
   const response = await worker.fetch(request, env);
@@ -325,7 +330,8 @@ const originalWarn = console.warn;
 console.log = () => {};
 console.warn = () => {};
 const response = await worker.fetch(
-  new Request('https://zippertools.org/go/sa20-pack/unit-test'),
+  new Request('https://zippertools.org/go/sa20-pack/unit-test',
+  {method: 'POST', headers: {origin: 'https://zippertools.org'}}),
   env,
 );
 console.log = originalLog;

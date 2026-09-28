@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Pydantic v1 to v2 Migration Cleanup Pack proof and fit | Zipper Tools</title>
-    <meta name="description" content="Public proof and fit boundaries for Pydantic v1 to v2 Migration Cleanup Pack, including supported scope and exact-problem entry pages." />
+    <title>Pydantic migration: a tested FastAPI example | Zipper Tools</title>
+    <meta name="description" content="Inspect the input, actual diffs, manual-review boundary and application test results before considering a purchase." />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
     <link rel="canonical" href="https://zippertools.org/proof/pydantic-v2-porter/" />
-    <meta property="og:title" content="Pydantic v1 to v2 Migration Cleanup Pack proof and fit" />
-    <meta property="og:description" content="Public proof and fit boundaries for Pydantic v1 to v2 Migration Cleanup Pack, including supported scope and exact-problem entry pages." />
+    <meta property="og:title" content="Pydantic migration: a tested FastAPI example" />
+    <meta property="og:description" content="Inspect the input, actual diffs, manual-review boundary and application test results before considering a purchase." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zippertools.org/proof/pydantic-v2-porter/" />
     <meta property="og:image" content="https://zippertools.org/og-preview.svg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Pydantic v1 to v2 Migration Cleanup Pack proof and fit" />
-    <meta name="twitter:description" content="Public proof and fit boundaries for Pydantic v1 to v2 Migration Cleanup Pack, including supported scope and exact-problem entry pages." />
+    <meta name="twitter:title" content="Pydantic migration: a tested FastAPI example" />
+    <meta name="twitter:description" content="Inspect the input, actual diffs, manual-review boundary and application test results before considering a purchase." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="../../styles.css" />
     <script src="../../config.js"></script>
@@ -30,8 +30,8 @@
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Pydantic v1 to v2 Migration Cleanup Pack proof and fit",
-    "description": "Public proof and fit boundaries for Pydantic v1 to v2 Migration Cleanup Pack, including supported scope and exact-problem entry pages.",
+    "name": "Pydantic migration: a tested FastAPI example",
+    "description": "Inspect the input, actual diffs, manual-review boundary and application test results before considering a purchase.",
     "url": "https://zippertools.org/proof/pydantic-v2-porter/",
     "isPartOf": {
       "@type": "WebSite",
@@ -52,13 +52,7 @@
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Pydantic v1 to v2 Migration Cleanup Pack",
-        "item": "https://zippertools.org/products/pydantic-v2-porter/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Public proof",
+        "name": "Pydantic migration: a tested FastAPI example",
         "item": "https://zippertools.org/proof/pydantic-v2-porter/"
       }
     ]
@@ -71,107 +65,12 @@
     <main class="wrap">
       <section class="warning" id="launch-warning" aria-live="polite"></section>
       <section class="page-title">
-        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/products/pydantic-v2-porter/">Pydantic v1 to v2 Migration Cleanup Pack</a></li><li aria-current="page">Public proof</li></ol></nav>
-        <p class="kicker">Public proof</p>
-        <h1>Pydantic v1 to v2 Migration Cleanup Pack proof and fit</h1>
-        <p>Public proof and fit boundaries for Pydantic v1 to v2 Migration Cleanup Pack, including supported scope and exact-problem entry pages.</p>
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li aria-current="page">Pydantic migration: a tested FastAPI example</li></ol></nav>
+        <p class="kicker">Reproducible proof</p>
+        <h1>Pydantic migration: a tested FastAPI example</h1>
+        <p>Inspect the input, actual diffs, manual-review boundary and application test results before considering a purchase.</p>
       </section>
-
-      <section class="section">
-        <div class="grid three">
-          <article class="page-panel">
-            <h2>8 exact-problem pages</h2>
-            <p>The proof page is tied to specific migration error pages, not a generic refactor promise.</p>
-          </article>
-          <article class="page-panel">
-            <h2>3 fit signals</h2>
-            <p>The product stays inside the supported subset and keeps fail-closed boundaries visible.</p>
-          </article>
-          <article class="page-panel">
-            <h2>3 stop signals</h2>
-            <p>The proof is also a way to say no before a buyer spends money on the wrong repo.</p>
-          </article>
-        </div>
-      </section>
-      <section class="section">
-        <article class="page-panel">
-          <p class="kicker">Trust boundary</p>
-          <h2>Do not trust this blindly with your project</h2>
-          <ul class="clean"><li>Visible GitHub stars and forks are weak or absent social proof; treat the public repo as a fit signal, not as proof that the tool is safe for your repo.</li><li>The public repo is scanner-first and does not expose the full paid apply engine.</li><li>Public proof is intentionally narrow: a few supported examples plus fail-closed examples. Run on a branch and trust changes only after your own typecheck, build, and tests pass.</li></ul>
-        </article>
-      </section>
-
-      <section class="section">
-        <div class="section-heading"><p class="kicker">Artifact trail</p><h2>Visible report, diff, output, validation, and manager summary</h2></div>
-        <div class="grid two">
-          <article class="page-panel">
-            <h3>Scan report</h3>
-            <pre class="code-block"><code>scan report
-supported_findings: 24
-manual_review_findings: 5
-files_uploaded: 0
-next_step: preview supported rewrites</code></pre>
-          </article>
-          <article class="page-panel">
-            <h3>Preview diff</h3>
-            <pre class="code-block"><code>- from pydantic import BaseSettings, validator
-+ from pydantic import field_validator
-+ from pydantic_settings import BaseSettings
--     @validator(&quot;email&quot;)
-+     @field_validator(&quot;email&quot;)
-+     @classmethod</code></pre>
-          </article>
-          <article class="page-panel">
-            <h3>Apply output</h3>
-            <pre class="code-block"><code>apply output
-files_changed: 3
-transforms_applied: imports, BaseSettings, validators, Config
-manual_review_findings: alias/signature-heavy validators</code></pre>
-          </article>
-          <article class="page-panel">
-            <h3>Validation summary</h3>
-            <pre class="code-block"><code>validation summary
-compileall fixture_repo ... passed
-fixture tests ... passed
-buyer repo tests ... required before merge</code></pre>
-          </article>
-        </div>
-        <article class="page-panel">
-          <h3>Final manager summary</h3>
-          <pre class="code-block"><code>final manager summary
-Use the cleanup pack when direct Pydantic v1 patterns repeat.
-Keep alias-heavy imports and signature-heavy validators in manual review.
-No source upload is needed.</code></pre>
-        </article>
-      </section>
-      <section class="section">
-        <div class="grid two">
-          <article class="page-panel">
-            <h2>What this proof covers</h2>
-            <ul class="clean"><li>Public proof covers supported validator and settings rewrites on real public repos.</li><li>Manual-review findings stay explicit for values-heavy validators.</li><li>The paid path stays software-only, with no human coding dependency.</li></ul>
-          </article>
-          <article class="page-panel">
-            <h2>What stays out of scope</h2>
-            <ul class="clean"><li>Repos that rely on alias-heavy imports or import pydantic attribute access.</li><li>Validator-heavy code that depends on values, field, config, each_item, or always.</li><li>Teams that want a promise of full repo-wide v1 to v2 migration coverage.</li></ul>
-          </article>
-        </div>
-      </section>
-      <section class="section">
-        <div class="grid two">
-          <article class="page-panel">
-            <h2>Start from the live problem pages</h2>
-            <div class="topic-list"><a class="topic-card" href="/pydantic/validator-to-field-validator/"><strong>How to replace @validator with @field_validator in Pydantic v2</strong><span>Fix simple Pydantic validator migrations and keep signature-heavy cases out of the automatic path.</span></a><a class="topic-card" href="/pydantic/basesettings-moved/"><strong>How to move BaseSettings to pydantic-settings in Pydantic v2</strong><span>Fix BaseSettings migrations for Pydantic v2 and keep config cleanup inside the supported subset.</span></a><a class="topic-card" href="/pydantic/config-to-model-config/"><strong>How to convert Config to model_config in Pydantic v2</strong><span>Convert safe nested Config classes into model_config and refuse removed keys.</span></a><a class="topic-card" href="/pydantic/validate-arguments/"><strong>How to replace validate_arguments with validate_call in Pydantic v2</strong><span>Fix validate_arguments migrations and keep the rewrite narrow enough to stay deterministic.</span></a><a class="topic-card" href="/pydantic/root-validator-pre/"><strong>How to replace @root_validator(pre=True) with @model_validator(mode=&quot;before&quot;)</strong><span>Migrate the supported pre root-validator subset in Pydantic v2 and keep the rest out of the automatic path.</span></a><a class="topic-card" href="/pydantic/root-validator-post/"><strong>Why post root validators need manual review in Pydantic v2</strong><span>Understand why post root validators are outside the deterministic migration path.</span></a><a class="topic-card" href="/pydantic/pydantic-v1-imports/"><strong>How to move pydantic.v1 imports onto pydantic in the safe Pydantic v2 subset</strong><span>Rewrite direct pydantic.v1 imports when the imported symbols stay inside the supported v2 subset.</span></a><a class="topic-card" href="/pydantic/config-fields-removed/"><strong>Why Config.fields is a manual-review case in Pydantic v2</strong><span>Config.fields was removed in Pydantic v2, so this is not a simple model_config rename.</span></a></div>
-          </article>
-          <article class="page-panel">
-            <h2>Decision path</h2>
-            <p>The cleanup pack is strongest when the repo still uses direct pydantic imports and a clean validator/settings/config subset.</p>
-            <div class="page-actions">
-              <ul class="action-list"><li><a class="button" href="/products/pydantic-v2-porter/">Open Pydantic v1 to v2 Migration Cleanup Pack</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/pricing#pydantic-v2-porter">See pricing</a><span class="sr-only">.</span></li><li><a class="button secondary" href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/docs/public-proof.md" data-doc-path="products/pydantic-v2-porter/docs/public-proof.md">Public proof</a><span class="sr-only">.</span></li><li><a class="button secondary" href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/products/pydantic-v2-porter/docs/commercial-case.md" data-doc-path="products/pydantic-v2-porter/docs/commercial-case.md">Commercial case</a><span class="sr-only">.</span></li><li><a class="button secondary" href="https://github.com/zippertools/pydantic-v1-to-v2-codemod" data-doc-path="https://github.com/zippertools/pydantic-v1-to-v2-codemod">Dedicated scanner repo</a><span class="sr-only">.</span></li></ul>
-            </div>
-          </article>
-        </div>
-      </section>
-
+      <section class="section"><article class="page-panel"><h2>One reproducible application, not a customer claim</h2><p>The original MIT-licensed FastAPI order API tests normalization, invalid inputs, extra-field rejection, response serialization and environment settings. An unsupported validator is scanned but not imported by the application tests.</p><p>No measured time savings or universal migration success is claimed. Dependency installation is performed by the test harness, not the codemod.</p></article></section><section class="section"><article class="page-panel"><h2>Recorded comparison</h2><p>Recorded 2026-09-28, Python 3.12.14. Baseline: FastAPI 0.119.0 / Pydantic 1.10.24. Target: FastAPI 0.119.0 / Pydantic 2.12.0. This deliberately isolates Pydantic changes; it does not prove compatibility with the latest FastAPI release.</p><div class="table-wrap"><table><thead><tr><th>Tool</th><th>Changed files</th><th>Application tests</th><th>Unsupported module</th></tr></thead><tbody><tr><th scope="row">Zipper Tools paid pack 0.1.2</th><td>2</td><td>Passed</td><td>Unchanged; JSON finding</td></tr><tr><th scope="row">bump-pydantic 0.8.0</th><td>3</td><td>Passed</td><td>Manual-review TODO added; validator not rewritten</td></tr></tbody></table></div><p>Same original application and six assertions for each tool. The free tool is archived upstream but remains a valid alternative to evaluate. No claim of superior speed or coverage follows from this small example.</p></article></section><section class="section"><article class="page-panel"><h2>Download the evidence</h2><ul class="clean"><li><a href="case-study/results.json">Versions, input hashes and command results</a></li><li><a href="case-study/scan.json">Public scan report</a></li><li><a href="case-study/preview.json">Non-mutating paid preview report</a></li><li><a href="case-study/baseline-tests.txt">Baseline validation summary</a></li><li><a href="case-study/example-source.zip">MIT-licensed example source ZIP</a></li><li><a href="case-study/paid.json">Paid apply report</a></li><li><a href="case-study/paid.diff">Paid preview diff / applied changes</a></li><li><a href="case-study/free.diff">Free tool diff</a></li><li><a href="case-study/paid-tests.txt">Paid validation summary</a></li><li><a href="case-study/free-tests.txt">Free validation summary</a></li></ul></article></section><section class="section"><article class="page-panel"><h2>Reproduce and inspect</h2><p><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod/tree/main/proof/fastapi-orders">Application source and MIT license</a> · <a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod/blob/main/scripts/verify_pydantic_case_study.py">Reproduction script</a></p><pre class="code-block">python scripts/verify_pydantic_case_study.py --pack path/to/extracted-paid-pack</pre><p>The script installs the public scanner from release v0.1.2, runs the unchanged baseline assertions, applies both tools to separate copies and reruns those assertions. Paid reproduction requires the purchased ZIP. All environments are isolated under test_runs.</p><p><a href="https://github.com/pydantic/bump-pydantic">Inspect the free alternative</a> · <a href="https://docs.pydantic.dev/latest/migration/">Official migration guidance</a></p><a class="button" href="/scan#pydantic">Try the free scan on your repo</a><a class="button secondary" href="/products/pydantic-v2-porter/">Compare the paid scope</a></article></section>
     </main>
     <footer class="site-footer"><div class="wrap footer-grid"><div><p class="footer-title">Zipper Tools</p><p class="caption">Autonomous deadline-readiness tools for software teams.</p></div><div class="footer-links"><a href="/scan">Scan</a><a href="/products/">Library</a><a href="/guides/">Guides</a><a href="/pricing">Pricing</a><a href="/demo">Demo</a><a href="/policies">Policies</a><a href="https://github.com/zippertools/sqlalchemy-14-to-20-codemod" data-repo-link>Repo</a><a href="/policies#contact">Contact</a></div><p class="caption footer-note">Support: <a href="/policies#contact"><span data-contact-email>support@zippertools.org</span></a></p></div></footer>
   </body>

@@ -195,6 +195,7 @@ function buildStripeCheckoutBody(request, env, product, source) {
   );
   body.set("metadata[product_slug]", product.slug);
   body.set("metadata[source]", safeSource(source));
+  body.set("metadata[interaction]", "purchase_form_v1");
   if (sale) {
     body.set("metadata[sale_name]", sale.name);
     body.set("metadata[sale_discount_percent]", String(sale.discountPercent));
@@ -293,16 +294,27 @@ function buildConversionEvent(request, match) {
 
 async function handleGoRoute(request, env, match) {
   const event = buildConversionEvent(request, match);
-  writeConversionEvent(env, event);
 
   if (match.route.kind === "checkout") {
     const product = STRIPE_PRODUCTS[match.route.productSlug];
     if (!product) {
       return jsonResponse({ ok: false, error: "unknown_product" }, { status: 404 });
     }
-    return createStripeCheckoutSession(request, env, product, match.source);
+    if (request.method === "GET" || request.method === "HEAD") {
+      writeConversionEvent(env, { ...event, kind: "checkout_review" });
+      const price = new Intl.NumberFormat("en-US", { style: "currency", currency: product.currency }).format(product.unitAmount / 100);
+      const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Review purchase | Zipper Tools</title><link rel="stylesheet" href="/styles.css"></head><body><main class="wrap"><section class="page-title"><a href="/">Zipper Tools</a><h1>${product.name}</h1><p>${product.description}</p><p class="price-line">${price} per team · One-time purchase</p><p>Download your ZIP after payment. Run locally and review changes on a branch.</p><form method="post"><button class="button" type="submit">Continue to Stripe — ${price}</button></form><p><a href="/products/${product.slug}/">Review scope and free alternatives</a> · <a href="/policies">License, refund and support terms</a></p></section></main></body></html>`;
+      return new Response(request.method === "HEAD" ? null : html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "content-security-policy": "default-src 'none'; style-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'", "x-robots-tag": "noindex" } });
+    }
+    if (request.method !== "POST") return jsonResponse({ error: "method_not_allowed" }, { status: 405, headers: { allow: "GET, HEAD, POST" } });
+    if (request.headers.get("origin") !== siteOrigin(request)) return jsonResponse({ error: "invalid_origin" }, { status: 403 });
+    const response = await createStripeCheckoutSession(request, env, product, match.source);
+    writeConversionEvent(env, { ...event, kind: response.status === 303 ? "checkout_created" : "checkout_failed" });
+    return response;
   }
 
+  if (request.method !== "GET" && request.method !== "HEAD") return jsonResponse({ error: "method_not_allowed" }, { status: 405 });
+  writeConversionEvent(env, event);
   const headers = new Headers({
     location: appendTrackingParam(match.route.target, match.source),
     "cache-control": "no-store",

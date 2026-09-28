@@ -1,0 +1,379 @@
+{
+  "recorded_at": "2026-09-28T02:18:56.900493+00:00",
+  "fixture": "Original synthetic FastAPI application, not customer evidence",
+  "fixture_hashes": {
+    "app/main.py": "eeea90cd597c0bdd76607c7bd6f37106490e2775010434799f24a7c72ee01294",
+    "app/models.py": "b04fbcd4a91756510ee4bfffad08fc72b8be9bcd37a26bf56e5350ca4c341386",
+    "app/settings.py": "0f3941d34f06aa2cc2ab91309ea6861dd126915597ddabb573fdd26e565ac076",
+    "manual_review.py": "2885e6c9ade58d5cb328bd8517b7a8b3ba7d427efc41df0c5ee8ee02cab83db4",
+    "test_app.py": "f479fc5c7fd3ac7e0a02ed38a26ff51a43e5fcd12226f1bf35330eaf5550c1cc"
+  },
+  "python": "3.12.14",
+  "dependencies": {
+    "v1": [
+      {
+        "name": "anyio",
+        "version": "4.15.1"
+      },
+      {
+        "name": "certifi",
+        "version": "2026.7.22"
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6"
+      },
+      {
+        "name": "fastapi",
+        "version": "0.119.0"
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0"
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9"
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1"
+      },
+      {
+        "name": "idna",
+        "version": "3.20"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.0"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0"
+      },
+      {
+        "name": "pydantic",
+        "version": "1.10.24"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "pytest",
+        "version": "8.4.2"
+      },
+      {
+        "name": "starlette",
+        "version": "0.48.0"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      }
+    ],
+    "v2": [
+      {
+        "name": "annotated-types",
+        "version": "0.8.0"
+      },
+      {
+        "name": "anyio",
+        "version": "4.15.1"
+      },
+      {
+        "name": "certifi",
+        "version": "2026.7.22"
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6"
+      },
+      {
+        "name": "fastapi",
+        "version": "0.119.0"
+      },
+      {
+        "name": "h11",
+        "version": "0.16.0"
+      },
+      {
+        "name": "httpcore",
+        "version": "1.0.9"
+      },
+      {
+        "name": "httpx",
+        "version": "0.28.1"
+      },
+      {
+        "name": "idna",
+        "version": "3.20"
+      },
+      {
+        "name": "iniconfig",
+        "version": "2.3.0"
+      },
+      {
+        "name": "packaging",
+        "version": "26.3"
+      },
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      },
+      {
+        "name": "pluggy",
+        "version": "1.6.0"
+      },
+      {
+        "name": "pydantic",
+        "version": "2.12.0"
+      },
+      {
+        "name": "pydantic_core",
+        "version": "2.41.1"
+      },
+      {
+        "name": "pydantic-settings",
+        "version": "2.11.0"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "pytest",
+        "version": "8.4.2"
+      },
+      {
+        "name": "python-dotenv",
+        "version": "1.2.3"
+      },
+      {
+        "name": "starlette",
+        "version": "0.48.0"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      },
+      {
+        "name": "typing-inspection",
+        "version": "0.4.4"
+      }
+    ],
+    "paid-tool": [
+      {
+        "name": "libcst",
+        "version": "1.9.0"
+      },
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      },
+      {
+        "name": "pydantic-v2-porter",
+        "version": "0.1.2"
+      },
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      }
+    ],
+    "free-tool": [
+      {
+        "name": "bump-pydantic",
+        "version": "0.8.0"
+      },
+      {
+        "name": "click",
+        "version": "8.1.8"
+      },
+      {
+        "name": "colorama",
+        "version": "0.4.6"
+      },
+      {
+        "name": "libcst",
+        "version": "1.9.0"
+      },
+      {
+        "name": "markdown-it-py",
+        "version": "4.2.0"
+      },
+      {
+        "name": "mdurl",
+        "version": "0.1.2"
+      },
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      },
+      {
+        "name": "Pygments",
+        "version": "2.21.0"
+      },
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      },
+      {
+        "name": "rich",
+        "version": "15.0.0"
+      },
+      {
+        "name": "shellingham",
+        "version": "1.5.4"
+      },
+      {
+        "name": "typer",
+        "version": "0.12.5"
+      },
+      {
+        "name": "typing_extensions",
+        "version": "4.16.0"
+      }
+    ],
+    "scanner": [
+      {
+        "name": "libcst",
+        "version": "1.9.0"
+      },
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      },
+      {
+        "name": "pydantic-v2-porter",
+        "version": "0.1.2"
+      },
+      {
+        "name": "PyYAML",
+        "version": "6.0.3"
+      }
+    ]
+  },
+  "outcomes": {
+    "paid": {
+      "tests_passed": true,
+      "files_changed": [
+        "app/models.py",
+        "app/settings.py"
+      ],
+      "unsupported_file_unchanged": true
+    },
+    "free": {
+      "tests_passed": true,
+      "files_changed": [
+        "app/models.py",
+        "app/settings.py",
+        "manual_review.py"
+      ],
+      "unsupported_file_unchanged": false
+    }
+  },
+  "steps": [
+    {
+      "step": "v1-venv",
+      "exit_code": 0
+    },
+    {
+      "step": "v1-install",
+      "exit_code": 0
+    },
+    {
+      "step": "v2-venv",
+      "exit_code": 0
+    },
+    {
+      "step": "v2-install",
+      "exit_code": 0
+    },
+    {
+      "step": "paid-tool-venv",
+      "exit_code": 0
+    },
+    {
+      "step": "paid-tool-install",
+      "exit_code": 0
+    },
+    {
+      "step": "free-tool-venv",
+      "exit_code": 0
+    },
+    {
+      "step": "free-tool-install",
+      "exit_code": 0
+    },
+    {
+      "step": "scanner-venv",
+      "exit_code": 0
+    },
+    {
+      "step": "scanner-install",
+      "exit_code": 0
+    },
+    {
+      "step": "baseline-tests",
+      "exit_code": 0
+    },
+    {
+      "step": "public-scan",
+      "exit_code": 2
+    },
+    {
+      "step": "paid-preview",
+      "exit_code": 2
+    },
+    {
+      "step": "paid-apply",
+      "exit_code": 2
+    },
+    {
+      "step": "free-apply",
+      "exit_code": 0
+    },
+    {
+      "step": "paid-tests",
+      "exit_code": 0
+    },
+    {
+      "step": "free-tests",
+      "exit_code": 0
+    },
+    {
+      "step": "v1-versions",
+      "exit_code": 0
+    },
+    {
+      "step": "v2-versions",
+      "exit_code": 0
+    },
+    {
+      "step": "paid-tool-versions",
+      "exit_code": 0
+    },
+    {
+      "step": "free-tool-versions",
+      "exit_code": 0
+    },
+    {
+      "step": "scanner-versions",
+      "exit_code": 0
+    }
+  ],
+  "limitations": [
+    "One small app; no time savings or full migration claim.",
+    "Dependency upgrades performed by harness.",
+    "Unsupported module scanned but not imported by app tests.",
+    "Paid engine requires purchased ZIP to reproduce; free comparison is public."
+  ]
+}

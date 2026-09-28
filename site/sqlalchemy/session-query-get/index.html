@@ -64,7 +64,7 @@
         "name": "When should I buy SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Use SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack only when this pattern repeats across enough files that manual cleanup is still costly. Run the public scan or read the proof first. If the report shows ten or more supported findings, buy the pack or use the $99 SQLAlchemy/Pydantic fit report add-on; if unsupported findings dominate, keep the work manual."
+          "text": "Use SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack only when this pattern repeats across enough files that manual cleanup is still costly. Use the free report and upstream guide to evaluate fit. Buy only if repeated supported edits justify the price; no paid assessment is required."
         }
       }
     ]
@@ -136,7 +136,7 @@ job = db_session.get(Job, job_id)
           <div class="conversion-copy">
             <p class="kicker">Repo fit check</p>
             <h2>Want to know if your repo has this pattern?</h2>
-            <p>Run the matching scanner locally first. If the report shows 10+ supported findings for this kind of cleanup, compare the paid workflow or use the $99 SQLAlchemy/Pydantic fit report add-on before buying the full pack.</p>
+            <p>Run the matching scanner locally first. Read the free findings and manual alternatives; consider paid cleanup only if supported patterns repeat enough to justify the price.</p>
             <ul class="clean decision-list">
               <li>Local scan; no repository upload.</li>
               <li>Supported findings are separated from manual-review findings.</li>
@@ -146,7 +146,7 @@ job = db_session.get(Job, job_id)
           <div class="conversion-actions">
             <a class="button" href="/scan">Run the SQLAlchemy scan first</a>
             <a class="button secondary" href="/demo">View example report</a>
-            <a class="button secondary" href="/go/fit-report/guide-scan-sqlalchemy-session-query-get">Buy automated fit report - $99</a>
+
             <a class="button secondary" href="/products/sa20-pack/">See when to buy</a>
             <pre class="code-block"><code>Example scan summary
 supported_findings: 38
@@ -189,7 +189,7 @@ job = db_session.get(Job, job_id)
             <p>Start with the free scan, inspect the report, and only move to the cleanup pack if the repo has repeated supported patterns that are still expensive to fix by hand.</p>
             <ul class="clean">
               <li>The free scan shows repeated Query.get, select([..]), string join, string loader, declarative import, or DML constructor findings.</li><li>The remaining supported cleanup is still expensive enough to justify a controlled local migration workflow.</li>
-              <li>If the scan output is ambiguous, use the $99 SQLAlchemy/Pydantic fit report add-on before buying the full pack.</li>
+              <li>If the scan output is ambiguous, review its findings and upstream guidance. Do not buy expecting unsupported cases to be resolved.</li>
             </ul>
           </article>
           <article class="page-panel bridge-panel">
@@ -197,7 +197,7 @@ job = db_session.get(Job, job_id)
             <h2>Product fit, proof, and price should all be one click away.</h2>
             <p>Price: $299.99 per team.</p>
             <div class="page-actions">
-              <ul class="action-list"><li><a class="button" href="/products/sa20-pack/">Open product page</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/go/fit-report/guide-fit-sqlalchemy-session-query-get">Buy automated fit report - $99</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/pricing#sa20-pack">See pricing</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/proof/sqlalchemy-public-proof/">Read proof</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/demo">See demo report</a><span class="sr-only">.</span></li></ul>
+              <ul class="action-list"><li><a class="button" href="/products/sa20-pack/">Open product page</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/pricing#sa20-pack">See pricing</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/proof/sqlalchemy-public-proof/">Read proof</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/demo">See demo report</a><span class="sr-only">.</span></li></ul>
             </div>
           </article>
         </div>
@@ -229,14 +229,14 @@ job = db_session.get(Job, job_id)
           <p class="kicker">FAQ</p>
           <h2>Fast answers before you decide</h2>
           <div class="faq-list">
-            <div><h3>What is the safest fix for session.query get sqlalchemy 2.0?</h3><p>If the call is a direct primary-key lookup, the mechanical replacement is Session.get(Model, primary_key).</p></div><div><h3>Can session.query get sqlalchemy 2.0 be automated?</h3><p>Automate only the supported subset: Direct session.query(Model).get(pk) rewrites. Repo reporting for where the pattern appears. A scanner-first qualification path. Keep these cases in manual review: Non-trivial Query chains before .get(...). Helper wrappers that hide the session object. Calls that are not direct primary-key lookups.</p></div><div><h3>When should I buy SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack?</h3><p>Use SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack only when this pattern repeats across enough files that manual cleanup is still costly. Run the public scan or read the proof first. If the report shows ten or more supported findings, buy the pack or use the $99 SQLAlchemy/Pydantic fit report add-on; if unsupported findings dominate, keep the work manual.</p></div>
+            <div><h3>What is the safest fix for session.query get sqlalchemy 2.0?</h3><p>If the call is a direct primary-key lookup, the mechanical replacement is Session.get(Model, primary_key).</p></div><div><h3>Can session.query get sqlalchemy 2.0 be automated?</h3><p>Automate only the supported subset: Direct session.query(Model).get(pk) rewrites. Repo reporting for where the pattern appears. A scanner-first qualification path. Keep these cases in manual review: Non-trivial Query chains before .get(...). Helper wrappers that hide the session object. Calls that are not direct primary-key lookups.</p></div><div><h3>When should I buy SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack?</h3><p>Use SQLAlchemy 1.4 to 2.0 Migration Cleanup Pack only when this pattern repeats across enough files that manual cleanup is still costly. Use the free report and upstream guide to evaluate fit. Buy only if repeated supported edits justify the price; no paid assessment is required.</p></div>
           </div>
         </article>
       </section>      <section class="section">
         <article class="page-panel purchase-panel">
           <p class="kicker">Purchase fit</p>
           <h2>Choose the lowest-risk next step.</h2>
-          <p>One matching page is not enough by itself. Run the local scan, then use the matching fit report add-on where listed or buy only when the same supported pattern appears often enough to matter.</p>
+          <p>One matching page is not enough by itself. Run the local scan, then buy only when the same supported pattern appears often enough to matter.</p>
           <div class="purchase-columns">
             <div>
               <h3>Buy if</h3>
@@ -248,14 +248,14 @@ job = db_session.get(Job, job_id)
             </div>
             <div>
               <h3>Before checkout</h3>
-              <ul class="clean"><li>Stripe Checkout handles secure payment and receipts.</li><li>After payment, /stripe/delivery verifies the Stripe session and streams the purchased ZIP.</li><li>Runs locally; no hosted API, repo upload, or production credentials needed.</li><li>$99 SQLAlchemy/Pydantic fit report add-on is the lower-friction step when SQLAlchemy or Pydantic scan output is ambiguous.</li><li>14-day refund review for published-scope or delivery mismatches.</li></ul>
+              <ul class="clean"><li>Stripe Checkout handles secure payment and receipts.</li><li>Download your purchased ZIP after payment.</li><li>Runs locally; no hosted API, repo upload, or production credentials needed.</li><li>The free report includes the evidence needed to evaluate fit. Paid summary and template add-ons are optional.</li><li>14-day refund review for published-scope or delivery mismatches.</li></ul>
             </div>
           </div>
           <div class="page-actions purchase-actions">
             <div class="primary-cta"><a class="button" href="/scan">Run the SQLAlchemy scan first</a></div>
             <div class="secondary-cta-group">
-              <p class="caption cta-group-label">Secondary options</p>
-              <ul class="action-list"><li><a class="button secondary" href="/products/sa20-pack/">Open product fit and price</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/go/fit-report/guide-sqlalchemy-session-query-get">Buy automated fit report - $99</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/proof/sqlalchemy-public-proof/">Read proof</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/pricing#sa20-pack">See pricing</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/go/sa20-pack/guide-sqlalchemy-session-query-get">Buy cleanup pack - $299.99</a><span class="sr-only">.</span></li></ul>
+              <p class="caption cta-group-label">Explore the details</p>
+              <ul class="action-list"><li><a class="button secondary" href="/products/sa20-pack/">Open product fit and price</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/proof/sqlalchemy-public-proof/">Read proof</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/pricing#sa20-pack">See pricing</a><span class="sr-only">.</span></li><li><a class="button secondary" href="/go/sa20-pack/guide-sqlalchemy-session-query-get">Buy cleanup pack - $299.99</a><span class="sr-only">.</span></li></ul>
             </div>
           </div>
         </article>

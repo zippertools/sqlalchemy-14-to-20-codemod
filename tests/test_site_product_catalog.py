@@ -94,7 +94,7 @@ def test_product_catalog_order_status_and_ctas() -> None:
     eslint_pos = html.index("ESLint Flat Config Migration Cleanup Pack")
 
     assert (
-        action_pos < fit_pos < sqlalchemy_pos < pydantic_pos < preset_pos < eslint_pos
+        pydantic_pos < sqlalchemy_pos < fit_pos < preset_pos < action_pos < eslint_pos
     )
     assert html.count('class="status-label available">Available now') == 4
     assert "Example/proof page only" in html

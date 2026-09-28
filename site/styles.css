@@ -1223,3 +1223,11 @@ li {
     grid-template-columns: 1fr;
   }
 }
+
+/* Native purchase forms keep the same readable layout as link actions. */
+.page-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.page-actions form { margin: 0; }
+button.button { font: inherit; font-weight: 700; cursor: pointer; }
+.table-wrap { max-width: 100%; overflow-x: auto; }
+.table-wrap th, .table-wrap td { text-align: left; padding: 12px; vertical-align: top; }
+.button:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
